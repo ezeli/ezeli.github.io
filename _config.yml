@@ -4,11 +4,11 @@
 
 # Site
 title: Ezeli's Blog
-subtitle:
-description:
-keywords:
+subtitle: 人生在勤，不索何获？
+description: 个人笔记：用于总结和回顾！
+keywords: ML, DL, CV, NLP
 author: Ezeli
-language: en
+language: zh-CN
 timezone:
 
 # URL
@@ -29,7 +29,7 @@ i18n_dir: :lang
 skip_render: README.md
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :year-:month-:day-:title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
@@ -54,7 +54,7 @@ index_generator:
   order_by: -date
   
 # Category & Tag
-default_category: uncategorized
+default_category: 随笔
 category_map:
 tag_map:
 
@@ -74,6 +74,22 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: next
+# RSS订阅
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+  icon: icon.png
+# NexT Local search
+search:
+  path: search.xml
+  field: post
+  content: true
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
