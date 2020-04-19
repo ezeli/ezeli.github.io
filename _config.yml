@@ -26,7 +26,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render: README.md
+skip_render: [README.md,about/resume.html,about/resume_files/**,about/tmp/**]
 
 # Writing
 new_post_name: :year-:month-:day-:title.md # File name of new posts
@@ -91,15 +91,6 @@ search:
   path: search.xml
   field: post
   content: true
-# kramed for mathjax
-# kramed:
-#   gfm: true
-#   pedantic: false
-#   sanitize: false
-#   tables: true
-#   breaks: true
-#   smartLists: true
-#   smartypants: true
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
