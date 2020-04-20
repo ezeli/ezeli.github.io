@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ezeli&#39;s Blog</title>
+  
+  <subtitle>人生在勤，不索何获？</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ezeli.github.io/"/>
+  <updated>2020-04-20T08:26:29.523Z</updated>
+  <id>https://ezeli.github.io/</id>
+  
+  <author>
+    <name>Ezeli</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Improve Optimization Method for Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/04/19/Improve-Optimization-Method-for-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/04/19/Improve-Optimization-Method-for-Image-Captioning/</id>
+    <published>2020-04-19T14:27:04.000Z</published>
+    <updated>2020-04-20T08:26:29.523Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-improving-image-captioning-with-conditional-generative-adversarial-nets-aaai2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-improving-image-captioning-with-conditional-generative-adversarial-nets-aaai2019&quot;&gt;&lt;/a&gt; 一、Improving Image Captioning with Conditional Generative Adversarial Nets, AAAI2019&lt;/h2&gt;
+&lt;p&gt;这篇论文的思路很简单，就是引入GAN来提高模型生成描述的质量，这种方法是通用的，可以加入到所有的基于强化学习的模型中。模型的整体框架如下所示：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Cross-domain Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/04/12/Cross-domain-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/04/12/Cross-domain-Image-Captioning/</id>
+    <published>2020-04-12T12:11:43.000Z</published>
+    <updated>2020-04-20T08:26:29.513Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在配对的图片-文本描述数据集（下面称为源域）上，描述生成模型已经取得了不错的效果，但是由于配对数据获取是费时费力的，代价昂贵，所以产生了跨域图片文本描述任务，其目的是利用源域数据，给未配对的数据集（下面称为目标域）生成图片描述，但是由于不同的数据集之间存在域偏移，直接使用在源域上训练好的模型给目标域图片生成的描述，质量往往很差，此时，就可以使用迁移学习方法解决该问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Transfer Learning" scheme="https://ezeli.github.io/tags/Transfer-Learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Attention-Related Image Captioning (2)</title>
+    <link href="https://ezeli.github.io/2020/04/06/Attention-Related-Image-Captioning-2/"/>
+    <id>https://ezeli.github.io/2020/04/06/Attention-Related-Image-Captioning-2/</id>
+    <published>2020-04-06T10:58:57.000Z</published>
+    <updated>2020-04-20T08:26:29.495Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-reflective-decoding-network-for-image-captioning-iccv2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-reflective-decoding-network-for-image-captioning-iccv2019&quot;&gt;&lt;/a&gt; 一、Reflective Decoding Network for Image Captioning, ICCV2019&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/ICCV2019%20Reflective%20Decoding%20Network%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;这篇论文认为当图片的内容比较复杂时传统的LSTM很难处理长期依赖问题，往往更关注于相对比较近的单词而忽略比较远的问题，如下图所示，“bridge”对“river”有很大的提示作用，但是它们之间相差6个单词，对于传统的LSTM来说很容易忽略这个。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Attention-Related Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/03/29/Attention-Related-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/03/29/Attention-Related-Image-Captioning/</id>
+    <published>2020-03-29T12:42:45.000Z</published>
+    <updated>2020-04-20T08:26:29.485Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-show-attend-and-tell-neural-image-caption-generation-with-visual-attention-icml2015&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-show-attend-and-tell-neural-image-caption-generation-with-visual-attention-icml2015&quot;&gt;&lt;/a&gt; 一、Show, Attend and Tell: Neural Image Caption Generation with Visual Attention, ICML2015&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;我们人类观察图片时，不是将整个图片压缩成一个静态表示，而是通过注意力机制根据需要动态调节所观察的区域，当图像中存在大量杂乱时，这一点尤其重要。因此，作者参考人类的视觉系统，在编解码框架的基础上引入了注意力机制，使得模型在生成描述时可以动态关注图片的不同区域。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(ICCV2019) Towards Unsupervised Image Captioning with Shared Multimodal Embeddings</title>
+    <link href="https://ezeli.github.io/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/"/>
+    <id>https://ezeli.github.io/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/</id>
+    <published>2019-10-01T14:45:04.000Z</published>
+    <updated>2020-04-20T08:26:29.474Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1908.09317&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;论文链接&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;一-主要思想&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-主要思想&quot;&gt;&lt;/a&gt; 一、主要思想&lt;/h2&gt;
+&lt;p&gt;文章首先提出了传统方法的问题：给图片标注描述信息很繁琐、昂贵，并且这些人工描述也都很短而且是重复的；当前的方法生成的描述受限于图片类别数和并不完美的验证指标，因此很难扩展到数据集以外的图片中。本文使用无监督的方式对独立的图像和文本进行建模，避免了带有人为偏见的而且昂贵的人工标注，当然，语料和图片并不是完全无关的，比如试图用经济学文本语料来描述图片是不合理的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="DL" scheme="https://ezeli.github.io/tags/DL/"/>
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
+    
+      <category term="Seq2Seq" scheme="https://ezeli.github.io/tags/Seq2Seq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(CVPR2019) Unsupervised Image Captioning</title>
+    <link href="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/</id>
+    <published>2019-09-20T13:28:31.000Z</published>
+    <updated>2020-04-20T08:26:29.473Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1811.10787&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;论文链接&lt;/a&gt; | &lt;a href=&quot;https://github.com/fengyang0317/unsupervised_captioning&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;代码链接&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;一-主要思想&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-主要思想&quot;&gt;&lt;/a&gt; 一、主要思想&lt;/h2&gt;
+&lt;p&gt;作者首先总结了以往的Image Caption的方法，将这些方法分成以下几类：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="DL" scheme="https://ezeli.github.io/tags/DL/"/>
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
+    
+      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>五、三维图形变换原理和实践</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E4%BA%94%E3%80%81%E4%B8%89%E7%BB%B4%E5%9B%BE%E5%BD%A2%E5%8F%98%E6%8D%A2%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://ezeli.github.io/2019/08/26/五、三维图形变换原理和实践/</id>
+    <published>2019-08-26T08:01:07.000Z</published>
+    <updated>2019-08-26T08:02:34.460Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;三维图形变换&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>四、多边形的扫描转换算法原理和实践</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E5%9B%9B%E3%80%81%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E6%89%AB%E6%8F%8F%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://ezeli.github.io/2019/08/26/四、多边形的扫描转换算法原理和实践/</id>
+    <published>2019-08-26T07:59:40.000Z</published>
+    <updated>2019-08-26T08:00:38.524Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;多边形的扫描转换算法&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>三、种子填充算法原理和实践</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E4%B8%89%E3%80%81%E7%A7%8D%E5%AD%90%E5%A1%AB%E5%85%85%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://ezeli.github.io/2019/08/26/三、种子填充算法原理和实践/</id>
+    <published>2019-08-26T07:58:11.000Z</published>
+    <updated>2019-08-26T07:59:14.818Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;种子填充算法&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二、Bresenham 画圆算法原理和实践</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E4%BA%8C%E3%80%81Bresenham%E7%94%BB%E5%9C%86%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://ezeli.github.io/2019/08/26/二、Bresenham画圆算法原理和实践/</id>
+    <published>2019-08-26T07:41:36.000Z</published>
+    <updated>2019-08-26T07:57:36.336Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;Bresenham画圆算法&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一、DDA 直线扫描转换算法原理和实践</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E4%B8%80%E3%80%81DDA%E7%9B%B4%E7%BA%BF%E6%89%AB%E6%8F%8F%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://ezeli.github.io/2019/08/26/一、DDA直线扫描转换算法原理和实践/</id>
+    <published>2019-08-26T07:39:22.000Z</published>
+    <updated>2019-08-26T07:57:46.312Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;DDA直线扫描转换算法&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+    
+      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关系模型</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/"/>
+    <id>https://ezeli.github.io/2019/08/26/关系模型/</id>
+    <published>2019-08-26T07:37:25.000Z</published>
+    <updated>2019-08-26T07:38:36.596Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;数据库（Database）、关系模型、约束&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Database" scheme="https://ezeli.github.io/categories/Database/"/>
+    
+    
+      <category term="Database" scheme="https://ezeli.github.io/tags/Database/"/>
+    
+      <category term="关系模型" scheme="https://ezeli.github.io/tags/%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL 学习</title>
+    <link href="https://ezeli.github.io/2019/08/26/SQL%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://ezeli.github.io/2019/08/26/SQL学习/</id>
+    <published>2019-08-26T07:32:16.000Z</published>
+    <updated>2019-08-26T07:36:50.390Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;数据库（Database）、SQL、外连接、事务、JDBC&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Database" scheme="https://ezeli.github.io/categories/Database/"/>
+    
+    
+      <category term="Database" scheme="https://ezeli.github.io/tags/Database/"/>
+    
+      <category term="SQL" scheme="https://ezeli.github.io/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>观察者模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/观察者模式/</id>
+    <published>2019-08-26T07:27:36.000Z</published>
+    <updated>2019-08-26T07:31:12.565Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;观察者模式介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>组合模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/组合模式/</id>
+    <published>2019-08-26T07:23:32.000Z</published>
+    <updated>2019-08-26T07:24:43.519Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;组合模式介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>适配器模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/适配器模式/</id>
+    <published>2019-08-26T06:04:23.000Z</published>
+    <updated>2019-08-26T06:05:59.199Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;适配器模式介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>原型模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/原型模式/</id>
+    <published>2019-08-26T06:02:03.000Z</published>
+    <updated>2019-08-26T06:03:28.751Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;原型模式介绍、浅拷贝和深拷贝&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>建造者模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/建造者模式/</id>
+    <published>2019-08-26T06:00:08.000Z</published>
+    <updated>2019-08-26T06:01:22.675Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;建造者模式介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>工厂方法模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/工厂方法模式/</id>
+    <published>2019-08-26T05:56:39.000Z</published>
+    <updated>2019-08-26T05:57:49.307Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;简单工厂模式、工厂方法模式&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>抽象工厂模式</title>
+    <link href="https://ezeli.github.io/2019/08/26/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://ezeli.github.io/2019/08/26/抽象工厂模式/</id>
+    <published>2019-08-26T05:54:28.000Z</published>
+    <updated>2019-08-26T05:56:13.015Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
+&lt;p&gt;抽象工厂模式介绍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+</feed>

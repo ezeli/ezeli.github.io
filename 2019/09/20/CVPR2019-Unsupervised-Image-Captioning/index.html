@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="论文链接 | 代码链接   一、主要思想 作者首先总结了以往的Image Caption的方法，将这些方法分成以下几类：">
+<meta name="keywords" content="DL,Image Caption,RL,GAN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(CVPR2019) Unsupervised Image Captioning">
+<meta property="og:url" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="论文链接 | 代码链接   一、主要思想 作者首先总结了以往的Image Caption的方法，将这些方法分成以下几类：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/existing_captioning_methods.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/Architecture_of_Unsupervised_NMT.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/Architecture_of_Unsupervised_ICM.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_1.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_2.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_3.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_4.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_5.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_6.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/Architecture_of_Reconstruction.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_7.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_8.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_9.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_10.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_11.png">
+<meta property="og:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_12.png">
+<meta property="og:updated_time" content="2020-04-20T08:26:29.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(CVPR2019) Unsupervised Image Captioning">
+<meta name="twitter:description" content="论文链接 | 代码链接   一、主要思想 作者首先总结了以往的Image Caption的方法，将这些方法分成以下几类：">
+<meta name="twitter:image" content="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/existing_captioning_methods.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>(CVPR2019) Unsupervised Image Captioning | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">(CVPR2019) Unsupervised Image Captioning
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-20 21:28:31" itemprop="dateCreated datePublished" datetime="2019-09-20T21:28:31+08:00">2019-09-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-20 16:26:29" itemprop="dateModified" datetime="2020-04-20T16:26:29+08:00">2020-04-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><a href="https://arxiv.org/abs/1811.10787" target="_blank" rel="noopener">论文链接 </a> | <a href="https://github.com/fengyang0317/unsupervised_captioning" target="_blank" rel="noopener"> 代码链接</a></p>
+</blockquote>
+<h2 id="一 - 主要思想"><a class="markdownIt-Anchor" href="# 一 - 主要思想"></a> 一、主要思想</h2>
+<p>作者首先总结了以往的 Image Caption 的方法，将这些方法分成以下几类：</p>
+<a id="more"></a>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/existing_captioning_methods.png" alt="existing_captioning_methods"></p>
+<ul>
+<li>(a)是经典的 caption 方法，依赖于成对的图片–描述数据；</li>
+<li>(b)除了配对数据，还引入了视觉概念信息，能够在生成的描述中加入一些新的对象（不存在与图片描述数据中，但是存在于图像识别数据集中）；</li>
+<li>©主要解决了跨领域图片内容描述生成的问题，比如将 MS COCO 数据集作为源域（数据量较大），进行模型的预训练，使用 Oxford-102 和 Flickr30k 数据集作为目标域（数据量较小），对模型进行微调；</li>
+<li>(d)使用一个中间语言（中文）作为枢纽，首先将生成图片的中间语言描述，然后在将中间语言翻译为目标语言（英文），这不再需要图像和目标语言字幕的配对数据；</li>
+<li>(e)是一种半监督的方法，增加了一个外部语料库，比如做风格化描述有时候就会用到这种方法；</li>
+<li>(f)是这篇论文的无监督学习方式。</li>
+</ul>
+<p>之前的方法都是监督学习或者半监督学习或者弱监督学习，依赖于成对的图像 - 句子数据集，但是这些数据集的获取非常昂贵，与 Image Net 和 Open Images 这些图像识别数据集相比，Microsoft COCO 相对较小，并且数据集中的图像和句子种类限制在 100 个对象类别以内，因此，在这种配对的图像 - 句子数据上训练的模型很难推广到其他的图像上。在这篇论文中，首次尝试以无人监督的方式训练图像描述模型，如 (f) 图所示：模型仅需要图像集，句子语料库和现有的视觉概念检测器。</p>
+<p>鉴于现有的句子语料库主要是为语言研究而设计的，因此很少参考图像内容，所以作者在 Shutterstock 网站上抓取了 200 万个自然语句的大规模图像描述语料库，以方便无监督的图像字幕情景。（Shutterstock 网站上提供了大量的图片和对应描述的信息）</p>
+<p>这篇论文受到了无监督神经机器翻译的启发，关键思想是通过具有跨语言嵌入的共享编码器将源语言和目标语言映射到公共空间，如下图所示，L1 和 L2 两种语言使用一个共享的 encoder，编码到同一个特征空间，然后分别使用不同的 decoder 进行还原。与之相比，无监督的图像字幕更具挑战性，图像和句子是两种形式的数据，具有显着不同的特征。卷积神经网络通常用作图像编码器，而递归神经网络适用于编码句子。由于它们的结构和特征不同，图像和句子的编码器很难像无人监督的机器翻译那样共享。</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/Architecture_of_Unsupervised_NMT.png" alt="Architecture_of_Unsupervised_NMT"></p>
+<h2 id="二 - 模型"><a class="markdownIt-Anchor" href="# 二 - 模型"></a> 二、模型</h2>
+<p>这篇论文的模型包括一个图片编码器（CNN），一个句子生成器（LSTM）和一个鉴别器（LSTM）：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/Architecture_of_Unsupervised_ICM.png" alt="Architecture_of_Unsupervised_ICM"></p>
+<h3 id="1- 图片编码器"><a class="markdownIt-Anchor" href="#1- 图片编码器"></a> 1、图片编码器</h3>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_1.png" alt></p>
+<p>CNN 可以选择常见的图片编码器，Inception-ResNet-v2、ResNet-50 等都可以，作者选择了 Inception-V4。</p>
+<h3 id="2- 句子生成器"><a class="markdownIt-Anchor" href="#2- 句子生成器"></a> 2、句子生成器</h3>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_2.png" alt></p>
+<p>其中 W 是词嵌入矩阵，最后一步是采样操作，s 是 one-hot 向量，p 是字典中所有单词的概率。</p>
+<h3 id="3- 鉴别器"><a class="markdownIt-Anchor" href="#3- 鉴别器"></a> 3、鉴别器</h3>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_3.png" alt></p>
+<p>q_t 表示模型已生成的部分句子 (s_1, …, s_t) 被鉴别器认为是真实句子的概率，类似用 q^_t 真实句子的前 t 个单词被鉴别器认为是真实句子的概率。鉴别器的目的是区分部分句子是来自真实语料库还是由模型生成的。</p>
+<h3 id="4- 训练目标"><a class="markdownIt-Anchor" href="#4- 训练目标"></a> 4、训练目标</h3>
+<p>由于是无监督学习，无法提前知道图片描述，所以在训练时只能通过采样操作来获取前一步生成的单词，而采样操作是不可以误差反向传播的，所以这篇论文采用 Policy Gradient 来优化模型参数。</p>
+<h4 id="1 对抗训练"><a class="markdownIt-Anchor" href="#1 对抗训练"></a> 1）对抗训练</h4>
+<p>G 和 D 在训练过程中，每一个时间步，都会给生成的单词一个对抗性奖励：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_4.png" alt></p>
+<p>对于鉴别器，相应的对抗性损失定义为：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_5.png" alt></p>
+<h4 id="2 视觉概念奖励"><a class="markdownIt-Anchor" href="#2 视觉概念奖励"></a> 2）视觉概念奖励</h4>
+<p>对抗性奖励仅鼓励模型根据语料库中句子的语法规则生成合理的句子，这可能与输入图像无关。为了生成相关的图像标题，模型必须学会识别图像中的视觉概念并将这些概念合并到生成的句子中。因此，需要将现有视觉概念检测器的知识提炼到图像字幕模型中。具体而言，当模型生成图片相应的视觉概念的单词时，我们对生成的单词给予奖励。这种奖励被称为概念奖励，其奖励值由该视觉概念的置信分数表示：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_6.png" alt></p>
+<p>其中 s_t 表示第 t 步生成的单词，c_i 表示图片对应的视觉概念单词，v_i 表示对应的置信分数，N_c 表示图片对应的视觉概念单词集合的数目。</p>
+<h4 id="3 双向图像 - 描述重建"><a class="markdownIt-Anchor" href="#3 双向图像 - 描述重建"></a> 3）双向图像 - 描述重建</h4>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/Architecture_of_Reconstruction.png" alt="Architecture_of_Reconstruction"></p>
+<p>通过对抗训练和视觉概念奖励，描述质量将主要由视觉概念检测器决定，因为它是图像和句子之间的唯一桥梁。然而，现有的视觉概念检测器只能可靠地检测有限数量的对象概念。图像字幕模型应该理解图像更多的语义概念，以获得更好的泛化能力。为了实现这一目标，需要将图像和句子投影到一个共同的潜在空间，以便它们可以用来相互重建，这样，生成的标题将在语义上与图像一致。</p>
+<p><strong>图片重建</strong></p>
+<p>鉴别器最后使用一个全连接层将 LSTM 最后的隐藏状态投影到共同的潜在空间：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_7.png" alt></p>
+<p>为训练鉴别器定义了额外的图片重建损失：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_8.png" alt></p>
+<p>句子生成器的图片重建奖励定义为：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_9.png" alt></p>
+<p><strong>句子重建</strong></p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_10.png" alt></p>
+<h4 id="4 整合"><a class="markdownIt-Anchor" href="#4 整合"></a> 4）整合</h4>
+<p>对于生成器，Policy Gradient 训练方式根据联合奖励估计相对于可训练参数的梯度，联合奖励包括对抗奖励，概念奖励和图像重建奖励。除了由 Policy Gradient 估计的梯度之外，句子重建损失还通过反向传播为发生器提供梯度：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_11.png" alt></p>
+<p>对于鉴别器：</p>
+<p><img src="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/formula_12.png" alt></p>
+<h3 id="5- 初始化"><a class="markdownIt-Anchor" href="#5- 初始化"></a> 5、初始化</h3>
+<p>使用未标记数据从头开始训练模型具有挑战性，即使提出了三个目标也是如此，因此提出了一个初始化的方法来预先训练句子生成器和鉴别器。</p>
+<p>关于生成器，先为每个训练图像生成伪描述，然后使用伪图像描述对来初始化模型。具体来说，首先构建一个由 Open Images 数据集中的对象类别组成的概念字典。其次，仅使用句子语料库来训练概念到句子（con2sen）模型：给定一个句子，把句子中包含在概念字典中的概念词全部提出来，将它们使用单层 LSTM 编码为特征表示，并使用另一个单层 LSTM 将表示解码为整个句子。第三，通过现有的视觉概念检测器检测每个图像的概念，利用检测到的概念和概念到句子模型，就能够为每个图像生成伪标题。第四，使用标准的监督学习方法训练具有伪图像标题对的生成器。这一过程命名为 feature-tosentence（feat2sen）模型。</p>
+<p>关于鉴别器，通过对抗训练来初始化参数。</p>
+<h2 id="三 - 性能比较"><a class="markdownIt-Anchor" href="# 三 - 性能比较"></a> 三、性能比较</h2>
+<p>无监督字幕模型的表现可能看起来不令人满意，这主要是由于 COCO 的描述和爬取图像描述之间的语言特征不同。为了进一步证明所提出的三个目标的有效性，用训练图像的 COCO 描述替换爬取句子语料库，而其他设置与无监督模型保持一致，训练后得到了更好的结果。论文在实验中还加入了 Ablation Studies（模型简化测试），具体实验结果请参看论文。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+            
+              <a href="/tags/Image-Caption/" rel="tag"><i class="fa fa-tag"></i> Image Caption</a>
+            
+              <a href="/tags/RL/" rel="tag"><i class="fa fa-tag"></i> RL</a>
+            
+              <a href="/tags/GAN/" rel="tag"><i class="fa fa-tag"></i> GAN</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/26/五、三维图形变换原理和实践/" rel="next" title="五、三维图形变换原理和实践">
+                  <i class="fa fa-chevron-left"></i> 五、三维图形变换原理和实践
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/" rel="prev" title="(ICCV2019) Towards Unsupervised Image Captioning with Shared Multimodal Embeddings">
+                  (ICCV2019) Towards Unsupervised Image Captioning with Shared Multimodal Embeddings <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一 - 主要思想"><span class="nav-text"> 一、主要思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二 - 模型"><span class="nav-text"> 二、模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1- 图片编码器"><span class="nav-text"> 1、图片编码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2- 句子生成器"><span class="nav-text"> 2、句子生成器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3- 鉴别器"><span class="nav-text"> 3、鉴别器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4- 训练目标"><span class="nav-text"> 4、训练目标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1 对抗训练"><span class="nav-text"> 1）对抗训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2 视觉概念奖励"><span class="nav-text"> 2）视觉概念奖励</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3 双向图像 - 描述重建"><span class="nav-text"> 3）双向图像 - 描述重建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4 整合"><span class="nav-text"> 4）整合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5- 初始化"><span class="nav-text"> 5、初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三 - 性能比较"><span class="nav-text"> 三、性能比较</span></a></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
