@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-04-20T08:26:29.523Z</updated>
+  <updated>2020-04-26T15:03:14.713Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Attention-Related Image Captioning (3)</title>
+    <link href="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/"/>
+    <id>https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/</id>
+    <published>2020-04-26T14:50:11.000Z</published>
+    <updated>2020-04-26T15:03:14.713Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-hierarchical-attention-network-for-image-captioning-aaai-2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-hierarchical-attention-network-for-image-captioning-aaai-2019&quot;&gt;&lt;/a&gt; 一、Hierarchical Attention Network for Image Captioning, AAAI 2019&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Hierarchical%20Attention%20Network%20for%20Image%20Captioning.ppt&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个&lt;br&gt;
+Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下图所示：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
+    
+  </entry>
   
   <entry>
     <title>Improve Optimization Method for Image Captioning</title>
@@ -93,7 +121,7 @@
     <link href="https://ezeli.github.io/2020/03/29/Attention-Related-Image-Captioning/"/>
     <id>https://ezeli.github.io/2020/03/29/Attention-Related-Image-Captioning/</id>
     <published>2020-03-29T12:42:45.000Z</published>
-    <updated>2020-04-20T08:26:29.485Z</updated>
+    <updated>2020-04-21T04:30:32.397Z</updated>
     
     <summary type="html">
     
@@ -147,7 +175,7 @@
     <link href="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/"/>
     <id>https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/</id>
     <published>2019-09-20T13:28:31.000Z</published>
-    <updated>2020-04-20T08:26:29.473Z</updated>
+    <updated>2020-04-21T04:07:53.428Z</updated>
     
     <summary type="html">
     
@@ -439,27 +467,6 @@
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;简单工厂模式、工厂方法模式&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>抽象工厂模式</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://ezeli.github.io/2019/08/26/抽象工厂模式/</id>
-    <published>2019-08-26T05:54:28.000Z</published>
-    <updated>2019-08-26T05:56:13.015Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;抽象工厂模式介绍&lt;/p&gt;
     
     </summary>
     

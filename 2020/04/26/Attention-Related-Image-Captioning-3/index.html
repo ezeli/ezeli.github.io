@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、Hierarchical Attention Network for Image Captioning, AAAI 2019  自制PPT   1、解决问题 这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个 Hierarchical Att">
+<meta name="keywords" content="Image Caption,Attention Mechanism">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attention-Related Image Captioning (3)">
+<meta property="og:url" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="一、Hierarchical Attention Network for Image Captioning, AAAI 2019  自制PPT   1、解决问题 这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个 Hierarchical Att">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/Features.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/Text_Predictor.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/b3c953e27f2a05b2b6bd059506834c69.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/Overview.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/fa233b85a3bb1d7cb4bfe1e5391d1b14.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/a2f1f1b84a353c471b601fca9447d922.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/MRM.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/079433b290ff94e0a7a7fefc955ef159.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/1f8a6bd62a9099e44cc8188d0f2bed68.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/7ae5f154cb40d7b84af90b2ac04e4d5c.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/Overview_2.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/f981588e8c6cc6b29cf7cbd27ed2a9c3.png">
+<meta property="og:updated_time" content="2020-04-26T15:03:14.713Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Attention-Related Image Captioning (3)">
+<meta name="twitter:description" content="一、Hierarchical Attention Network for Image Captioning, AAAI 2019  自制PPT   1、解决问题 这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个 Hierarchical Att">
+<meta name="twitter:image" content="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/Features.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Attention-Related Image Captioning (3) | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/04/26/Attention-Related-Image-Captioning-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Attention-Related Image Captioning (3)
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-26 22:50:11 / 修改时间：23:03:14" itemprop="dateCreated datePublished" datetime="2020-04-26T22:50:11+08:00">2020-04-26</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一 -hierarchical-attention-network-for-image-captioning-aaai-2019"><a class="markdownIt-Anchor" href="# 一 -hierarchical-attention-network-for-image-captioning-aaai-2019"></a> 一、Hierarchical Attention Network for Image Captioning, AAAI 2019</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Hierarchical%20Attention%20Network%20for%20Image%20Captioning.ppt" target="_blank" rel="noopener"> 自制 PPT</a></p>
+</blockquote>
+<h3 id="1- 解决问题"><a class="markdownIt-Anchor" href="#1- 解决问题"></a> 1、解决问题 </h3>
+<p> 这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个 <br>
+Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下图所示：</p>
+<a id="more"></a>
+<p><img src="/2020/04/26/Attention-Related-Image-Captioning-3/Features.png" alt="Features"></p>
+<p><strong>Text</strong> 表示强语义的文本特征，是指和图像相关的语义概念，包括形容词、动词和名词，之后将单词转换为词嵌入向量。作者使用一个图片分类检测器进行检测（论文中每张图片检测 10 个概念单词），结构如下：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/Text_Predictor.png" alt="Text Predictor"></p>
+<p> 目标函数：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/b3c953e27f2a05b2b6bd059506834c69.png" alt></p>
+<p> 其中 N 表示类别数（论文中取 2000），如果 groundtruth 中对应的单词存在则 pi* 为 1。</p>
+<p><strong>Patch</strong> 表示弱语义的块特征，使用在 ImageNet 上预训练的 Resnet101 的最后一个卷积层提取，每张图提取 196 个块特征。</p>
+<p><strong>Object</strong> 表示语义适中的显著目标的特征，使用 Faster<br>
+RCNN 提取，每张图片提取 15 个特征。</p>
+<h3 id="2- 方法"><a class="markdownIt-Anchor" href="#2- 方法"></a> 2、方法 </h3>
+<p> 模型整体结构图如下：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/Overview.png" alt="Overview"></p>
+<p> 公式如下：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/fa233b85a3bb1d7cb4bfe1e5391d1b14.png" alt></p>
+<h4 id="1attention-module"><a class="markdownIt-Anchor" href="#1attention-module"></a> 1）Attention module</h4>
+<p><img src="/2020/04/26/Attention-Related-Image-Captioning-3/a2f1f1b84a353c471b601fca9447d922.png" alt></p>
+<p>V 表示某个层次的特征，三个层次的特征分别有独立的相同的注意力模型。</p>
+<h4 id="2multivariate-residual-module"><a class="markdownIt-Anchor" href="#2multivariate-residual-module"></a> 2）Multivariate Residual Module</h4>
+<p> 用于整合不同层次的特征，将特征投影到一个统一的目标空间中，探索不同层次的特征空间之间的内在关系，包括 projection 和 Relation 两个部分。<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/MRM.png" alt="MRM"></p>
+<p><strong>Projection 部分 </strong>：将 patch attention 特征和 text attention 特征投影到 object 空间：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/079433b290ff94e0a7a7fefc955ef159.png" alt></p>
+<p><strong>Relation 部分 </strong>：探索不同模态特征之间的内在联系：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/1f8a6bd62a9099e44cc8188d0f2bed68.png" alt></p>
+<p><strong>MRM</strong>：M = H + R</p>
+<p><strong>pMRM (parallel MRM)</strong>：将多层次特征融合分成两条路，一条是 content<br>
+pathway，一条是 position<br>
+pathway，将 object 信息提供给 patch 特征和 text 特征，之后使用 context<br>
+gate 选择性地关注高层次的内容特征和低层次的位置特征：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/7ae5f154cb40d7b84af90b2ac04e4d5c.png" alt></p>
+<h2 id="二 -deliberate-attention-networks-for-image-captioning-aaai2019"><a class="markdownIt-Anchor" href="# 二 -deliberate-attention-networks-for-image-captioning-aaai2019"></a> 二、Deliberate Attention Networks for Image Captioning, AAAI2019</h2>
+<h3 id="1- 解决问题 -2"><a class="markdownIt-Anchor" href="#1- 解决问题 -2"></a> 1、解决问题 </h3>
+<p> 之前带有注意力机制的编解码框架都是一次前向过程，当模型预测一个单词时，只利用了已经生成的单词而不会考虑未生成的单词，但是对于人类来说，反复考虑是阅读、写作、理解图片等日常生活中常见的行为，这一过程会利用过去和未来的全局的信息。作者提出一个新的网络结构：Deliberate<br>
+Residual Attention Network（DA），能够考虑到全局的信息。</p>
+<h3 id="2- 方法 -2"><a class="markdownIt-Anchor" href="#2- 方法 -2"></a> 2、方法 </h3>
+<p> 模型结构图如下：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/Overview_2.png" alt="Overview"></p>
+<p> 包括三个部分：两个基于残差的注意力层和一个强化学习模块。第一个注意力层目的是准备隐藏状态和视觉注意力特征，用于生成描述的初步版本，第二个注意力层通过利用第一层的输出信息完善描述。</p>
+<p> 在训练时，首先使用 MLE 预训练模型，之后使用强化学习微调参数，将对抗损失（CL）和 CIDEr 组成奖励函数。其中，CL 定义为：先分别使用 CNN 和 RNN 提取图片和描述的特征向量，之后通过线性变换将两个向量投影到同一空间，并通过余弦相似度度量它们之间的相似性，最后通过两个常见的 hinge 损失组成对抗损失：<br>
+<img src="/2020/04/26/Attention-Related-Image-Captioning-3/f981588e8c6cc6b29cf7cbd27ed2a9c3.png" alt></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Image-Caption/" rel="tag"><i class="fa fa-tag"></i> Image Caption</a>
+            
+              <a href="/tags/Attention-Mechanism/" rel="tag"><i class="fa fa-tag"></i> Attention Mechanism</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/04/19/Improve-Optimization-Method-for-Image-Captioning/" rel="next" title="Improve Optimization Method for Image Captioning">
+                  <i class="fa fa-chevron-left"></i> Improve Optimization Method for Image Captioning
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一 -hierarchical-attention-network-for-image-captioning-aaai-2019"><span class="nav-text"> 一、Hierarchical Attention Network for Image Captioning, AAAI 2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1- 解决问题"><span class="nav-text"> 1、解决问题 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2- 方法"><span class="nav-text"> 2、方法 </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1attention-module"><span class="nav-text"> 1）Attention module</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2multivariate-residual-module"><span class="nav-text"> 2）Multivariate Residual Module</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二 -deliberate-attention-networks-for-image-captioning-aaai2019"><span class="nav-text"> 二、Deliberate Attention Networks for Image Captioning, AAAI2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1- 解决问题 -2"><span class="nav-text"> 1、解决问题 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2- 方法 -2"><span class="nav-text"> 2、方法 </span></a></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
