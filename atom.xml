@@ -205,12 +205,11 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     <link href="https://ezeli.github.io/2019/08/26/%E4%BA%94%E3%80%81%E4%B8%89%E7%BB%B4%E5%9B%BE%E5%BD%A2%E5%8F%98%E6%8D%A2%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
     <id>https://ezeli.github.io/2019/08/26/五、三维图形变换原理和实践/</id>
     <published>2019-08-26T08:01:07.000Z</published>
-    <updated>2019-08-26T08:02:34.460Z</updated>
+    <updated>2020-06-03T14:09:51.723Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;三维图形变换&lt;/p&gt;
+      &lt;h2 id=&quot;1- 原理&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1- 原理&quot;&gt;&lt;/a&gt; 1、原理 &lt;/h2&gt;&lt;h3 id=&quot;1 四种坐标系&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1 四种坐标系&quot;&gt;&lt;/a&gt; 1）四种坐标系 &lt;/h3&gt;&lt;p&gt; 为了将三维立体图形投影到平面上，应该首先理解以下四种坐标系：&lt;/p&gt;&lt;p&gt; 本体坐标系（模型坐标系）：是为规定基本形体而引入的便于描述的坐标系，也就是立体图形自身的坐标系。&lt;/p&gt;&lt;p&gt; 用户坐标系（世界坐标系）：是用户引入描述整个形体的坐标系。&lt;/p&gt;&lt;p&gt; 观察坐标系（视坐标系或目坐标系）：为说明观察的姿态而引入，也就是观察者所处的位置。&lt;/p&gt;
     
     </summary>
     
