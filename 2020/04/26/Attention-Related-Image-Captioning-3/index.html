@@ -331,53 +331,53 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="一 -hierarchical-attention-network-for-image-captioning-aaai-2019"><a class="markdownIt-Anchor" href="# 一 -hierarchical-attention-network-for-image-captioning-aaai-2019"></a> 一、Hierarchical Attention Network for Image Captioning, AAAI 2019</h2>
+        <h2 id="一-hierarchical-attention-network-for-image-captioning-aaai-2019"><a class="markdownIt-Anchor" href="#一-hierarchical-attention-network-for-image-captioning-aaai-2019"></a> 一、Hierarchical Attention Network for Image Captioning, AAAI 2019</h2>
 <blockquote>
-<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Hierarchical%20Attention%20Network%20for%20Image%20Captioning.ppt" target="_blank" rel="noopener"> 自制 PPT</a></p>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Hierarchical%20Attention%20Network%20for%20Image%20Captioning.ppt" target="_blank" rel="noopener">自制PPT</a></p>
 </blockquote>
-<h3 id="1- 解决问题"><a class="markdownIt-Anchor" href="#1- 解决问题"></a> 1、解决问题 </h3>
-<p> 这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个 <br>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>这篇论文认为现有的注意力机制只关注单层特征，比如低层的空间特征或者高层的文本特征，但是描述语句中不同的单词和不同层次的特征有关，比如颜色单词可以从低层特征预测，量词可以从中层特征预测。所以作者提出了一个<br>
 Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下图所示：</p>
 <a id="more"></a>
 <p><img src="/2020/04/26/Attention-Related-Image-Captioning-3/Features.png" alt="Features"></p>
-<p><strong>Text</strong> 表示强语义的文本特征，是指和图像相关的语义概念，包括形容词、动词和名词，之后将单词转换为词嵌入向量。作者使用一个图片分类检测器进行检测（论文中每张图片检测 10 个概念单词），结构如下：<br>
+<p><strong>Text</strong>表示强语义的文本特征，是指和图像相关的语义概念，包括形容词、动词和名词，之后将单词转换为词嵌入向量。作者使用一个图片分类检测器进行检测（论文中每张图片检测10个概念单词），结构如下：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/Text_Predictor.png" alt="Text Predictor"></p>
-<p> 目标函数：<br>
+<p>目标函数：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/b3c953e27f2a05b2b6bd059506834c69.png" alt></p>
-<p> 其中 N 表示类别数（论文中取 2000），如果 groundtruth 中对应的单词存在则 pi* 为 1。</p>
-<p><strong>Patch</strong> 表示弱语义的块特征，使用在 ImageNet 上预训练的 Resnet101 的最后一个卷积层提取，每张图提取 196 个块特征。</p>
-<p><strong>Object</strong> 表示语义适中的显著目标的特征，使用 Faster<br>
-RCNN 提取，每张图片提取 15 个特征。</p>
-<h3 id="2- 方法"><a class="markdownIt-Anchor" href="#2- 方法"></a> 2、方法 </h3>
-<p> 模型整体结构图如下：<br>
+<p>其中N表示类别数（论文中取2000），如果groundtruth中对应的单词存在则pi*为1。</p>
+<p><strong>Patch</strong>表示弱语义的块特征，使用在ImageNet上预训练的Resnet101的最后一个卷积层提取，每张图提取196个块特征。</p>
+<p><strong>Object</strong>表示语义适中的显著目标的特征，使用Faster<br>
+RCNN提取，每张图片提取15个特征。</p>
+<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
+<p>模型整体结构图如下：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/Overview.png" alt="Overview"></p>
-<p> 公式如下：<br>
+<p>公式如下：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/fa233b85a3bb1d7cb4bfe1e5391d1b14.png" alt></p>
 <h4 id="1attention-module"><a class="markdownIt-Anchor" href="#1attention-module"></a> 1）Attention module</h4>
 <p><img src="/2020/04/26/Attention-Related-Image-Captioning-3/a2f1f1b84a353c471b601fca9447d922.png" alt></p>
-<p>V 表示某个层次的特征，三个层次的特征分别有独立的相同的注意力模型。</p>
+<p>V表示某个层次的特征，三个层次的特征分别有独立的相同的注意力模型。</p>
 <h4 id="2multivariate-residual-module"><a class="markdownIt-Anchor" href="#2multivariate-residual-module"></a> 2）Multivariate Residual Module</h4>
-<p> 用于整合不同层次的特征，将特征投影到一个统一的目标空间中，探索不同层次的特征空间之间的内在关系，包括 projection 和 Relation 两个部分。<br>
+<p>用于整合不同层次的特征，将特征投影到一个统一的目标空间中，探索不同层次的特征空间之间的内在关系，包括projection和Relation两个部分。<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/MRM.png" alt="MRM"></p>
-<p><strong>Projection 部分 </strong>：将 patch attention 特征和 text attention 特征投影到 object 空间：<br>
+<p><strong>Projection部分</strong>：将patch attention特征和text attention特征投影到object空间：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/079433b290ff94e0a7a7fefc955ef159.png" alt></p>
-<p><strong>Relation 部分 </strong>：探索不同模态特征之间的内在联系：<br>
+<p><strong>Relation部分</strong>：探索不同模态特征之间的内在联系：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/1f8a6bd62a9099e44cc8188d0f2bed68.png" alt></p>
 <p><strong>MRM</strong>：M = H + R</p>
-<p><strong>pMRM (parallel MRM)</strong>：将多层次特征融合分成两条路，一条是 content<br>
-pathway，一条是 position<br>
-pathway，将 object 信息提供给 patch 特征和 text 特征，之后使用 context<br>
-gate 选择性地关注高层次的内容特征和低层次的位置特征：<br>
+<p><strong>pMRM (parallel MRM)</strong>：将多层次特征融合分成两条路，一条是content<br>
+pathway，一条是position<br>
+pathway，将object信息提供给patch特征和text特征，之后使用context<br>
+gate选择性地关注高层次的内容特征和低层次的位置特征：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/7ae5f154cb40d7b84af90b2ac04e4d5c.png" alt></p>
-<h2 id="二 -deliberate-attention-networks-for-image-captioning-aaai2019"><a class="markdownIt-Anchor" href="# 二 -deliberate-attention-networks-for-image-captioning-aaai2019"></a> 二、Deliberate Attention Networks for Image Captioning, AAAI2019</h2>
-<h3 id="1- 解决问题 -2"><a class="markdownIt-Anchor" href="#1- 解决问题 -2"></a> 1、解决问题 </h3>
-<p> 之前带有注意力机制的编解码框架都是一次前向过程，当模型预测一个单词时，只利用了已经生成的单词而不会考虑未生成的单词，但是对于人类来说，反复考虑是阅读、写作、理解图片等日常生活中常见的行为，这一过程会利用过去和未来的全局的信息。作者提出一个新的网络结构：Deliberate<br>
+<h2 id="二-deliberate-attention-networks-for-image-captioning-aaai2019"><a class="markdownIt-Anchor" href="#二-deliberate-attention-networks-for-image-captioning-aaai2019"></a> 二、Deliberate Attention Networks for Image Captioning, AAAI2019</h2>
+<h3 id="1-解决问题-2"><a class="markdownIt-Anchor" href="#1-解决问题-2"></a> 1、解决问题</h3>
+<p>之前带有注意力机制的编解码框架都是一次前向过程，当模型预测一个单词时，只利用了已经生成的单词而不会考虑未生成的单词，但是对于人类来说，反复考虑是阅读、写作、理解图片等日常生活中常见的行为，这一过程会利用过去和未来的全局的信息。作者提出一个新的网络结构：Deliberate<br>
 Residual Attention Network（DA），能够考虑到全局的信息。</p>
-<h3 id="2- 方法 -2"><a class="markdownIt-Anchor" href="#2- 方法 -2"></a> 2、方法 </h3>
-<p> 模型结构图如下：<br>
+<h3 id="2-方法-2"><a class="markdownIt-Anchor" href="#2-方法-2"></a> 2、方法</h3>
+<p>模型结构图如下：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/Overview_2.png" alt="Overview"></p>
-<p> 包括三个部分：两个基于残差的注意力层和一个强化学习模块。第一个注意力层目的是准备隐藏状态和视觉注意力特征，用于生成描述的初步版本，第二个注意力层通过利用第一层的输出信息完善描述。</p>
-<p> 在训练时，首先使用 MLE 预训练模型，之后使用强化学习微调参数，将对抗损失（CL）和 CIDEr 组成奖励函数。其中，CL 定义为：先分别使用 CNN 和 RNN 提取图片和描述的特征向量，之后通过线性变换将两个向量投影到同一空间，并通过余弦相似度度量它们之间的相似性，最后通过两个常见的 hinge 损失组成对抗损失：<br>
+<p>包括三个部分：两个基于残差的注意力层和一个强化学习模块。第一个注意力层目的是准备隐藏状态和视觉注意力特征，用于生成描述的初步版本，第二个注意力层通过利用第一层的输出信息完善描述。</p>
+<p>在训练时，首先使用MLE预训练模型，之后使用强化学习微调参数，将对抗损失（CL）和CIDEr组成奖励函数。其中，CL定义为：先分别使用CNN和RNN提取图片和描述的特征向量，之后通过线性变换将两个向量投影到同一空间，并通过余弦相似度度量它们之间的相似性，最后通过两个常见的hinge损失组成对抗损失：<br>
 <img src="/2020/04/26/Attention-Related-Image-Captioning-3/f981588e8c6cc6b29cf7cbd27ed2a9c3.png" alt></p>
 
     </div>
@@ -464,7 +464,7 @@ Residual Attention Network（DA），能够考虑到全局的信息。</p>
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
           <div class="post-toc">
-            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一 -hierarchical-attention-network-for-image-captioning-aaai-2019"><span class="nav-text"> 一、Hierarchical Attention Network for Image Captioning, AAAI 2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1- 解决问题"><span class="nav-text"> 1、解决问题 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2- 方法"><span class="nav-text"> 2、方法 </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1attention-module"><span class="nav-text"> 1）Attention module</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2multivariate-residual-module"><span class="nav-text"> 2）Multivariate Residual Module</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二 -deliberate-attention-networks-for-image-captioning-aaai2019"><span class="nav-text"> 二、Deliberate Attention Networks for Image Captioning, AAAI2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1- 解决问题 -2"><span class="nav-text"> 1、解决问题 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2- 方法 -2"><span class="nav-text"> 2、方法 </span></a></li></ol></li></ol></div>
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-hierarchical-attention-network-for-image-captioning-aaai-2019"><span class="nav-text"> 一、Hierarchical Attention Network for Image Captioning, AAAI 2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text"> 2、方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1attention-module"><span class="nav-text"> 1）Attention module</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2multivariate-residual-module"><span class="nav-text"> 2）Multivariate Residual Module</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-deliberate-attention-networks-for-image-captioning-aaai2019"><span class="nav-text"> 二、Deliberate Attention Networks for Image Captioning, AAAI2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题-2"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-2"><span class="nav-text"> 2、方法</span></a></li></ol></li></ol></div>
           </div>
         
       </div>

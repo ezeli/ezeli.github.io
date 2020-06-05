@@ -334,35 +334,35 @@
 
       
         <blockquote>
-<p><a href="https://arxiv.org/abs/1908.09317" target="_blank" rel="noopener"> 论文链接 </a></p>
+<p><a href="https://arxiv.org/abs/1908.09317" target="_blank" rel="noopener">论文链接</a></p>
 </blockquote>
-<h2 id="一 - 主要思想"><a class="markdownIt-Anchor" href="# 一 - 主要思想"></a> 一、主要思想 </h2>
-<p> 文章首先提出了传统方法的问题：给图片标注描述信息很繁琐、昂贵，并且这些人工描述也都很短而且是重复的；当前的方法生成的描述受限于图片类别数和并不完美的验证指标，因此很难扩展到数据集以外的图片中。本文使用无监督的方式对独立的图像和文本进行建模，避免了带有人为偏见的而且昂贵的人工标注，当然，语料和图片并不是完全无关的，比如试图用经济学文本语料来描述图片是不合理的。</p>
+<h2 id="一-主要思想"><a class="markdownIt-Anchor" href="#一-主要思想"></a> 一、主要思想</h2>
+<p>文章首先提出了传统方法的问题：给图片标注描述信息很繁琐、昂贵，并且这些人工描述也都很短而且是重复的；当前的方法生成的描述受限于图片类别数和并不完美的验证指标，因此很难扩展到数据集以外的图片中。本文使用无监督的方式对独立的图像和文本进行建模，避免了带有人为偏见的而且昂贵的人工标注，当然，语料和图片并不是完全无关的，比如试图用经济学文本语料来描述图片是不合理的。</p>
 <a id="more"></a>
-<p> 本文方法的概览图如下，主要是学习一个语言和图片特征的联合嵌入空间，这些特征由视觉概念及其共现组成。<br>
+<p>本文方法的概览图如下，主要是学习一个语言和图片特征的联合嵌入空间，这些特征由视觉概念及其共现组成。<br>
 <img src="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/Overview.png" alt="Overview"></p>
-<h2 id="二 - 模型"><a class="markdownIt-Anchor" href="# 二 - 模型"></a> 二、模型 </h2>
-<p> 本文的方法有两个部分组成：一个语言模型和一个图像与文本域对齐模型。<br>
-符号介绍，第 i 个图片的视觉概念表示：<br>
+<h2 id="二-模型"><a class="markdownIt-Anchor" href="#二-模型"></a> 二、模型</h2>
+<p>本文的方法有两个部分组成：一个语言模型和一个图像与文本域对齐模型。<br>
+符号介绍，第i个图片的视觉概念表示：<br>
 <img src="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/formula_1.png" alt><br>
-第 j 个句子的所有单词集合表示：<br>
+第j个句子的所有单词集合表示：<br>
 <img src="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/formula_2.png" alt><br>
 模型结构图如下：<br>
 <img src="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/Architecture.png" alt></p>
-<h3 id="语言模型"><a class="markdownIt-Anchor" href="# 语言模型"></a> 语言模型 </h3>
-<p> 首先使用标准的 seq2seq 方法，通过训练文本语料库上的语言模型来学习无监督文本嵌入，也就是通过 encoder 将句子嵌入到潜在空间表示中，然后通过 decoder 将它还原成句子。除了这个训练方式，还需要在加上一项：两个包含公共单词（即文中的视觉概念单词，包含的公共单词数要大于 2 以减少对齐错误，因为比如“人”这个词经常在两个完全无关的句子中共同出现）的句子的表示间的距离应该大于不包含公共单词的两个句子的表示间的距离，这种方式在嵌入空间中加入了视觉感知结构。</p>
-<h3 id="图像与文本域联合"><a class="markdownIt-Anchor" href="# 图像与文本域联合"></a> 图像与文本域联合 </h3>
-<p> 接下来，需要将图片特征嵌入到相同的潜在空间中，使它可以被解码器翻译成句子描述。<br>
+<h3 id="语言模型"><a class="markdownIt-Anchor" href="#语言模型"></a> 语言模型</h3>
+<p>首先使用标准的seq2seq方法，通过训练文本语料库上的语言模型来学习无监督文本嵌入，也就是通过encoder将句子嵌入到潜在空间表示中，然后通过decoder将它还原成句子。除了这个训练方式，还需要在加上一项：两个包含公共单词（即文中的视觉概念单词，包含的公共单词数要大于2以减少对齐错误，因为比如“人”这个词经常在两个完全无关的句子中共同出现）的句子的表示间的距离应该大于不包含公共单词的两个句子的表示间的距离，这种方式在嵌入空间中加入了视觉感知结构。</p>
+<h3 id="图像与文本域联合"><a class="markdownIt-Anchor" href="#图像与文本域联合"></a> 图像与文本域联合</h3>
+<p>接下来，需要将图片特征嵌入到相同的潜在空间中，使它可以被解码器翻译成句子描述。<br>
 首先需要依赖图片和文本语料共有的视觉概念来进行初始化对齐工作：<br>
-构建一个图 G(L，I，P)，图片 I 和句子 P 是图的节点，边 P 的权重表示它们之间的公共视觉概念的数目。<br>
-因为图片识别方法检测出的视觉概念的类别是有限的，所以在匹配句子的时候可以通过文本语料库中单词之间的相关关系（比如 man 和 person）来扩充预测出的视觉概念数目。<br>
-初始化对齐使我们拥有了图片和文本之间的映射关系，但是这个映射是不精确的，因此可以通过这个映射关系和以下的规则来学习一个翻译函数 h（可以是一个简单的多层感知器）来将图片特征更好地映射到潜在表示中：<br>
-<strong> 健壮的对齐损失 </strong>：<br>
+构建一个图G(L，I，P)，图片I和句子P是图的节点，边P的权重表示它们之间的公共视觉概念的数目。<br>
+因为图片识别方法检测出的视觉概念的类别是有限的，所以在匹配句子的时候可以通过文本语料库中单词之间的相关关系（比如man和person）来扩充预测出的视觉概念数目。<br>
+初始化对齐使我们拥有了图片和文本之间的映射关系，但是这个映射是不精确的，因此可以通过这个映射关系和以下的规则来学习一个翻译函数h（可以是一个简单的多层感知器）来将图片特征更好地映射到潜在表示中：<br>
+<strong>健壮的对齐损失</strong>：<br>
 <img src="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/formula_3.png" alt><br>
-<strong> 对抗性训练 </strong>：<br>
-前面的对齐方式鼓励 h 更好的适应文本概念嵌入，然而，也需要确保这个映射不会丢失图像中重要的概念信息，所以使用条件鉴别器 D 进行对抗性训练。D 训练时的正例是将翻译的特征 h(ψi) 与图像概念 Vi 的 ont-hot 编码的连接，负例是采样的配对文本的潜在表示φj 与图像概念 Vi 的 ont-hot 编码的连接：<br>
+<strong>对抗性训练</strong>：<br>
+前面的对齐方式鼓励h更好的适应文本概念嵌入，然而，也需要确保这个映射不会丢失图像中重要的概念信息，所以使用条件鉴别器D进行对抗性训练。D训练时的正例是将翻译的特征h(ψi)与图像概念Vi的ont-hot编码的连接，负例是采样的配对文本的潜在表示φj与图像概念Vi的ont-hot编码的连接：<br>
 <img src="/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/formula_4.png" alt></p>
-<p> 训练完成后，在推断阶段，首先将图片嵌入到公共潜在空间，之后通过共享的 decoder 即可得到对应的描述。</p>
+<p>训练完成后，在推断阶段，首先将图片嵌入到公共潜在空间，之后通过共享的decoder即可得到对应的描述。</p>
 
     </div>
 
@@ -456,7 +456,7 @@
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
           <div class="post-toc">
-            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一 - 主要思想"><span class="nav-text"> 一、主要思想 </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二 - 模型"><span class="nav-text"> 二、模型 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言模型"><span class="nav-text"> 语言模型 </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像与文本域联合"><span class="nav-text"> 图像与文本域联合 </span></a></li></ol></li></ol></div>
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-主要思想"><span class="nav-text"> 一、主要思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-模型"><span class="nav-text"> 二、模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言模型"><span class="nav-text"> 语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像与文本域联合"><span class="nav-text"> 图像与文本域联合</span></a></li></ol></li></ol></div>
           </div>
         
       </div>
