@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-04-26T15:03:14.713Z</updated>
+  <updated>2020-07-12T15:51:10.726Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Transformer-Related Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/07/12/Transformer-Related-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/07/12/Transformer-Related-Image-Captioning/</id>
+    <published>2020-07-12T15:32:10.000Z</published>
+    <updated>2020-07-12T15:51:10.726Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-entangled-transformer-for-image-captioning-iccv2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-entangled-transformer-for-image-captioning-iccv2019&quot;&gt;&lt;/a&gt; 一、Entangled Transformer for Image Captioning, ICCV2019&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;之前的注意力机制主要分为两种：视觉注意力和语义注意力，对于视觉注意力来说，能够探索图片底层的特征或者高层的显著对象特征，但是由于视觉和语言之间存在差异，描述中不是每个词都有对应的视觉信号，特别是对于一些抽象概念词和复杂的关系词。对于语义注意力来说，能够直接利用高层的语义信息，但是由于RNN的长期依赖问题，很难记忆很多步之前的输入信息，尤其是最初的视觉输入，导致模型倾向于生成一些高频短语而不考虑视觉信息。并且之前的方法要不只考虑一种注意力，要不分开考虑两种注意力然后在进行融合，这样不能同时探索两种注意力之间的互补关系。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
+    
+      <category term="Transformer" scheme="https://ezeli.github.io/tags/Transformer/"/>
+    
+  </entry>
   
   <entry>
     <title>Attention-Related Image Captioning (3)</title>
@@ -451,27 +477,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;建造者模式介绍&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>工厂方法模式</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://ezeli.github.io/2019/08/26/工厂方法模式/</id>
-    <published>2019-08-26T05:56:39.000Z</published>
-    <updated>2019-08-26T05:57:49.307Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;简单工厂模式、工厂方法模式&lt;/p&gt;
     
     </summary>
     
