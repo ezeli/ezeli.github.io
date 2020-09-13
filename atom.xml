@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-07-12T15:51:10.726Z</updated>
+  <updated>2020-09-13T12:46:25.422Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Mining Ground Truth Information for Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/09/13/Mining-Ground-Truth-Information-for-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/09/13/Mining-Ground-Truth-Information-for-Image-Captioning/</id>
+    <published>2020-09-13T12:23:53.000Z</published>
+    <updated>2020-09-13T12:46:25.422Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-generating-diverse-and-descriptive-image-captions-using-visual-paraphrases-iccv2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-generating-diverse-and-descriptive-image-captions-using-visual-paraphrases-iccv2019&quot;&gt;&lt;/a&gt; 一、Generating Diverse and Descriptive Image Captions Using Visual Paraphrases, ICCV2019&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;计算机更喜欢生成流畅正确但是简单模糊的描述，因为这样的描述更加“安全”，能够描述图片中显著的区域，但是会忽略细节。描述相同图片的不同的句子被称为visual paraphrases，之前的方法会忽略它们之间的联系，直接把它们作为不同的样本，而作者探索了它们之间的关系并使用一系列打分函数选择了一些visual paraphrase对（Ci，Cj），打分函数衡量了visual paraphrases在某种特征（比如多样性）上的差异，而Cj在这种特征上比Ci更“复杂”，比如Cj比Ci更丰富，训练时，模型首先更加视觉特征生成初始描述Ci，之后再融合视觉特征和Ci提供的文本特征生成更加丰富多样的Cj。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Transformer-Related Image Captioning</title>
     <link href="https://ezeli.github.io/2020/07/12/Transformer-Related-Image-Captioning/"/>
     <id>https://ezeli.github.io/2020/07/12/Transformer-Related-Image-Captioning/</id>
     <published>2020-07-12T15:32:10.000Z</published>
-    <updated>2020-07-12T15:51:10.726Z</updated>
+    <updated>2020-07-12T15:55:23.275Z</updated>
     
     <summary type="html">
     
@@ -231,7 +253,7 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     <link href="https://ezeli.github.io/2019/08/26/%E4%BA%94%E3%80%81%E4%B8%89%E7%BB%B4%E5%9B%BE%E5%BD%A2%E5%8F%98%E6%8D%A2%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
     <id>https://ezeli.github.io/2019/08/26/五、三维图形变换原理和实践/</id>
     <published>2019-08-26T08:01:07.000Z</published>
-    <updated>2020-06-05T04:04:23.527Z</updated>
+    <updated>2020-09-13T13:12:37.566Z</updated>
     
     <summary type="html">
     
@@ -257,12 +279,13 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     <link href="https://ezeli.github.io/2019/08/26/%E5%9B%9B%E3%80%81%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E6%89%AB%E6%8F%8F%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
     <id>https://ezeli.github.io/2019/08/26/四、多边形的扫描转换算法原理和实践/</id>
     <published>2019-08-26T07:59:40.000Z</published>
-    <updated>2019-08-26T08:00:38.524Z</updated>
+    <updated>2020-09-13T13:13:49.556Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;多边形的扫描转换算法&lt;/p&gt;
+      &lt;h2 id=&quot;1-原理&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-原理&quot;&gt;&lt;/a&gt; 1、原理&lt;/h2&gt;
+&lt;h3 id=&quot;1区域的奇偶性质&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1区域的奇偶性质&quot;&gt;&lt;/a&gt; 1）区域的“奇偶”性质&lt;/h3&gt;
+&lt;p&gt;多边形扫描转换主要依据区域的一种“奇偶”性质，即一条直线与任意封闭的曲线相交时，总是从第一个交点进入内部，再从第二个交点退出，在交替的进入退出过程中对多边形进行填充。&lt;/p&gt;
     
     </summary>
     
@@ -456,27 +479,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;原型模式介绍、浅拷贝和深拷贝&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>建造者模式</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://ezeli.github.io/2019/08/26/建造者模式/</id>
-    <published>2019-08-26T06:00:08.000Z</published>
-    <updated>2019-08-26T06:01:22.675Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;建造者模式介绍&lt;/p&gt;
     
     </summary>
     
