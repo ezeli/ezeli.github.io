@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020  1、解决问题 注意力机制的目的是为了让模型在生成对应单词时将注意力集中到正确的物体上，这种能力被称为grounded image captioning，但是现有模型的定位精度远远不能令人满意，并且如果为了提高定位精度而收集单词-区">
+<meta name="keywords" content="Image Caption,Image-Text Matching">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image Captioning with Image-Text Matching Model">
+<meta property="og:url" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020  1、解决问题 注意力机制的目的是为了让模型在生成对应单词时将注意力集中到正确的物体上，这种能力被称为grounded image captioning，但是现有模型的定位精度远远不能令人满意，并且如果为了提高定位精度而收集单词-区">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/946419ddba0eb5ba79f0c95cb98a5b2f.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/2fed1bfabd7dc2f9992921ae8ee295e2.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/a6a276a28da51ee859fcf47ea3279608.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/c79a26ac700919f8f5b64ad7395781cf.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/984c25e1d1644d903ad38b92141d8a6c.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/3f0111fee8e007968cf3df2387b58829.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/2f91e0fe0af0892a44da1a518b48bc0d.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/5c4483a445158c09a66a666f3d989dfb.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/b122dd027a665ba2a51991e1202e84ea.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/b607f0aafc378dd7297676dbbaef6374.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/91825795d745b48dbec64cb5b71b0ce3.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/fe93b0daa10c1920e9f2f5f858f42d21.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/4bd2fc4f62320e0ccf9bc6463c6a799a.png">
+<meta property="og:updated_time" content="2020-09-21T12:12:09.325Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Image Captioning with Image-Text Matching Model">
+<meta name="twitter:description" content="一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020  1、解决问题 注意力机制的目的是为了让模型在生成对应单词时将注意力集中到正确的物体上，这种能力被称为grounded image captioning，但是现有模型的定位精度远远不能令人满意，并且如果为了提高定位精度而收集单词-区">
+<meta name="twitter:image" content="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/946419ddba0eb5ba79f0c95cb98a5b2f.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Image Captioning with Image-Text Matching Model | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Image Captioning with Image-Text Matching Model
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-09-21 19:47:07 / 修改时间：20:12:09" itemprop="dateCreated datePublished" datetime="2020-09-21T19:47:07+08:00">2020-09-21</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020"><a class="markdownIt-Anchor" href="#一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020"></a> 一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020</h2>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>注意力机制的目的是为了让模型在生成对应单词时将注意力集中到正确的物体上，这种能力被称为grounded image captioning，但是现有模型的定位精度远远不能令人满意，并且如果为了提高定位精度而收集单词-区域对齐数据作为强监督信息，代价是很昂贵的。因此，作者提出Part-of-Speech enhanced image-text matching model（POS-SCAN）作为一种知识提取方法来规范模型的注意力，为模型提供一种弱的定位监督信息。所谓的“弱”是由于POS-SCAN只依赖于图片-文本对齐，而不需要昂贵的单词-区域对齐。</p>
+<a id="more"></a>
+<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/946419ddba0eb5ba79f0c95cb98a5b2f.png" alt></p>
+<p>如上图所示，模型主要包括图片-文本匹配模型和描述生成模型两个部分。</p>
+<h4 id="1图片-文本匹配模型"><a class="markdownIt-Anchor" href="#1图片-文本匹配模型"></a> 1）图片-文本匹配模型</h4>
+<p>作者使用经典的图片-文本匹配模型SCAN为强化学习阶段提供奖励，并且使用词性增强SCAN（POS-SCAN）作为注意力指导。</p>
+<p>首先将提取出的图片区域特征映射到合适的维度，之后使用双向GRU对文本中的每个单词进行编码，并且单词最终的编码为GRU两个方向输出的隐藏状态的均值：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/2fed1bfabd7dc2f9992921ae8ee295e2.png" alt></p>
+<p>然后，为所有单词-区域对计算余弦相似度并进行标准化，之后，计算出每个单词所对应的注意力图片特征向量：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/a6a276a28da51ee859fcf47ea3279608.png" alt></p>
+<p>最后，图片和句子的全局匹配相似度计算如下：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/c79a26ac700919f8f5b64ad7395781cf.png" alt></p>
+<p>模型的目标函数为：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/984c25e1d1644d903ad38b92141d8a6c.png" alt></p>
+<p>在实验中，作者发现上述原始的SCAN模型定位的精度甚至比不上所采用的描述生成器，这可能是受到了句子中有太多非视觉单词的影响。所以在作为注意力指导时，作者使用词性标签对SCAN模型进行了增强（POS-SCAN），将全局匹配相似度计算式子重写为：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/3f0111fee8e007968cf3df2387b58829.png" alt></p>
+<p>其中，当单词的词性为名词时指示函数取值为1否则为0。在这篇论文中，作者只保留了名词，但是将该模型称为POS-SCAN而不是noun-SCAN的原因是：未来其他词性的单词也可以无缝加入到该模型中。</p>
+<h4 id="2训练过程"><a class="markdownIt-Anchor" href="#2训练过程"></a> 2）训练过程</h4>
+<p>首先使用图片-文本配对数据对SCAN和POS-SCAN模型进行预训练，之后固定它们的参数。描述生成模型采用Up-Down模型，其训练过程分为两个阶段：</p>
+<p>第一个阶段使用交叉熵损失函数训练模型，并且通过KL散度，使用从POS-SCAN模型提取的注意力权重来对原本的注意力权重进行正则化，组合的损失函数为：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/2f91e0fe0af0892a44da1a518b48bc0d.png" alt></p>
+<p>并且，如果包含区域-单词对齐标注数据，损失函数可以改为：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/5c4483a445158c09a66a666f3d989dfb.png" alt></p>
+<p>其中，当图片区域和真实的区域标注的IoU超过0.5时Y取1，否则取0。</p>
+<p>在第二个阶段，使用强化学习方式进行训练：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/b122dd027a665ba2a51991e1202e84ea.png" alt></p>
+<p>其中baseline的句子是通过贪婪解码获得。对于奖励函数，除了CIDEr指标外，作者还加入了原始SCAN模型计算出的匹配分数：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/b607f0aafc378dd7297676dbbaef6374.png" alt></p>
+<h2 id="二-show-recall-and-tell-image-captioning-with-recall-mechanism-aaai2020"><a class="markdownIt-Anchor" href="#二-show-recall-and-tell-image-captioning-with-recall-mechanism-aaai2020"></a> 二、Show, Recall, and Tell: Image Captioning with Recall Mechanism, AAAI2020</h2>
+<h3 id="1-解决问题-2"><a class="markdownIt-Anchor" href="#1-解决问题-2"></a> 1、解决问题</h3>
+<p>一些方法会使用检测技术获取对象和属性词，并在生成描述时作为先验知识，但是没有建立引导词和生成的词之间的联系。作者提出一个回顾机制，包括三个部分：recall unit, semantic guide (SG) and recalled-word slot (RWS)，使用一个图片文本匹配模型作为recall unit，用于检索图片中的recalled word，SG分支用于生成描述，RWS分支用于处理检测出的单词，并使用soft switch平衡两个分支生成单词的概率。</p>
+<h3 id="2-方法-2"><a class="markdownIt-Anchor" href="#2-方法-2"></a> 2、方法</h3>
+<p>模型结构如下图所示：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/91825795d745b48dbec64cb5b71b0ce3.png" alt></p>
+<p>生成描述流程：首先检测出图片包含的对象和属性词；通过Recalled-word attention计算这些单词的权重并加权求和得到特征向量ctx；在SG分支，使用ctx和base model（Up-Down）的隐藏状态计算出生成单词的概率分布；在RWS分支，直接复制检测出的单词的注意力分数作为概率分布，未检测出的单词都设置为0；最后通过soft switch机制将两个分布加权相加作为最后的单词概率分布。</p>
+<p>训练时采用MLE预训练模型，采用强化学习微调，其中奖励函数处了CIDEr，还设计了Recalled-word<br>
+reward：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/fe93b0daa10c1920e9f2f5f858f42d21.png" alt></p>
+<p>其中第一项是通过最后的概率分布采样的结果，第二项是通过SG分支得到的概率分布采样的结果，这样，可以证明RWS分支有多少改进。损失函数如下：</p>
+<p><img src="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/4bd2fc4f62320e0ccf9bc6463c6a799a.png" alt></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Image-Caption/" rel="tag"><i class="fa fa-tag"></i> Image Caption</a>
+            
+              <a href="/tags/Image-Text-Matching/" rel="tag"><i class="fa fa-tag"></i> Image-Text Matching</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/09/13/Mining-Ground-Truth-Information-for-Image-Captioning/" rel="next" title="Mining Ground Truth Information for Image Captioning">
+                  <i class="fa fa-chevron-left"></i> Mining Ground Truth Information for Image Captioning
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020"><span class="nav-text"> 一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text"> 2、方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1图片-文本匹配模型"><span class="nav-text"> 1）图片-文本匹配模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2训练过程"><span class="nav-text"> 2）训练过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-show-recall-and-tell-image-captioning-with-recall-mechanism-aaai2020"><span class="nav-text"> 二、Show, Recall, and Tell: Image Captioning with Recall Mechanism, AAAI2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题-2"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-2"><span class="nav-text"> 2、方法</span></a></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
