@@ -256,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/09/27/Improve-Optimization-Method-for-Captioning-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ezeli">
@@ -270,7 +270,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/" class="post-title-link" itemprop="url">Image Captioning with Image-Text Matching Model</a>
+            <a href="/2020/09/27/Improve-Optimization-Method-for-Captioning-2/" class="post-title-link" itemprop="url">Improve Optimization Method for Captioning (2)</a>
           
         </h1>
 
@@ -285,7 +285,7 @@
                 
               
 
-              <time title="创建时间：2020-09-21 19:47:07 / 修改时间：20:12:09" itemprop="dateCreated datePublished" datetime="2020-09-21T19:47:07+08:00">2020-09-21</time>
+              <time title="创建时间：2020-09-27 20:37:21 / 修改时间：21:06:33" itemprop="dateCreated datePublished" datetime="2020-09-27T20:37:21+08:00">2020-09-27</time>
             </span>
           
             
@@ -317,7 +317,119 @@
     <div class="post-body" itemprop="articleBody">
 
       
+          <h2 id="一-reinforcing-an-image-caption-generator-using-off-line-human-feedback-aaai2020"><a class="markdownIt-Anchor" href="#一-reinforcing-an-image-caption-generator-using-off-line-human-feedback-aaai2020"></a> 一、Reinforcing an Image Caption Generator Using Off-Line Human Feedback, AAAI2020</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2020%20Reinforcing%20an%20Image%20Caption%20Generator%20Using%20Off-Line%20Human%20Feedback.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>之前模型主要是通过最大似然估计（MLE）以及使用CIDEr等手工设计的评价指标作为奖励函数的强化学习的方式进行优化，但是这些优化方法是受限的，我们人类对模型生成描述的质量评估可能并不高。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/09/27/Improve-Optimization-Method-for-Captioning-2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+      
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/" class="post-title-link" itemprop="url">Image Captioning with Image-Text Matching Model</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-09-21 19:47:07" itemprop="dateCreated datePublished" datetime="2020-09-21T19:47:07+08:00">2020-09-21</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-27 20:46:48" itemprop="dateModified" datetime="2020-09-27T20:46:48+08:00">2020-09-27</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
           <h2 id="一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020"><a class="markdownIt-Anchor" href="#一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020"></a> 一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2020%20More%20Grounded%20Image%20Captioning%20by%20Distilling%20Image-Text%20Matching%20Model.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
 <h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
 <p>注意力机制的目的是为了让模型在生成对应单词时将注意力集中到正确的物体上，这种能力被称为grounded image captioning，但是现有模型的定位精度远远不能令人满意，并且如果为了提高定位精度而收集单词-区域对齐数据作为强监督信息，代价是很昂贵的。因此，作者提出Part-of-Speech enhanced image-text matching model（POS-SCAN）作为一种知识提取方法来规范模型的注意力，为模型提供一种弱的定位监督信息。所谓的“弱”是由于POS-SCAN只依赖于图片-文本对齐，而不需要昂贵的单词-区域对齐。</p>
           <!--noindex-->
@@ -1177,114 +1289,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
   </article>
 
     
-      
-
-  <article class="post" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ezeli">
-      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ezeli's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/" class="post-title-link" itemprop="url">(CVPR2019) Unsupervised Image Captioning</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-20 21:28:31" itemprop="dateCreated datePublished" datetime="2019-09-20T21:28:31+08:00">2019-09-20</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-21 12:07:53" itemprop="dateModified" datetime="2020-04-21T12:07:53+08:00">2020-04-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p><a href="https://arxiv.org/abs/1811.10787" target="_blank" rel="noopener">论文链接</a> | <a href="https://github.com/fengyang0317/unsupervised_captioning" target="_blank" rel="noopener">代码链接</a></p>
-</blockquote>
-<h2 id="一-主要思想"><a class="markdownIt-Anchor" href="#一-主要思想"></a> 一、主要思想</h2>
-<p>作者首先总结了以往的Image Caption的方法，将这些方法分成以下几类：</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
   </section>
 
   
@@ -1338,7 +1342,7 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1472,7 +1476,9 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
         
           
         
-        <span class="site-state-item-count">43</span>
+          
+        
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -1658,9 +1664,9 @@ if (document.querySelectorAll('div.pdf').length) {
       
     
       
-        
-      
     
+      
+        
       
     
       

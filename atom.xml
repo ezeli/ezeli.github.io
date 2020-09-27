@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-09-21T12:12:09.325Z</updated>
+  <updated>2020-09-27T13:06:33.568Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -17,15 +17,45 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Improve Optimization Method for Captioning (2)</title>
+    <link href="https://ezeli.github.io/2020/09/27/Improve-Optimization-Method-for-Captioning-2/"/>
+    <id>https://ezeli.github.io/2020/09/27/Improve-Optimization-Method-for-Captioning-2/</id>
+    <published>2020-09-27T12:37:21.000Z</published>
+    <updated>2020-09-27T13:06:33.568Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-reinforcing-an-image-caption-generator-using-off-line-human-feedback-aaai2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-reinforcing-an-image-caption-generator-using-off-line-human-feedback-aaai2020&quot;&gt;&lt;/a&gt; 一、Reinforcing an Image Caption Generator Using Off-Line Human Feedback, AAAI2020&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2020%20Reinforcing%20an%20Image%20Caption%20Generator%20Using%20Off-Line%20Human%20Feedback.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;之前模型主要是通过最大似然估计（MLE）以及使用CIDEr等手工设计的评价指标作为奖励函数的强化学习的方式进行优化，但是这些优化方法是受限的，我们人类对模型生成描述的质量评估可能并不高。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Video Captioning" scheme="https://ezeli.github.io/tags/Video-Captioning/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Image Captioning with Image-Text Matching Model</title>
     <link href="https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/"/>
     <id>https://ezeli.github.io/2020/09/21/Image-Captioning-with-Image-Text-Matching-Model/</id>
     <published>2020-09-21T11:47:07.000Z</published>
-    <updated>2020-09-21T12:12:09.325Z</updated>
+    <updated>2020-09-27T12:46:48.997Z</updated>
     
     <summary type="html">
     
       &lt;h2 id=&quot;一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-more-grounded-image-captioning-by-distilling-image-text-matching-model-cvpr2020&quot;&gt;&lt;/a&gt; 一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2020%20More%20Grounded%20Image%20Captioning%20by%20Distilling%20Image-Text%20Matching%20Model.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
 &lt;p&gt;注意力机制的目的是为了让模型在生成对应单词时将注意力集中到正确的物体上，这种能力被称为grounded image captioning，但是现有模型的定位精度远远不能令人满意，并且如果为了提高定位精度而收集单词-区域对齐数据作为强监督信息，代价是很昂贵的。因此，作者提出Part-of-Speech enhanced image-text matching model（POS-SCAN）作为一种知识提取方法来规范模型的注意力，为模型提供一种弱的定位监督信息。所谓的“弱”是由于POS-SCAN只依赖于图片-文本对齐，而不需要昂贵的单词-区域对齐。&lt;/p&gt;
     
@@ -461,27 +491,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;组合模式介绍&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>适配器模式</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://ezeli.github.io/2019/08/26/适配器模式/</id>
-    <published>2019-08-26T06:04:23.000Z</published>
-    <updated>2019-08-26T06:05:59.199Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;适配器模式介绍&lt;/p&gt;
     
     </summary>
     
