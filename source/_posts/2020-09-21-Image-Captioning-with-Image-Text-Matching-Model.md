@@ -7,6 +7,7 @@ tags:  [Image Caption, Image-Text Matching]
 ---
 
 ## 一、More Grounded Image Captioning by Distilling Image-Text Matching Model, CVPR2020
+> [自制PPT](https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2020%20More%20Grounded%20Image%20Captioning%20by%20Distilling%20Image-Text%20Matching%20Model.pptx)
 
 ### 1、解决问题
 
