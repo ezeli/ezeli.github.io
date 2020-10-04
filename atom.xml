@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-09-27T13:06:33.568Z</updated>
+  <updated>2020-10-04T15:57:31.950Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Scene Graph-Related Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/10/04/Scene-Graph-Related-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/10/04/Scene-Graph-Related-Image-Captioning/</id>
+    <published>2020-10-04T15:37:35.000Z</published>
+    <updated>2020-10-04T15:57:31.950Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-auto-encoding-scene-graphs-for-image-captioning-cvpr2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-auto-encoding-scene-graphs-for-image-captioning-cvpr2019&quot;&gt;&lt;/a&gt; 一、Auto-Encoding Scene Graphs for Image Captioning, CVPR2019&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2019%20Auto-Encoding%20Scene%20Graphs%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;当我们看到“person on bike”，我们会很自然的把“on”替换成“ride”并且推理出“person riding bike on a road”即使“road”并没有出现，我们人类能够通过这种inductive bias（归纳能力、常识、先验知识）来进行单词搭配和语境推理。因此，探索这种推理可以让模型不过度拟合于数据集偏差而专注于推理。之前的工作中，当我们将一个看不见的图像场景输入到模型中时，通常会得到一个简单而没有价值的关于显著物体的标题，例如“there is a dog on the floor”，这比目标检测得到的结果好不了多少。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Scene Graph" scheme="https://ezeli.github.io/tags/Scene-Graph/"/>
+    
+      <category term="Unsupervised Learning" scheme="https://ezeli.github.io/tags/Unsupervised-Learning/"/>
+    
+  </entry>
   
   <entry>
     <title>Improve Optimization Method for Captioning (2)</title>
@@ -470,27 +499,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;观察者模式介绍&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>组合模式</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://ezeli.github.io/2019/08/26/组合模式/</id>
-    <published>2019-08-26T07:23:32.000Z</published>
-    <updated>2019-08-26T07:24:43.519Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;组合模式介绍&lt;/p&gt;
     
     </summary>
     
