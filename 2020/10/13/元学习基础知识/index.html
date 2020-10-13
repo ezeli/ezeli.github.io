@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="From Hung-yi Lee 自制PPT   Introduction Meta learning = Learn to learn">
+<meta name="keywords" content="Meta learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元学习基础知识">
+<meta property="og:url" content="https://ezeli.github.io/2020/10/13/元学习基础知识/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="From Hung-yi Lee 自制PPT   Introduction Meta learning = Learn to learn">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/10f2696d392f6ac9333ff44a249c6c3b.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/4f59816b32683b130e6787542a986241.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/bc58546f62059605265a58e42589784a.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/cd5e1a8867fdfff7d8b1e4bcfa0019e8.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/0a81b7d2be63fd38d66e4f4bc34a7d7b.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/ed9c5f55cec76583b35fac1ccc576996.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/851f45cf34b4a4f23a6101b8390162ca.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/fababacbab99f7c4ad54117a0b5d17fd.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/3adf5e5c468f2e4784c1d3b42e6aaf79.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/badb1774281f51a506ef27c0038868b5.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/3d8ea748fd582abbec9bf9bc78cfadc9.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/8d74a195145c0f2435c271f569359d98.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/16b088262aafe7c177001a73c7594210.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/7a7d787e613e3bd88e62cf5cc30f742d.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/43cd30adceb17f7af9fdc2d56da8c14f.png">
+<meta property="og:updated_time" content="2020-10-13T07:56:13.399Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="元学习基础知识">
+<meta name="twitter:description" content="From Hung-yi Lee 自制PPT   Introduction Meta learning = Learn to learn">
+<meta name="twitter:image" content="https://ezeli.github.io/2020/10/13/元学习基础知识/10f2696d392f6ac9333ff44a249c6c3b.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2020/10/13/元学习基础知识/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>元学习基础知识 | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/10/13/元学习基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">元学习基础知识
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-10-13 15:40:01 / 修改时间：15:56:13" itemprop="dateCreated datePublished" datetime="2020-10-13T15:40:01+08:00">2020-10-13</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/元学习/" itemprop="url" rel="index"><span itemprop="name">元学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>From <a href="https://www.youtube.com/watch?v=EkAqYbpCYAc&amp;list=PLJV_el3uVTsOK_ZK5L0Iv_EQoL1JefRL4&amp;index=32" target="_blank" rel="noopener">Hung-yi Lee</a><br>
+<a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2019%20Auto-Encoding%20Scene%20Graphs%20for%20Image%20Captioning.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
+<h2 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h2>
+<p>Meta learning = Learn to learn</p>
+<a id="more"></a>
+<p><img src="/2020/10/13/元学习基础知识/10f2696d392f6ac9333ff44a249c6c3b.png" alt></p>
+<p>目的是学会去学习，从之前学习的任务中学会如何去学习一个新任务。对于Life-long任务，是学习一个模型能够完成不同的任务，但是元学习对于不同的任务有不同的模型，只不过可以从之前学习中获得经验，让模型在学习新任务时更快更好。</p>
+<h3 id="data"><a class="markdownIt-Anchor" href="#data"></a> Data</h3>
+<p><img src="/2020/10/13/元学习基础知识/4f59816b32683b130e6787542a986241.png" alt></p>
+<p>元学习的数据分为训练任务和测试任务，每个任务又有训练数据（support set）和测试数据（query set）。</p>
+<h3 id="aim"><a class="markdownIt-Anchor" href="#aim"></a> Aim</h3>
+<p><img src="/2020/10/13/元学习基础知识/bc58546f62059605265a58e42589784a.png" alt></p>
+<p><img src="/2020/10/13/元学习基础知识/cd5e1a8867fdfff7d8b1e4bcfa0019e8.png" alt></p>
+<p><img src="/2020/10/13/元学习基础知识/0a81b7d2be63fd38d66e4f4bc34a7d7b.png" alt></p>
+<p><img src="/2020/10/13/元学习基础知识/ed9c5f55cec76583b35fac1ccc576996.png" alt></p>
+<p>对于机器学习，目的是学习x到y的一个映射f，而f的结构、初始化参数、参数更新方法等是人为定义的；而元学习的目的是使用训练任务学习一个F，它会输出一个f用于更好地学习新的任务。</p>
+<h2 id="maml"><a class="markdownIt-Anchor" href="#maml"></a> MAML</h2>
+<p>Chelsea Finn, Pieter Abbeel, and Sergey Levine, “Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks”, ICML, 2017</p>
+<p>MAML是最先提出元学习的论文，在这篇论文中，元学习用于学习初始化参数，也就是用训练任务训练模型，得到模型参数，之后用于初始化新任务的模型参数。此时，要求不同任务的模型结构是一致的，但这并不是元学习的要求，比如有的元学习是为了学习一种参数更新的方法，这种情况就不要求模型结构相同。</p>
+<h3 id="损失函数"><a class="markdownIt-Anchor" href="#损失函数"></a> 损失函数</h3>
+<p><img src="/2020/10/13/元学习基础知识/851f45cf34b4a4f23a6101b8390162ca.png" alt></p>
+<p>首先使用原始参数针对某个任务训练一次，得到新的参数，然后使用新的参数的损失优化原始参数。</p>
+<h3 id="maml-vs-model-pre-training"><a class="markdownIt-Anchor" href="#maml-vs-model-pre-training"></a> MAML vs Model Pre-training</h3>
+<p><img src="/2020/10/13/元学习基础知识/fababacbab99f7c4ad54117a0b5d17fd.png" alt></p>
+<p>MAML并不在意原始参数在训练任务上的表现如何，在意的是在原始参数上训练出来的参数表现如何。比如图中原始参数对于两个任务的效果并不好，但是只需要在两个任务上经过简单训练即可得到效果很好的模型（注意：针对不同任务得到的模型是独立的）。关注的是模型的潜力。</p>
+<p><img src="/2020/10/13/元学习基础知识/3adf5e5c468f2e4784c1d3b42e6aaf79.png" alt></p>
+<p>模型预训练的目的是找到在所有任务上都很好的原始参数，但并不保证使用原始参数针对不同任务训练后能够得到好的模型。比如图中的原始参数对于所有任务表现都不错，但是针对任务2训练后得到的模型并不好。关注的是模型现在的表现如何。</p>
+<h3 id="update"><a class="markdownIt-Anchor" href="#update"></a> Update</h3>
+<p>在训练时，针对每个训练任务，一般只考虑一步训练之后的结果：</p>
+<p><img src="/2020/10/13/元学习基础知识/badb1774281f51a506ef27c0038868b5.png" alt></p>
+<p>这样的<strong>优点</strong>：</p>
+<p>1）训练比较快</p>
+<p>2）我们希望模型只需要针对不同的任务训练一次就能够达到很好的效果，不过这只是我们的愿望，在训练的时候这样去训练，但是在真正测试使用的时候，可以针对新的任务按需要训练多次</p>
+<p>3）针对Few-shot学习，数据量比较少，训练次数多的话容易过拟合于训练任务</p>
+<p><strong>梯度计算</strong>：</p>
+<p><img src="/2020/10/13/元学习基础知识/3d8ea748fd582abbec9bf9bc78cfadc9.png" alt></p>
+<p>实际训练时应该针对某个任务训练两次，然后求导数来优化原始参数，这样需要求二阶导数，但是在论文中作者使用一阶导数来近似，也就是上图中直接使用第二次训练得到的导数来优化原始参数，结果为：</p>
+<p><img src="/2020/10/13/元学习基础知识/8d74a195145c0f2435c271f569359d98.png" alt></p>
+<p><strong>实际实现过程</strong>：</p>
+<p><img src="/2020/10/13/元学习基础知识/16b088262aafe7c177001a73c7594210.png" alt></p>
+<h2 id="reptile"><a class="markdownIt-Anchor" href="#reptile"></a> Reptile</h2>
+<p>Alex Nichol, Joshua Achiam, John Schulman, On First-Order Meta-Learning Algorithms, arXiv, 2018</p>
+<p>这篇论文在训练时不是考虑一步，而是考虑多步之后的结果，流程为：</p>
+<p><img src="/2020/10/13/元学习基础知识/7a7d787e613e3bd88e62cf5cc30f742d.png" alt></p>
+<p>MAML vs Reptile vs Model Pre-training:</p>
+<p><img src="/2020/10/13/元学习基础知识/43cd30adceb17f7af9fdc2d56da8c14f.png" alt></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Meta-learning/" rel="tag"><i class="fa fa-tag"></i> Meta learning</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/10/04/Scene-Graph-Related-Image-Captioning/" rel="next" title="Scene Graph-Related Image Captioning">
+                  <i class="fa fa-chevron-left"></i> Scene Graph-Related Image Captioning
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-text"> Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-text"> Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#aim"><span class="nav-text"> Aim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maml"><span class="nav-text"> MAML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-text"> 损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maml-vs-model-pre-training"><span class="nav-text"> MAML vs Model Pre-training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#update"><span class="nav-text"> Update</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reptile"><span class="nav-text"> Reptile</span></a></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

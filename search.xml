@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>元学习基础知识</title>
+      <link href="/2020/10/13/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+      <url>/2020/10/13/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>From <a href="https://www.youtube.com/watch?v=EkAqYbpCYAc&amp;list=PLJV_el3uVTsOK_ZK5L0Iv_EQoL1JefRL4&amp;index=32" target="_blank" rel="noopener">Hung-yi Lee</a><br><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2019%20Auto-Encoding%20Scene%20Graphs%20for%20Image%20Captioning.pptx" target="_blank" rel="noopener">自制PPT</a></p></blockquote><h2 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h2><p>Meta learning = Learn to learn</p><a id="more"></a><p><img src="/2020/10/13/元学习基础知识/10f2696d392f6ac9333ff44a249c6c3b.png" alt></p><p>目的是学会去学习，从之前学习的任务中学会如何去学习一个新任务。对于Life-long任务，是学习一个模型能够完成不同的任务，但是元学习对于不同的任务有不同的模型，只不过可以从之前学习中获得经验，让模型在学习新任务时更快更好。</p><h3 id="data"><a class="markdownIt-Anchor" href="#data"></a> Data</h3><p><img src="/2020/10/13/元学习基础知识/4f59816b32683b130e6787542a986241.png" alt></p><p>元学习的数据分为训练任务和测试任务，每个任务又有训练数据（support set）和测试数据（query set）。</p><h3 id="aim"><a class="markdownIt-Anchor" href="#aim"></a> Aim</h3><p><img src="/2020/10/13/元学习基础知识/bc58546f62059605265a58e42589784a.png" alt></p><p><img src="/2020/10/13/元学习基础知识/cd5e1a8867fdfff7d8b1e4bcfa0019e8.png" alt></p><p><img src="/2020/10/13/元学习基础知识/0a81b7d2be63fd38d66e4f4bc34a7d7b.png" alt></p><p><img src="/2020/10/13/元学习基础知识/ed9c5f55cec76583b35fac1ccc576996.png" alt></p><p>对于机器学习，目的是学习x到y的一个映射f，而f的结构、初始化参数、参数更新方法等是人为定义的；而元学习的目的是使用训练任务学习一个F，它会输出一个f用于更好地学习新的任务。</p><h2 id="maml"><a class="markdownIt-Anchor" href="#maml"></a> MAML</h2><p>Chelsea Finn, Pieter Abbeel, and Sergey Levine, “Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks”, ICML, 2017</p><p>MAML是最先提出元学习的论文，在这篇论文中，元学习用于学习初始化参数，也就是用训练任务训练模型，得到模型参数，之后用于初始化新任务的模型参数。此时，要求不同任务的模型结构是一致的，但这并不是元学习的要求，比如有的元学习是为了学习一种参数更新的方法，这种情况就不要求模型结构相同。</p><h3 id="损失函数"><a class="markdownIt-Anchor" href="#损失函数"></a> 损失函数</h3><p><img src="/2020/10/13/元学习基础知识/851f45cf34b4a4f23a6101b8390162ca.png" alt></p><p>首先使用原始参数针对某个任务训练一次，得到新的参数，然后使用新的参数的损失优化原始参数。</p><h3 id="maml-vs-model-pre-training"><a class="markdownIt-Anchor" href="#maml-vs-model-pre-training"></a> MAML vs Model Pre-training</h3><p><img src="/2020/10/13/元学习基础知识/fababacbab99f7c4ad54117a0b5d17fd.png" alt></p><p>MAML并不在意原始参数在训练任务上的表现如何，在意的是在原始参数上训练出来的参数表现如何。比如图中原始参数对于两个任务的效果并不好，但是只需要在两个任务上经过简单训练即可得到效果很好的模型（注意：针对不同任务得到的模型是独立的）。关注的是模型的潜力。</p><p><img src="/2020/10/13/元学习基础知识/3adf5e5c468f2e4784c1d3b42e6aaf79.png" alt></p><p>模型预训练的目的是找到在所有任务上都很好的原始参数，但并不保证使用原始参数针对不同任务训练后能够得到好的模型。比如图中的原始参数对于所有任务表现都不错，但是针对任务2训练后得到的模型并不好。关注的是模型现在的表现如何。</p><h3 id="update"><a class="markdownIt-Anchor" href="#update"></a> Update</h3><p>在训练时，针对每个训练任务，一般只考虑一步训练之后的结果：</p><p><img src="/2020/10/13/元学习基础知识/badb1774281f51a506ef27c0038868b5.png" alt></p><p>这样的<strong>优点</strong>：</p><p>1）训练比较快</p><p>2）我们希望模型只需要针对不同的任务训练一次就能够达到很好的效果，不过这只是我们的愿望，在训练的时候这样去训练，但是在真正测试使用的时候，可以针对新的任务按需要训练多次</p><p>3）针对Few-shot学习，数据量比较少，训练次数多的话容易过拟合于训练任务</p><p><strong>梯度计算</strong>：</p><p><img src="/2020/10/13/元学习基础知识/3d8ea748fd582abbec9bf9bc78cfadc9.png" alt></p><p>实际训练时应该针对某个任务训练两次，然后求导数来优化原始参数，这样需要求二阶导数，但是在论文中作者使用一阶导数来近似，也就是上图中直接使用第二次训练得到的导数来优化原始参数，结果为：</p><p><img src="/2020/10/13/元学习基础知识/8d74a195145c0f2435c271f569359d98.png" alt></p><p><strong>实际实现过程</strong>：</p><p><img src="/2020/10/13/元学习基础知识/16b088262aafe7c177001a73c7594210.png" alt></p><h2 id="reptile"><a class="markdownIt-Anchor" href="#reptile"></a> Reptile</h2><p>Alex Nichol, Joshua Achiam, John Schulman, On First-Order Meta-Learning Algorithms, arXiv, 2018</p><p>这篇论文在训练时不是考虑一步，而是考虑多步之后的结果，流程为：</p><p><img src="/2020/10/13/元学习基础知识/7a7d787e613e3bd88e62cf5cc30f742d.png" alt></p><p>MAML vs Reptile vs Model Pre-training:</p><p><img src="/2020/10/13/元学习基础知识/43cd30adceb17f7af9fdc2d56da8c14f.png" alt></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 元学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Meta learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Scene Graph-Related Image Captioning</title>
       <link href="/2020/10/04/Scene-Graph-Related-Image-Captioning/"/>
       <url>/2020/10/04/Scene-Graph-Related-Image-Captioning/</url>

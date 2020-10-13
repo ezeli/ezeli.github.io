@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-10-04T15:57:31.950Z</updated>
+  <updated>2020-10-13T07:56:13.399Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>元学习基础知识</title>
+    <link href="https://ezeli.github.io/2020/10/13/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>https://ezeli.github.io/2020/10/13/元学习基础知识/</id>
+    <published>2020-10-13T07:40:01.000Z</published>
+    <updated>2020-10-13T07:56:13.399Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;From &lt;a href=&quot;https://www.youtube.com/watch?v=EkAqYbpCYAc&amp;amp;list=PLJV_el3uVTsOK_ZK5L0Iv_EQoL1JefRL4&amp;amp;index=32&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hung-yi Lee&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2019%20Auto-Encoding%20Scene%20Graphs%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;introduction&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#introduction&quot;&gt;&lt;/a&gt; Introduction&lt;/h2&gt;
+&lt;p&gt;Meta learning = Learn to learn&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="元学习" scheme="https://ezeli.github.io/categories/%E5%85%83%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="Meta learning" scheme="https://ezeli.github.io/tags/Meta-learning/"/>
+    
+  </entry>
   
   <entry>
     <title>Scene Graph-Related Image Captioning</title>
@@ -485,27 +510,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
       <category term="Database" scheme="https://ezeli.github.io/tags/Database/"/>
     
       <category term="SQL" scheme="https://ezeli.github.io/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>观察者模式</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://ezeli.github.io/2019/08/26/观察者模式/</id>
-    <published>2019-08-26T07:27:36.000Z</published>
-    <updated>2019-08-26T07:31:12.565Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;观察者模式介绍&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="设计模式" scheme="https://ezeli.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
