@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-10-13T07:56:13.399Z</updated>
+  <updated>2020-10-18T07:36:50.260Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Detailed Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/</id>
+    <published>2020-10-18T07:28:03.000Z</published>
+    <updated>2020-10-18T07:36:50.260Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-compare-and-reweight-distinctive-image-captioning-using-similar-images-sets-eccv2020-oral&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-compare-and-reweight-distinctive-image-captioning-using-similar-images-sets-eccv2020-oral&quot;&gt;&lt;/a&gt; 一、Compare and Reweight: Distinctive Image Captioning Using Similar Images Sets, ECCV2020 oral&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/ECCV2020%20oral%20Compare%20and%20Reweight%20Distinctive%20Image%20Captioning%20Using%20Similar%20Images%20Sets.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;1）现在的方法生成的句子可以准确的描述图片，但是对于相似的图片，生成的句子是通用的，缺乏独特性。如下图所示，CIDErBtw是作者提出的一种衡量描述独特性的指标，值越小表示越独特，对于两个相似的图片，人们标注的描述具有很好的独特性，但是baseline模型生成的描述就是相同的，而作者的方法生成的描述则具有不错的独特性。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
+    
+      <category term="Transformer" scheme="https://ezeli.github.io/tags/Transformer/"/>
+    
+  </entry>
   
   <entry>
     <title>元学习基础知识</title>
@@ -487,29 +516,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
       <category term="Database" scheme="https://ezeli.github.io/tags/Database/"/>
     
       <category term="关系模型" scheme="https://ezeli.github.io/tags/%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL学习</title>
-    <link href="https://ezeli.github.io/2019/08/26/SQL%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://ezeli.github.io/2019/08/26/SQL学习/</id>
-    <published>2019-08-26T07:32:16.000Z</published>
-    <updated>2019-08-26T07:36:50.390Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;数据库（Database）、SQL、外连接、事务、JDBC&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Database" scheme="https://ezeli.github.io/categories/Database/"/>
-    
-    
-      <category term="Database" scheme="https://ezeli.github.io/tags/Database/"/>
-    
-      <category term="SQL" scheme="https://ezeli.github.io/tags/SQL/"/>
     
   </entry>
   

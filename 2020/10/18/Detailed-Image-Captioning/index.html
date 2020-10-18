@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、Compare and Reweight: Distinctive Image Captioning Using Similar Images Sets, ECCV2020 oral  自制PPT   1、解决问题 1）现在的方法生成的句子可以准确的描述图片，但是对于相似的图片，生成的句子是通用的，缺乏独特性。如下图所示，CIDErBtw是作者提出的一种衡量描述独特性的指标，值越小表示越独特">
+<meta name="keywords" content="Image Caption,RL,Transformer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Detailed Image Captioning">
+<meta property="og:url" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="一、Compare and Reweight: Distinctive Image Captioning Using Similar Images Sets, ECCV2020 oral  自制PPT   1、解决问题 1）现在的方法生成的句子可以准确的描述图片，但是对于相似的图片，生成的句子是通用的，缺乏独特性。如下图所示，CIDErBtw是作者提出的一种衡量描述独特性的指标，值越小表示越独特">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/dcd7eb4262c3e400f75d2c2334a9ea01.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/45cd08aff898fbb890ad85f825959e9e.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/9fabf1a8b7fcec253c3a0e670c84ab3b.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/17f2ed0e640ba7ec73abf1dc8166584f.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/66f497809195c54c72ed339f903ecc2b.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/dbe0294f0f150dfb5035e773ddfde708.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/15bee565153d416298f91a4e86d6082c.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/3870f5423041447d196fcb72f9b2c6b6.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/095ea02f510ce19e9525d5db544be8ea.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/535320be8e2e21f74a4f11c09bf08f30.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/8c7a3282cd43cf35b10c231ab4100c0f.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/66c479976807eaa7bcb8f870d2aed3a6.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/7d6ed0e1a707a8c06f853d265e38c3bf.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/89d1a49955a7c078d727bc6f4a9104a8.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/7180b54739fdd5f50e76d858b4a57f36.png">
+<meta property="og:updated_time" content="2020-10-18T07:36:50.260Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Detailed Image Captioning">
+<meta name="twitter:description" content="一、Compare and Reweight: Distinctive Image Captioning Using Similar Images Sets, ECCV2020 oral  自制PPT   1、解决问题 1）现在的方法生成的句子可以准确的描述图片，但是对于相似的图片，生成的句子是通用的，缺乏独特性。如下图所示，CIDErBtw是作者提出的一种衡量描述独特性的指标，值越小表示越独特">
+<meta name="twitter:image" content="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/dcd7eb4262c3e400f75d2c2334a9ea01.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Detailed Image Captioning | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/10/18/Detailed-Image-Captioning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Detailed Image Captioning
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-10-18 15:28:03 / 修改时间：15:36:50" itemprop="dateCreated datePublished" datetime="2020-10-18T15:28:03+08:00">2020-10-18</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一-compare-and-reweight-distinctive-image-captioning-using-similar-images-sets-eccv2020-oral"><a class="markdownIt-Anchor" href="#一-compare-and-reweight-distinctive-image-captioning-using-similar-images-sets-eccv2020-oral"></a> 一、Compare and Reweight: Distinctive Image Captioning Using Similar Images Sets, ECCV2020 oral</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/ECCV2020%20oral%20Compare%20and%20Reweight%20Distinctive%20Image%20Captioning%20Using%20Similar%20Images%20Sets.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>1）现在的方法生成的句子可以准确的描述图片，但是对于相似的图片，生成的句子是通用的，缺乏独特性。如下图所示，CIDErBtw是作者提出的一种衡量描述独特性的指标，值越小表示越独特，对于两个相似的图片，人们标注的描述具有很好的独特性，但是baseline模型生成的描述就是相同的，而作者的方法生成的描述则具有不错的独特性。</p>
+<a id="more"></a>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/dcd7eb4262c3e400f75d2c2334a9ea01.png" alt></p>
+<p>2）之前的有方法利用图像检索来优化模型，其目的是使生成的描述远离训练批次中的其他图像。一方面，图像检索鼓励模型生成独特的单词，另一方面，它会损害准确性和描述质量——图像检索上的权重过高可能会使模型重复生成独特的单词。</p>
+<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/45cd08aff898fbb890ad85f825959e9e.png" alt></p>
+<p>作者首先提出了一个新的描述独特性指标：CIDErBtw，之后基于该指标对现有的XE损失和CIDEr奖励进行加权改造（之前的方法会认为同一个图片的标注描述是等同的，现在会对它们分配不同的权重，CIDErBtw值越小权重越高），并且直接使用该指标作为一种新的奖励来优化模型。</p>
+<h4 id="1similar-images-set"><a class="markdownIt-Anchor" href="#1similar-images-set"></a> 1）Similar images set</h4>
+<p>通过训练好的图文匹配模型VSE++为每种图片找到它的相似图片集，两个图片的相似度定义如下：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/9fabf1a8b7fcec253c3a0e670c84ab3b.png" alt></p>
+<p>首先对某张图片和另一张图片的每个标注描述进行编码，之后计算他们的匹配度得分，最后取最大值来代表这两张图片的相似度。</p>
+<h4 id="2between-set-cider-ciderbtw"><a class="markdownIt-Anchor" href="#2between-set-cider-ciderbtw"></a> 2）Between-set CIDEr (CIDErBtw)</h4>
+<h5 id="1定义"><a class="markdownIt-Anchor" href="#1定义"></a> （1）定义</h5>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/17f2ed0e640ba7ec73abf1dc8166584f.png" alt></p>
+<p>K表示相似图片的数目，N表示每张图标注描述的数目，计算了某个图片的一句描述c和其相似图片集的所有描述的CIDEr得分均值，值越小表示c越独特。</p>
+<h5 id="2训练策略"><a class="markdownIt-Anchor" href="#2训练策略"></a> （2）训练策略</h5>
+<p>分为XE损失预训练和RL微调两个阶段。</p>
+<p>首先根据CIDErBtw值计算权重：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/66f497809195c54c72ed339f903ecc2b.png" alt></p>
+<p>然后对XE损失和CIDEr奖励进行加权：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/dbe0294f0f150dfb5035e773ddfde708.png" alt></p>
+<p>RL阶段也会直接采用CIDErBtw作为奖励的一部分，最后的RL奖励和损失为：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/15bee565153d416298f91a4e86d6082c.png" alt></p>
+<h2 id="二-length-controllable-image-captioning-eccv2020"><a class="markdownIt-Anchor" href="#二-length-controllable-image-captioning-eccv2020"></a> 二、Length-Controllable Image Captioning, ECCV2020</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/ECCV2020%20Length-Controllable%20Image%20Captioning.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
+<h3 id="1-解决问题-2"><a class="markdownIt-Anchor" href="#1-解决问题-2"></a> 1、解决问题</h3>
+<p>1）现有的大多数方法不能够控制生成的描述，例如选择粗略的还是详细的描述图片。</p>
+<p>2）基于LSTM、Transformer的自回归模型的计算复杂度随着生成描述长度的增加而线性增加。</p>
+<h3 id="2-方法-2"><a class="markdownIt-Anchor" href="#2-方法-2"></a> 2、方法</h3>
+<p>1）使用简单的长度级别嵌入来使模型能够控制生成描述的长度。</p>
+<p>2）设计了一种非自回归方法可以在长度无关的复杂性中生成描述。</p>
+<p>效果如下：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/3870f5423041447d196fcb72f9b2c6b6.png" alt></p>
+<p>可以看出随着描述长度的增加，描述内容更加丰富，更加关注图片的细节。</p>
+<h4 id="1获取长度信息"><a class="markdownIt-Anchor" href="#1获取长度信息"></a> 1）获取长度信息</h4>
+<p>首先根据描述的长度范围将数据分为4或者5个长度级别。</p>
+<p>单词最终的向量表示如下：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/095ea02f510ce19e9525d5db544be8ea.png" alt></p>
+<p>表示为长度级别的嵌入向量加单词的词嵌入向量加位置嵌入向量（可选的，用于基于Transformer的解码器）。</p>
+<p>在训练的时候，长度级别根据ground<br>
+truth来判断，在推理的时候，长度级别人为指定，用于控制生成描述的长度。</p>
+<p><strong>长度感知的自回归解码器：</strong></p>
+<p>作者将长度级别嵌入整合到两个SOTA方法来进行实验：AoANet (基于LSTM的解码器) 和VLP (BERT类型的解码器)。只是将单词的嵌入表示替换为上述形式，无需进行任何其他修改。通过这种方式，解码器可以显式地对长度信息进行建模。</p>
+<h4 id="2非自回归的长度可控的解码"><a class="markdownIt-Anchor" href="#2非自回归的长度可控的解码"></a> 2）非自回归的长度可控的解码</h4>
+<p>为了提高解码效率，作者提出了一种非自回归的长度可控的模型：LaBERT，如下图所示：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/535320be8e2e21f74a4f11c09bf08f30.png" alt></p>
+<p>图片区域特征输入为：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/8c7a3282cd43cf35b10c231ab4100c0f.png" alt></p>
+<p>三个f分别表示物体的区域特征、分类概率和位置特征。eimg是一种可学习的嵌入，可将图像区域与文本标记区分开。</p>
+<p>单词的嵌入表示同样是上述形式。</p>
+<p><strong>训练</strong></p>
+<p>首先根据描述长度确定它的长度级别，然后使用[EOS]将描述填充到该长度级别范围的最大长度，之后用[MASK]随机替换描述中的m个单词来构造输入序列S（m是从1到最大长度中随机选择的），最后模型根据输入的图片信息和序列S的信息来预测被替换掉的真实单词。</p>
+<p><strong>推理</strong></p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/66c479976807eaa7bcb8f870d2aed3a6.png" alt></p>
+<p>如上图所示，在最开始输入指定长度级别中最大长度的[MASK]序列，之后得到一个初始预测的句子以及每个单词对应的置信度（也就是该单词的输出概率）。为了鼓励模型预测更长的描述，作者建议在长度级别范围内将[EOS]的概率按系数衰减（该系数取值是一个小于1的数）：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/7d6ed0e1a707a8c06f853d265e38c3bf.png" alt></p>
+<p>之后选择置信度最低的n个单词替换为[MASK]，再次进行解码，得到一个新的更好的句子，并且更新置信度：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/89d1a49955a7c078d727bc6f4a9104a8.png" alt></p>
+<p>之后继续迭代更新句子和置信度指定次数，得到最终的描述。</p>
+<p>n的计算：</p>
+<p><img src="/2020/10/18/Detailed-Image-Captioning/7180b54739fdd5f50e76d858b4a57f36.png" alt></p>
+<p>T表示迭代总次数，t表示当前迭代次数，随着迭代的进行，n越来越小。</p>
+<p>非自回归的方法计算复杂度与T相关而和生成描述的长度无关，降低了生成长描述的计算复杂度，并且还能在之后的步骤中修改早期步骤中犯的错误，这在自回归的方法中是不可行的。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Image-Caption/" rel="tag"><i class="fa fa-tag"></i> Image Caption</a>
+            
+              <a href="/tags/RL/" rel="tag"><i class="fa fa-tag"></i> RL</a>
+            
+              <a href="/tags/Transformer/" rel="tag"><i class="fa fa-tag"></i> Transformer</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/10/13/元学习基础知识/" rel="next" title="元学习基础知识">
+                  <i class="fa fa-chevron-left"></i> 元学习基础知识
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-compare-and-reweight-distinctive-image-captioning-using-similar-images-sets-eccv2020-oral"><span class="nav-text"> 一、Compare and Reweight: Distinctive Image Captioning Using Similar Images Sets, ECCV2020 oral</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text"> 2、方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1similar-images-set"><span class="nav-text"> 1）Similar images set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2between-set-cider-ciderbtw"><span class="nav-text"> 2）Between-set CIDEr (CIDErBtw)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1定义"><span class="nav-text"> （1）定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2训练策略"><span class="nav-text"> （2）训练策略</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-length-controllable-image-captioning-eccv2020"><span class="nav-text"> 二、Length-Controllable Image Captioning, ECCV2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题-2"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-2"><span class="nav-text"> 2、方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1获取长度信息"><span class="nav-text"> 1）获取长度信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2非自回归的长度可控的解码"><span class="nav-text"> 2）非自回归的长度可控的解码</span></a></li></ol></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
