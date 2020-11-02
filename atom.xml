@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-10-18T07:36:50.260Z</updated>
+  <updated>2020-11-02T01:16:23.812Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Stylized Image Captioning</title>
+    <link href="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/</id>
+    <published>2020-11-02T01:05:57.000Z</published>
+    <updated>2020-11-02T01:16:23.812Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-unsupervised-stylish-image-description-generation-via-domain-layer-norm-aaai2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-unsupervised-stylish-image-description-generation-via-domain-layer-norm-aaai2019&quot;&gt;&lt;/a&gt; 一、Unsupervised Stylish Image Description Generation via Domain Layer Norm, AAAI2019&lt;/h2&gt;
+&lt;p&gt;作者提出了一种无监督风格化描述生成模型，能够以配对的无风格数据和没有配对的风格化语料进行训练，并且它使用户能够通过插入特定样式的参数来生成各种风格描述，灵活地将新的样式包含到现有模型中。论文将配对的无风格描述视为源域数据，将未配对的风格化语料视为目标域数据，最主要的贡献就是展示了只需要对layer normalization的参数进行调整就能从源域和目标域区分出语言风格，并将这种机制称为Domain Layer Normalization (DLN)，结构图如下：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Scene Graph" scheme="https://ezeli.github.io/tags/Scene-Graph/"/>
+    
+      <category term="Stylized Image Captioning" scheme="https://ezeli.github.io/tags/Stylized-Image-Captioning/"/>
+    
+  </entry>
   
   <entry>
     <title>Detailed Image Captioning</title>
@@ -438,7 +463,7 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     <link href="https://ezeli.github.io/2019/08/26/%E4%B8%89%E3%80%81%E7%A7%8D%E5%AD%90%E5%A1%AB%E5%85%85%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
     <id>https://ezeli.github.io/2019/08/26/三、种子填充算法原理和实践/</id>
     <published>2019-08-26T07:58:11.000Z</published>
-    <updated>2019-08-26T07:59:14.818Z</updated>
+    <updated>2020-10-27T06:49:47.163Z</updated>
     
     <summary type="html">
     
@@ -493,29 +518,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
     
       <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关系模型</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/"/>
-    <id>https://ezeli.github.io/2019/08/26/关系模型/</id>
-    <published>2019-08-26T07:37:25.000Z</published>
-    <updated>2019-08-26T07:38:36.596Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;数据库（Database）、关系模型、约束&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Database" scheme="https://ezeli.github.io/categories/Database/"/>
-    
-    
-      <category term="Database" scheme="https://ezeli.github.io/tags/Database/"/>
-    
-      <category term="关系模型" scheme="https://ezeli.github.io/tags/%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、Unsupervised Stylish Image Description Generation via Domain Layer Norm, AAAI2019 作者提出了一种无监督风格化描述生成模型，能够以配对的无风格数据和没有配对的风格化语料进行训练，并且它使用户能够通过插入特定样式的参数来生成各种风格描述，灵活地将新的样式包含到现有模型中。论文将配对的无风格描述视为源域数据，将未配对">
+<meta name="keywords" content="Image Caption,Scene Graph,Stylized Image Captioning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stylized Image Captioning">
+<meta property="og:url" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="一、Unsupervised Stylish Image Description Generation via Domain Layer Norm, AAAI2019 作者提出了一种无监督风格化描述生成模型，能够以配对的无风格数据和没有配对的风格化语料进行训练，并且它使用户能够通过插入特定样式的参数来生成各种风格描述，灵活地将新的样式包含到现有模型中。论文将配对的无风格描述视为源域数据，将未配对">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/fad3f866df28afddf4e369e27400318e.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/dd9239b9d34a5efad9ed1e8c3631a421.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/89e1705b6a585989f6d2b81ec5ba5efb.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/5e9ad225848008ae0b8ec40ad4279c28.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/f9efae88b6daa64e342d1dc95ea62879.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/3173606011635549bb72c4c9784bb359.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/1cc76632bb42b53cc3891379b6f7fafd.png">
+<meta property="og:updated_time" content="2020-11-02T01:16:23.812Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stylized Image Captioning">
+<meta name="twitter:description" content="一、Unsupervised Stylish Image Description Generation via Domain Layer Norm, AAAI2019 作者提出了一种无监督风格化描述生成模型，能够以配对的无风格数据和没有配对的风格化语料进行训练，并且它使用户能够通过插入特定样式的参数来生成各种风格描述，灵活地将新的样式包含到现有模型中。论文将配对的无风格描述视为源域数据，将未配对">
+<meta name="twitter:image" content="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/fad3f866df28afddf4e369e27400318e.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Stylized Image Captioning | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/11/02/Stylized-Image-Captioning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Stylized Image Captioning
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-11-02 09:05:57 / 修改时间：09:16:23" itemprop="dateCreated datePublished" datetime="2020-11-02T09:05:57+08:00">2020-11-02</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一-unsupervised-stylish-image-description-generation-via-domain-layer-norm-aaai2019"><a class="markdownIt-Anchor" href="#一-unsupervised-stylish-image-description-generation-via-domain-layer-norm-aaai2019"></a> 一、Unsupervised Stylish Image Description Generation via Domain Layer Norm, AAAI2019</h2>
+<p>作者提出了一种无监督风格化描述生成模型，能够以配对的无风格数据和没有配对的风格化语料进行训练，并且它使用户能够通过插入特定样式的参数来生成各种风格描述，灵活地将新的样式包含到现有模型中。论文将配对的无风格描述视为源域数据，将未配对的风格化语料视为目标域数据，最主要的贡献就是展示了只需要对layer normalization的参数进行调整就能从源域和目标域区分出语言风格，并将这种机制称为Domain Layer Normalization (DLN)，结构图如下：</p>
+<a id="more"></a>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/fad3f866df28afddf4e369e27400318e.png" alt></p>
+<p>ET使用Skip-Thought Vectors (STV)网络，GT和GS使用Layer Normalized Long Short Term Memory unit (LN-LSTM)网络。EI和ET将图片和风格化语料编码到一个共享的潜在空间Z，并使用GS和GT分别解码成无风格和风格化描述。为了确保潜在空间是共享的，GT和GS共享除了layer norm参数之外的所有参数，背后的直觉是鼓励共享权重来捕捉两个域之间的事实内容，而差异（即风格）则在layer norm参数中被捕获。通过监督信息（配对的无风格数据）训练EI和GS，通过风格化语料重构来训练ET和GT，LN-LSTM（左）和layer normalization操作（右）如下所示：</p>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/dd9239b9d34a5efad9ed1e8c3631a421.png" alt></p>
+<p>扩展一个新的风格：使用之前已经在源域和某一目标域上训练好的模型参数作为初始化参数，使用新的目标域数据进行微调，损失函数如下：</p>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/89e1705b6a585989f6d2b81ec5ba5efb.png" alt></p>
+<p>LS和LT是正常的MLE和重构损失，采用正则化项R来防止新的权重偏离预先训练的模型，这鼓励调整后的模型保持在之前训练学习到的信息。</p>
+<h2 id="二-memcap-memorizing-style-knowledge-for-image-captioning-aaai2020"><a class="markdownIt-Anchor" href="#二-memcap-memorizing-style-knowledge-for-image-captioning-aaai2020"></a> 二、MemCap: Memorizing Style Knowledge for Image Captioning, AAAI2020</h2>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>之前的styled image captioning方法严重依赖于让语言模型来捕捉风格因子，在这篇论文里设计了一个记忆模块来来从风格化语料中挖掘风格知识，并且提出了一种句子分解的算法来将句子分为风格相关的部分和内容相关的部分。</p>
+<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
+<p>整个模型（MemCap）包括一个风格记忆模块、一个句子分解器、一个描述生成器、一个图片场景图生成器和一个句子场景图生成器，结构图如下：</p>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/5e9ad225848008ae0b8ec40ad4279c28.png" alt></p>
+<h4 id="1stylized-sentence-decomposing"><a class="markdownIt-Anchor" href="#1stylized-sentence-decomposing"></a> 1）Stylized Sentence Decomposing</h4>
+<p>句子分解的主要思想：当通过一个在客观句子集上训练得到语言模型进行评估时，风格化语句将会得到比客观语句更高的困惑度（perplexity）。流程：首先使用客观句子集训练一个语言模型；之后，对于一个风格化句子，将它解析成依存关系树；最后，采用迭代的方式去除掉句子中和风格相关的部分，具体来说，迭代移除掉依存关系树上的结点和它的子树，然后使用语言模型评估剩下的句子看能否获取更低的困惑度，如果能则代表去除的部分是和风格相关的，进入下一次迭代，直到无法获取比目前困惑度更低的新句子，此时，剩下的就是和内容相关的部分，去除的就是和风格相关的部分。</p>
+<h4 id="2scene-graph-generation"><a class="markdownIt-Anchor" href="#2scene-graph-generation"></a> 2）Scene Graph Generation</h4>
+<p>场景图能够用结构化的方式总结图片或句子的信息，包括图片和句子中的物体、物体间的关系和物体的属性。对于句子来说，首先解析为依存关系树，之间使用基于规则的方法将它映射成场景图，对于风格化句子，首先进行分解，然后使用内容相关的部分生成场景图。对于图片来说，首先生成图片的事实描述（使用训练好的Up-Down模型来生成），然后在转化为场景图。</p>
+<h4 id="3style-memory-module"><a class="markdownIt-Anchor" href="#3style-memory-module"></a> 3）Style Memory Module</h4>
+<p>对于每种风格都含有一个包含风格相关知识的矩阵和一个包含事实内容的矩阵。在训练阶段，首先将风格化句子分解，然后将每个单词表示成嵌入向量，然后通过如下方式进行更新：</p>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/f9efae88b6daa64e342d1dc95ea62879.png" alt></p>
+<p>ew表示每个单词的嵌入表示，es表示风格相关的所有单词的嵌入表示（分解后风格相关的单词的标签l=1，内容相关的单词l=0），ec表示场景图的嵌入表示（通过对物体之间的和物体和属性之间的关系处理得到的上下文相关的表示），Ms’表示事实内容知识矩阵，Ms表示风格知识矩阵，通过计算得到的权重来更新两个矩阵。当提取风格知识时，和更新的操作类似：</p>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/3173606011635549bb72c4c9784bb359.png" alt></p>
+<h4 id="4memory-based-stylized-captioner"><a class="markdownIt-Anchor" href="#4memory-based-stylized-captioner"></a> 4）Memory Based Stylized Captioner</h4>
+<p>通过一个两层LSTM模型实现：场景图的嵌入表示向量作为attention LSTM的输入，然后注意力加权的结果作为language LSTM的输入，最后生成风格化描述。其中提取出的风格知识m被用于初始化两层LSTM的cell state。</p>
+<h4 id="5训练"><a class="markdownIt-Anchor" href="#5训练"></a> 5）训练</h4>
+<p>预训练：使用交叉熵损失函数在图片-客观描述数据集上进行预训练，将图片转化为场景图作为描述生成器的输入，由于客观描述中无法获取风格知识，所以将m设为零向量。</p>
+<p>微调；使用风格化语料对记忆模块和描述生成器进行训练，整体过程如上图所示。在前几个迭代周期采用交叉熵损失训练，之后采用强化学习方式，其中奖励函数包含CIDEr奖励（根据ground-truth进行训练，使模型生成的描述保留图片的内容信息）、风格分类奖励（提前训练一个风格分类器）、困惑度奖励（使用风格化语料提前训练一个语言模型），公式如下：</p>
+<p><img src="/2020/11/02/Stylized-Image-Captioning/1cc76632bb42b53cc3891379b6f7fafd.png" alt></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Image-Caption/" rel="tag"><i class="fa fa-tag"></i> Image Caption</a>
+            
+              <a href="/tags/Scene-Graph/" rel="tag"><i class="fa fa-tag"></i> Scene Graph</a>
+            
+              <a href="/tags/Stylized-Image-Captioning/" rel="tag"><i class="fa fa-tag"></i> Stylized Image Captioning</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/10/18/Detailed-Image-Captioning/" rel="next" title="Detailed Image Captioning">
+                  <i class="fa fa-chevron-left"></i> Detailed Image Captioning
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-unsupervised-stylish-image-description-generation-via-domain-layer-norm-aaai2019"><span class="nav-text"> 一、Unsupervised Stylish Image Description Generation via Domain Layer Norm, AAAI2019</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-memcap-memorizing-style-knowledge-for-image-captioning-aaai2020"><span class="nav-text"> 二、MemCap: Memorizing Style Knowledge for Image Captioning, AAAI2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text"> 2、方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1stylized-sentence-decomposing"><span class="nav-text"> 1）Stylized Sentence Decomposing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2scene-graph-generation"><span class="nav-text"> 2）Scene Graph Generation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3style-memory-module"><span class="nav-text"> 3）Style Memory Module</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4memory-based-stylized-captioner"><span class="nav-text"> 4）Memory Based Stylized Captioner</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5训练"><span class="nav-text"> 5）训练</span></a></li></ol></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
