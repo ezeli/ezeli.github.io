@@ -379,9 +379,9 @@
             
             <tag> Image Caption </tag>
             
-            <tag> GAN </tag>
-            
             <tag> Seq2Seq </tag>
+            
+            <tag> GAN </tag>
             
         </tags>
       
@@ -410,9 +410,9 @@
             
             <tag> Image Caption </tag>
             
-            <tag> RL </tag>
-            
             <tag> GAN </tag>
+            
+            <tag> RL </tag>
             
         </tags>
       
@@ -903,9 +903,9 @@
             
             <tag> Linux </tag>
             
-            <tag> pipe </tag>
-            
             <tag> IPC </tag>
+            
+            <tag> pipe </tag>
             
             <tag> mmap </tag>
             
@@ -973,11 +973,11 @@
             
             <tag> Linux </tag>
             
+            <tag> pipe </tag>
+            
             <tag> 进程 </tag>
             
             <tag> 系统调用 </tag>
-            
-            <tag> pipe </tag>
             
         </tags>
       

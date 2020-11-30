@@ -374,9 +374,9 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
-      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
-    
       <category term="Seq2Seq" scheme="https://ezeli.github.io/tags/Seq2Seq/"/>
+    
+      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
     
   </entry>
   
@@ -404,9 +404,9 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
-      <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
-    
       <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
+    
+      <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
     
   </entry>
   
