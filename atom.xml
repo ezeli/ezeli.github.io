@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-11-02T01:16:23.812Z</updated>
+  <updated>2020-12-16T13:39:56.784Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Detailed Image Captioning (2)</title>
+    <link href="https://ezeli.github.io/2020/12/16/Detailed-Image-Captioning-2/"/>
+    <id>https://ezeli.github.io/2020/12/16/Detailed-Image-Captioning-2/</id>
+    <published>2020-12-16T13:20:09.000Z</published>
+    <updated>2020-12-16T13:39:56.784Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-say-as-you-wish-fine-grained-control-of-image-caption-generation-with-abstract-scene-graphs-cvpr2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-say-as-you-wish-fine-grained-control-of-image-caption-generation-with-abstract-scene-graphs-cvpr2020&quot;&gt;&lt;/a&gt; 一、Say As You Wish: Fine-grained Control of Image Caption Generation with Abstract Scene Graphs, CVPR2020&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;现有的方法无法根据用户的意图细粒度的控制生成的描述，比如控制以什么层次的细节程度来描述图片中的物体、以及那些属性和关系应该包含在描述中等等。只存在一些粗粒度的控制，比如控制描述的风格、描述哪个物体、描述图片那个区域等。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
+    
+      <category term="Scene Graph" scheme="https://ezeli.github.io/tags/Scene-Graph/"/>
+    
+  </entry>
   
   <entry>
     <title>Stylized Image Captioning</title>
@@ -490,27 +516,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;Bresenham画圆算法&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一、DDA直线扫描转换算法原理和实践</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E4%B8%80%E3%80%81DDA%E7%9B%B4%E7%BA%BF%E6%89%AB%E6%8F%8F%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
-    <id>https://ezeli.github.io/2019/08/26/一、DDA直线扫描转换算法原理和实践/</id>
-    <published>2019-08-26T07:39:22.000Z</published>
-    <updated>2019-08-26T07:57:46.312Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;DDA直线扫描转换算法&lt;/p&gt;
     
     </summary>
     
