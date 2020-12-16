@@ -214,12 +214,14 @@ social_icons:
 # Blog rolls
 links_settings:
   icon: link
-  title: Links
+  title: 我的项目
   # Available values: block | inline
   layout: block
 
 links:
-  #Title: http://example.com
+  Transformer 模型: https://github.com/ezeli/Transformer_model
+  Attention 模型: https://github.com/ezeli/BUTD_model
+  NIC 模型: https://github.com/ezeli/NIC_model
 
 # Sidebar Avatar
 avatar:
