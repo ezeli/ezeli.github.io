@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-12-16T13:39:56.784Z</updated>
+  <updated>2020-12-28T08:03:47.294Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>元学习基础论文</title>
+    <link href="https://ezeli.github.io/2020/12/28/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E8%AE%BA%E6%96%87/"/>
+    <id>https://ezeli.github.io/2020/12/28/元学习基础论文/</id>
+    <published>2020-12-28T07:46:05.000Z</published>
+    <updated>2020-12-28T08:03:47.294Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-learning-to-learn-by-gradient-descent-by-gradient-descent-nips2016&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-learning-to-learn-by-gradient-descent-by-gradient-descent-nips2016&quot;&gt;&lt;/a&gt; 一、Learning to learn by gradient descent by gradient descent, NIPS2016&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;在机器学习中，学习得到的特征取代了手工设计的特征，并取得了巨大的成功。但是，优化算法依然是手工设计的，针对不同的任务需要设计不同的更新规则，比如深度学习中常用的momentum、RMSprop、ADAM等。这篇论文中，作者将优化算法参数化，使用LSTM来作为优化器，通过学习的方式得到更新规则，也就是论文题目：通过梯度下降来学习如何通过梯度下降学习。这样就不需要针对不同的任务设计不同的优化算法，而只需要让LSTM优化器自己学习如何优化模型的参数即可。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="元学习" scheme="https://ezeli.github.io/categories/%E5%85%83%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="Meta learning" scheme="https://ezeli.github.io/tags/Meta-learning/"/>
+    
+  </entry>
   
   <entry>
     <title>Detailed Image Captioning (2)</title>
@@ -400,9 +422,9 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
-      <category term="Seq2Seq" scheme="https://ezeli.github.io/tags/Seq2Seq/"/>
-    
       <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
+    
+      <category term="Seq2Seq" scheme="https://ezeli.github.io/tags/Seq2Seq/"/>
     
   </entry>
   
@@ -430,9 +452,9 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
-      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
-    
       <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
+    
+      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
     
   </entry>
   
@@ -495,27 +517,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
     
       &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
 &lt;p&gt;种子填充算法&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>二、Bresenham画圆算法原理和实践</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E4%BA%8C%E3%80%81Bresenham%E7%94%BB%E5%9C%86%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
-    <id>https://ezeli.github.io/2019/08/26/二、Bresenham画圆算法原理和实践/</id>
-    <published>2019-08-26T07:41:36.000Z</published>
-    <updated>2019-08-26T07:57:36.336Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;Bresenham画圆算法&lt;/p&gt;
     
     </summary>
     

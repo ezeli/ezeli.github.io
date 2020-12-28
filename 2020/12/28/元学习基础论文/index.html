@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、Learning to learn by gradient descent by gradient descent, NIPS2016  1、解决问题 在机器学习中，学习得到的特征取代了手工设计的特征，并取得了巨大的成功。但是，优化算法依然是手工设计的，针对不同的任务需要设计不同的更新规则，比如深度学习中常用的momentum、RMSprop、ADAM等。这篇论文中，作者将优化算法参数化，使">
+<meta name="keywords" content="Meta learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元学习基础论文">
+<meta property="og:url" content="https://ezeli.github.io/2020/12/28/元学习基础论文/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="一、Learning to learn by gradient descent by gradient descent, NIPS2016  1、解决问题 在机器学习中，学习得到的特征取代了手工设计的特征，并取得了巨大的成功。但是，优化算法依然是手工设计的，针对不同的任务需要设计不同的更新规则，比如深度学习中常用的momentum、RMSprop、ADAM等。这篇论文中，作者将优化算法参数化，使">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/636b422bd462b4fd701ddfda575f9abf.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/6b2fb32c88ef6619ac4efc7c1d9afcc6.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/08ef250a8d26ecb38e6b184cf2c18729.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/f06878c713abc06f12c5001c5fa5eb09.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/9b2e8f529a4a630a758e3a441adf416b.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/f77e402816c8a88933a9457424e34664.png">
+<meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/82f7187c55203912e582398f93c9dc80.png">
+<meta property="og:updated_time" content="2020-12-28T08:03:47.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="元学习基础论文">
+<meta name="twitter:description" content="一、Learning to learn by gradient descent by gradient descent, NIPS2016  1、解决问题 在机器学习中，学习得到的特征取代了手工设计的特征，并取得了巨大的成功。但是，优化算法依然是手工设计的，针对不同的任务需要设计不同的更新规则，比如深度学习中常用的momentum、RMSprop、ADAM等。这篇论文中，作者将优化算法参数化，使">
+<meta name="twitter:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/636b422bd462b4fd701ddfda575f9abf.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2020/12/28/元学习基础论文/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>元学习基础论文 | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2020/12/28/元学习基础论文/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">元学习基础论文
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-12-28 15:46:05 / 修改时间：16:03:47" itemprop="dateCreated datePublished" datetime="2020-12-28T15:46:05+08:00">2020-12-28</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/元学习/" itemprop="url" rel="index"><span itemprop="name">元学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一-learning-to-learn-by-gradient-descent-by-gradient-descent-nips2016"><a class="markdownIt-Anchor" href="#一-learning-to-learn-by-gradient-descent-by-gradient-descent-nips2016"></a> 一、Learning to learn by gradient descent by gradient descent, NIPS2016</h2>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>在机器学习中，学习得到的特征取代了手工设计的特征，并取得了巨大的成功。但是，优化算法依然是手工设计的，针对不同的任务需要设计不同的更新规则，比如深度学习中常用的momentum、RMSprop、ADAM等。这篇论文中，作者将优化算法参数化，使用LSTM来作为优化器，通过学习的方式得到更新规则，也就是论文题目：通过梯度下降来学习如何通过梯度下降学习。这样就不需要针对不同的任务设计不同的优化算法，而只需要让LSTM优化器自己学习如何优化模型的参数即可。</p>
+<a id="more"></a>
+<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
+<p>定义优化器optimizer的参数为 phi，被优化模型optimizee的参数为 theta，损失函数为f，则optimizee参数更新规则为：</p>
+<p><img src="/2020/12/28/元学习基础论文/636b422bd462b4fd701ddfda575f9abf.png" alt></p>
+<p>gt就表示参数化的optimizer，表现和传统的ADAM等优化器是一致的，以optimizee的梯度为输入，输出为optimizee参数的更新值。而训练optimizer的损失函数定义为：</p>
+<p><img src="/2020/12/28/元学习基础论文/6b2fb32c88ef6619ac4efc7c1d9afcc6.png" alt></p>
+<p>也就是取optimizee的参数为最优值 theta*，然后将它的损失反馈给optimizer来进行训练，但是这只依赖于optimizee最后训练的参数，论文中对它进行了扩展，不光考虑最后训练的最优值，而且还要考虑整个训练过程的损失：</p>
+<p><img src="/2020/12/28/元学习基础论文/08ef250a8d26ecb38e6b184cf2c18729.png" alt></p>
+<p>可以看出当wt=1，t=T时这个式子和上面的式子是相等的。此时可以采样不同的f，也就是通过不同的任务来训练这个优化器。整个流程也可以表示为下图：</p>
+<p><img src="/2020/12/28/元学习基础论文/f06878c713abc06f12c5001c5fa5eb09.png" alt></p>
+<p>在这个过程中，首先固定optimizer参数，然后不断更新optimizee参数，最后使用所有时间步的损失f求和来更新optimizer。注意在更新optimizer时，梯度只沿着实线方向传递，虚线方向的梯度被删除，也就是假设optimizee的梯度不依赖于optimizer的参数，这样避免了计算f的二阶导数。</p>
+<p>上述方法的一个问题就是LSTM优化器的输入（也就是optimizee参数的梯度）有至少上万的参数，这需要很大的隐藏状态维度，使得LSTM有大量的参数，不能够很好的训练。所以作者提出coordinatewise<br>
+network<br>
+architecture，每次只输入单个参数梯度，并输出对应的更新值，然后所有的参数共享LSTM参数，但是使用独立的隐藏状态，如下图所示：</p>
+<p><img src="/2020/12/28/元学习基础论文/9b2e8f529a4a630a758e3a441adf416b.png" alt></p>
+<p>这和Adam等优化器的思路一致，也就是对所有参数的更新规则是一样的，使得LSTM优化器可以是一个很小的网络结构，并且对输入的模型参数的顺序具有不变性。</p>
+<p>并且LSTM优化器的结构使得它学到的动态的学习规则可以向momentum一样集成梯度历史中的信息。</p>
+<p>在实践中，可以设置LSTM的输入和输出为一个合适的常数（在所有的时间步和所有的f中共享），这样就可以学到一个适用于所有f的一个优化器，并且此时也不要求所有任务的模型结构一致。</p>
+<h2 id="二-model-agnostic-meta-learning-for-fast-adaptation-of-deep-networks-icml2017"><a class="markdownIt-Anchor" href="#二-model-agnostic-meta-learning-for-fast-adaptation-of-deep-networks-icml2017"></a> 二、Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks, ICML2017</h2>
+<h3 id="1-解决问题-2"><a class="markdownIt-Anchor" href="#1-解决问题-2"></a> 1、解决问题</h3>
+<p>快速学习是人类智力的标志，我们能从几个样例中识别物体，也能通过几分钟就快速学习到新技能。我们希望AI也能做到这样，但是这种快速和灵活的学习是具有挑战性的，因为AI必须将其先验知识与少量的新信息集成在一起，同时避免对新数据的过拟合。在这项工作中，作者提出了一个元学习算法，它是通用的以及模型、任务无关的，因为它可以直接应用于任何用梯度下降训练的学习问题和模型。关键想法就是通过大量不同的任务训练模型的初始化参数，然后通过在少量新数据上更新一次或者几次后就能在新任务上达到很好的效果。该方法可以应用到任何的模型结构上，但是选好某个模型结构后，所选取的所有任务（包括训练任务和测试任务）的模型都只能是该结构，因为该方法的目的就是训练模型的初始化参数，如果新任务使用的模型结构不同，那么学出来的初始化参数就没法用。但这不是元学习的要求，比如如果某个元学习的目的是为了学习一种优化规则（上一篇论文），则训练时不同任务就可以使用不同的模型结构。</p>
+<h3 id="2-方法-2"><a class="markdownIt-Anchor" href="#2-方法-2"></a> 2、方法</h3>
+<p>Model-Agnostic Meta-Learning（MAML），目标是能够找到对任务变化敏感的模型参数，这样参数的微小变化将对任何任务的损失函数产生很大的改进。模型更新过程如下：</p>
+<p><img src="/2020/12/28/元学习基础论文/f77e402816c8a88933a9457424e34664.png" alt></p>
+<p>也就是针对不同的训练任务先训练一次，然后使用该任务对应的测试数据计算损失和梯度用来优化原始参数，流程为：</p>
+<p><img src="/2020/12/28/元学习基础论文/82f7187c55203912e582398f93c9dc80.png" alt></p>
+<p>以上过程涉及到求二阶导数，作者使用一阶导数来近似，也就是直接用第二次计算出的梯度更新原始参数。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Meta-learning/" rel="tag"><i class="fa fa-tag"></i> Meta learning</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/12/16/Detailed-Image-Captioning-2/" rel="next" title="Detailed Image Captioning (2)">
+                  <i class="fa fa-chevron-left"></i> Detailed Image Captioning (2)
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-learning-to-learn-by-gradient-descent-by-gradient-descent-nips2016"><span class="nav-text"> 一、Learning to learn by gradient descent by gradient descent, NIPS2016</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text"> 2、方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-model-agnostic-meta-learning-for-fast-adaptation-of-deep-networks-icml2017"><span class="nav-text"> 二、Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks, ICML2017</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题-2"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-2"><span class="nav-text"> 2、方法</span></a></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      我的项目
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/ezeli/Transformer_model" title="https://github.com/ezeli/Transformer_model" rel="noopener" target="_blank">Transformer 模型</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/ezeli/BUTD_model" title="https://github.com/ezeli/BUTD_model" rel="noopener" target="_blank">Attention 模型</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/ezeli/NIC_model" title="https://github.com/ezeli/NIC_model" rel="noopener" target="_blank">NIC 模型</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
