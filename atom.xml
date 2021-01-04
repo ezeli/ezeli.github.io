@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2020-12-28T08:03:47.294Z</updated>
+  <updated>2021-01-04T02:46:57.745Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Active Learning for Image Captioning</title>
+    <link href="https://ezeli.github.io/2021/01/04/Active-Learning-for-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2021/01/04/Active-Learning-for-Image-Captioning/</id>
+    <published>2021-01-04T02:38:20.000Z</published>
+    <updated>2021-01-04T02:46:57.745Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-structural-semantic-adversarial-active-learning-for-image-captioning-acmmm2020-oral&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-structural-semantic-adversarial-active-learning-for-image-captioning-acmmm2020-oral&quot;&gt;&lt;/a&gt; 一、Structural Semantic Adversarial Active Learning for Image Captioning, ACMMM2020 oral&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/ACMMM2020%20oral%20Structural%20Semantic%20Adversarial%20Active%20Learning%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;标注图片描述的成本非常高。&lt;/p&gt;
+&lt;h3 id=&quot;2-方法&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#2-方法&quot;&gt;&lt;/a&gt; 2、方法&lt;/h3&gt;
+&lt;h4 id=&quot;1active-learning&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1active-learning&quot;&gt;&lt;/a&gt; 1）Active learning&lt;/h4&gt;
+&lt;p&gt;引入主动学习（Active learning）方法来从未标注的图片集中选取最具代表性的图片来进行标注，再用于训练captioning模型。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Active Learning" scheme="https://ezeli.github.io/tags/Active-Learning/"/>
+    
+  </entry>
   
   <entry>
     <title>元学习基础论文</title>
@@ -496,27 +526,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
       &lt;h2 id=&quot;1-原理&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-原理&quot;&gt;&lt;/a&gt; 1、原理&lt;/h2&gt;
 &lt;h3 id=&quot;1区域的奇偶性质&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1区域的奇偶性质&quot;&gt;&lt;/a&gt; 1）区域的“奇偶”性质&lt;/h3&gt;
 &lt;p&gt;多边形扫描转换主要依据区域的一种“奇偶”性质，即一条直线与任意封闭的曲线相交时，总是从第一个交点进入内部，再从第二个交点退出，在交替的进入退出过程中对多边形进行填充。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>三、种子填充算法原理和实践</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E4%B8%89%E3%80%81%E7%A7%8D%E5%AD%90%E5%A1%AB%E5%85%85%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
-    <id>https://ezeli.github.io/2019/08/26/三、种子填充算法原理和实践/</id>
-    <published>2019-08-26T07:58:11.000Z</published>
-    <updated>2020-10-27T06:49:47.163Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;主要内容&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#主要内容&quot;&gt;&lt;/a&gt; 主要内容&lt;/h2&gt;
-&lt;p&gt;种子填充算法&lt;/p&gt;
     
     </summary>
     
