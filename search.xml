@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>元学习应用论文</title>
+      <link href="/2021/01/27/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8%E8%AE%BA%E6%96%87/"/>
+      <url>/2021/01/27/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8%E8%AE%BA%E6%96%87/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一-meta-learning-for-image-captioning-aaai2019"><a class="markdownIt-Anchor" href="#一-meta-learning-for-image-captioning-aaai2019"></a> 一、Meta Learning for Image Captioning, AAAI2019</h2><blockquote><p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Meta%20Learning%20for%20Image%20Captioning.pptx" target="_blank" rel="noopener">自制PPT</a></p></blockquote><h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3><p>使用强化学习训练模型，可能会使模型与奖励函数过拟合，造成奖励黑客行为（reward hacking），也就是说虽然奖励函数的得分提高了但是模型的实际性能是降低的，这是因为奖励函数不能非常正确的表达出生成描述的质量，一些错误的表示可能反而有很高的奖励，尤其是对描述的命题内容和独特性的奖励。比如，使用CIDEr优化倾向于让句子以“介词+a”结尾，因为CIDEr评价指标会惩罚太短的句子并给常见的短语小的权重，因此，当模型生成短描述时RL会添加一些小权重但是常见的短语来避免惩罚。SPICE指标认为不正常结尾是不匹配的对象-关系对，会惩罚这种现象，但是，SPICE有自己的奖励黑客问题，因为它不惩罚场景图中的重复元组。从技术上讲，很难设计一个完美的评价指标，能够考虑到预期目标的每一个方面。</p><a id="more"></a><h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3><p>这篇论文使用元学习（meta learning）的方法，利用来自ground truth的监督信息，在优化评价指标的同时确保生成描述的命题正确性和独特性。具体来说，作者将MLE优化和RL优化看做两个任务，建立一个元模型同时适应这两个任务，找到这两个任务的最优解。如下图所示，如果直接将这两个任务的损失加起来（棕色箭头，表示为MLE+RL），梯度方向在它俩之间，这并不能保证是任何一个任务的最优解，但是使用元学习（绿色箭头）能够使学到的模型参数同时适应两个任务。</p><p><img src="/2021/01/27/元学习应用论文/4239a5f1ec054493e7248e25fbaa3af6.png" alt></p><p>在实验时，模型先进行MLE预训练，然后在使用元学习对MLE和RL两个任务进行微调。注意作者对MLE进行了改进，即最大化正对（配对的ground truth）的概率同时最小化负对（不配对的ground truth）的概率，对于RL作者采用了CIDEr+SPICE作为奖励函数。</p><h2 id="二-learning-meta-face-recognition-in-unseen-domains-cvpr2020-oral"><a class="markdownIt-Anchor" href="#二-learning-meta-face-recognition-in-unseen-domains-cvpr2020-oral"></a> 二、Learning Meta Face Recognition in Unseen Domains, CVPR2020 oral</h2><blockquote><p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2020%20Learning%20Meta%20Face%20Recognition%20in%20Unseen%20Domains.pptx" target="_blank" rel="noopener">自制PPT</a></p></blockquote><h3 id="1-解决问题-2"><a class="markdownIt-Anchor" href="#1-解决问题-2"></a> 1、解决问题</h3><p>在人脸识别的实际应用中，在源域上训练好的模型常常被部署到具有不同分布的另一个目标域上，此时有两种场景：1）目标域是已知的并且数据可以访问，则称为人脸识别的域适应任务，常见的设置是源域包含带有标注的人脸数据，目标域带或者不带标注，此时主要将从源域中学到的知识迁移到目标域以提高模型在目标域的泛化性；2）目标域是不可见的，被视为人脸识别的域泛化任务，作者称为Generalized Face Recognition（GFR），这种情况更常见，因为训练好的模型常常被部署到一个未知的场景中，会遇到很多没有见过的数据。很明显，GFR要更困难，并且已有的域泛化任务往往假设源域和目标域共享标签空间，但是GFR源域和目标域的标签空间是不相交的。作者提出了Meta Face Recognition (MFR)方法用于解决GFR任务，首先采用域级采样策略将源域分为meta-train域和met-test域来模拟域偏移，之后通过三种损失来计算梯度，并且将来自meta-train域的梯度和来自meta-test域的元梯度（meta-gradients）通过meta-optimization整合，并用于更新模型以提高模型的泛化性。并且和传统的元学习方法相比，MFR不需要在目标域上进行模型更新，可以直接处理不可见的域数据。</p><h3 id="2-方法-2"><a class="markdownIt-Anchor" href="#2-方法-2"></a> 2、方法</h3><p>MFR包括三个部分：域级采样策略；优化多域分布的三个损失，以学习域不变性和可区分的人脸表示；元优化过程来提高模型泛化性。模型结构图如下：</p><p><img src="/2021/01/27/元学习应用论文/7bb3609c2319e9060918195a10f7ee2f.png" alt></p><p>在训练阶段，可以访问多个源域数据，每个源域数据都包含自己的标签集合；在测试阶段，模型在一个或几个之前不可见的目标域上进行评估，并且不进行模型更新。</p><h4 id="1域级采样"><a class="markdownIt-Anchor" href="#1域级采样"></a> 1）域级采样</h4><p>在每次训练迭代中，作者将N个源域划分为N-1个meta-train域和1个meta-test目标域来模拟域偏移，通过这种方式，鼓励模型能够很好的泛化到不可见的目标域上。构建一个meta-batch的具体流程为：在N个源域上进行迭代，每次迭代的源域选做meta-test域，剩下的源域都作为meta-train域，之后分别在meta-train域和meta-test域上选取B个实体，并为每个实体选择两个人脸图片，一个作为gallery，另一个作为probe。然后，模型由每个meta-batch的累积梯度进行更新。</p><h4 id="2优化多域分布"><a class="markdownIt-Anchor" href="#2优化多域分布"></a> 2）优化多域分布</h4><p>优化多域分布是为了让相同的实体映射到相近的表示，而不同的实体被映射的表示之间可以区分。作者通过三个损失来优化和学习域不变性和可区分的表示：</p><p><strong>Hard-pair Attention Loss</strong>：用于优化hard正对和负对的局部分布。首先将采样得到的B对实体转化为嵌入表示：</p><p><img src="/2021/01/27/元学习应用论文/84bdb09ac71a14114b858561becd4667.png" alt></p><p>之后对嵌入表示进行l2归一化后计算一个相似性矩阵：</p><p><img src="/2021/01/27/元学习应用论文/7b8dcd52ee0b03f1d1c188600448bf2c.png" alt></p><p>然后使用一个正阈值和一个负阈值来过滤得到hard正对和负对：</p><p><img src="/2021/01/27/元学习应用论文/027e288975a7eac038c7c126cee80fa8.png" alt></p><p>最后的损失为：</p><p><img src="/2021/01/27/元学习应用论文/bccc0d9791447cc36e352a4c322f39cd.png" alt></p><p><strong>Soft-classification Loss</strong>：通过分类考虑了批次内的全局分布：</p><p><img src="/2021/01/27/元学习应用论文/e199b8ab6b6964bcdeb00ca8d7d0c794.png" alt></p><p>其中W初始化为：</p><p><img src="/2021/01/27/元学习应用论文/41e60e39e031bda4c487eac81890dc6a.png" alt></p><p>并且W中的每一行执行l2归一化。</p><p><strong>Domain Alignment Loss</strong>：用于对齐域中心。作者发现跨meta-train域的负对比域内的负对更容易区分，所以通过添加域对齐正则来使嵌入具有域不变性，以减小不同meta-train域的domain gap。为了执行域对齐，作者使多个meta-train域的平均嵌入表示彼此靠近。损失计算过程如下：</p><p><img src="/2021/01/27/元学习应用论文/4db8bef15ce78550215024dbf3c371ab.png" alt></p><h4 id="3元优化"><a class="markdownIt-Anchor" href="#3元优化"></a> 3）元优化</h4><p><img src="/2021/01/27/元学习应用论文/758c69140f00bf0f47d07c8cc6048383.png" alt></p><p>整个元优化流程如上图所示。</p><p>首先在meta-train域上训练模型：</p><p><img src="/2021/01/27/元学习应用论文/a2042b3bdcd6b4451e6a62a81940d577.png" alt></p><p>然后在meta-test域上测试模型：</p><p><img src="/2021/01/27/元学习应用论文/275462a93fee5bf7a11559e38a5a031c.png" alt></p><p>最后，同时优化上述两个损失：</p><p><img src="/2021/01/27/元学习应用论文/e6d8600d3d409439739d1f1e64489994.png" alt></p><p>最后整个算法流程可以表示为：</p><p><img src="/2021/01/27/元学习应用论文/522d98650d4b7610251902f744eb5a35.png" alt></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 元学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Image Caption </tag>
+            
+            <tag> Meta learning </tag>
+            
+            <tag> Face Recognition </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Active Learning for Image Captioning</title>
       <link href="/2021/01/04/Active-Learning-for-Image-Captioning/"/>
       <url>/2021/01/04/Active-Learning-for-Image-Captioning/</url>

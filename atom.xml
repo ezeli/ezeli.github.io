@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2021-01-04T02:46:57.745Z</updated>
+  <updated>2021-01-27T14:41:48.839Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>元学习应用论文</title>
+    <link href="https://ezeli.github.io/2021/01/27/%E5%85%83%E5%AD%A6%E4%B9%A0%E5%BA%94%E7%94%A8%E8%AE%BA%E6%96%87/"/>
+    <id>https://ezeli.github.io/2021/01/27/元学习应用论文/</id>
+    <published>2021-01-27T14:36:15.000Z</published>
+    <updated>2021-01-27T14:41:48.839Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-meta-learning-for-image-captioning-aaai2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-meta-learning-for-image-captioning-aaai2019&quot;&gt;&lt;/a&gt; 一、Meta Learning for Image Captioning, AAAI2019&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Meta%20Learning%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;使用强化学习训练模型，可能会使模型与奖励函数过拟合，造成奖励黑客行为（reward hacking），也就是说虽然奖励函数的得分提高了但是模型的实际性能是降低的，这是因为奖励函数不能非常正确的表达出生成描述的质量，一些错误的表示可能反而有很高的奖励，尤其是对描述的命题内容和独特性的奖励。比如，使用CIDEr优化倾向于让句子以“介词+a”结尾，因为CIDEr评价指标会惩罚太短的句子并给常见的短语小的权重，因此，当模型生成短描述时RL会添加一些小权重但是常见的短语来避免惩罚。SPICE指标认为不正常结尾是不匹配的对象-关系对，会惩罚这种现象，但是，SPICE有自己的奖励黑客问题，因为它不惩罚场景图中的重复元组。从技术上讲，很难设计一个完美的评价指标，能够考虑到预期目标的每一个方面。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="元学习" scheme="https://ezeli.github.io/categories/%E5%85%83%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Meta learning" scheme="https://ezeli.github.io/tags/Meta-learning/"/>
+    
+      <category term="Face Recognition" scheme="https://ezeli.github.io/tags/Face-Recognition/"/>
+    
+  </entry>
   
   <entry>
     <title>Active Learning for Image Captioning</title>
@@ -504,28 +533,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
 &lt;p&gt;用户坐标系（世界坐标系）：是用户引入描述整个形体的坐标系。&lt;/p&gt;
 &lt;p&gt;观察坐标系（视坐标系或目坐标系）：为说明观察的姿态而引入，也就是观察者所处的位置。&lt;/p&gt;
 &lt;p&gt;设备坐标系（屏幕坐标系或显示坐标系）：最终的图形显示设备的坐标系。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-    
-      <category term="计算机图形学" scheme="https://ezeli.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>四、多边形的扫描转换算法原理和实践</title>
-    <link href="https://ezeli.github.io/2019/08/26/%E5%9B%9B%E3%80%81%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E6%89%AB%E6%8F%8F%E8%BD%AC%E6%8D%A2%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
-    <id>https://ezeli.github.io/2019/08/26/四、多边形的扫描转换算法原理和实践/</id>
-    <published>2019-08-26T07:59:40.000Z</published>
-    <updated>2020-09-13T13:13:49.556Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;1-原理&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-原理&quot;&gt;&lt;/a&gt; 1、原理&lt;/h2&gt;
-&lt;h3 id=&quot;1区域的奇偶性质&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1区域的奇偶性质&quot;&gt;&lt;/a&gt; 1）区域的“奇偶”性质&lt;/h3&gt;
-&lt;p&gt;多边形扫描转换主要依据区域的一种“奇偶”性质，即一条直线与任意封闭的曲线相交时，总是从第一个交点进入内部，再从第二个交点退出，在交替的进入退出过程中对多边形进行填充。&lt;/p&gt;
     
     </summary>
     

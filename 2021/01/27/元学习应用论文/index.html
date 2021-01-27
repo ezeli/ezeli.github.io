@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=7.3.0">
+  <link rel="mask-icon" href="/images/avatar.jpg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="一、Meta Learning for Image Captioning, AAAI2019  自制PPT   1、解决问题 使用强化学习训练模型，可能会使模型与奖励函数过拟合，造成奖励黑客行为（reward hacking），也就是说虽然奖励函数的得分提高了但是模型的实际性能是降低的，这是因为奖励函数不能非常正确的表达出生成描述的质量，一些错误的表示可能反而有很高的奖励，尤其是对描述的命题内容">
+<meta name="keywords" content="Image Caption,Meta learning,Face Recognition">
+<meta property="og:type" content="article">
+<meta property="og:title" content="元学习应用论文">
+<meta property="og:url" content="https://ezeli.github.io/2021/01/27/元学习应用论文/index.html">
+<meta property="og:site_name" content="Ezeli&#39;s Blog">
+<meta property="og:description" content="一、Meta Learning for Image Captioning, AAAI2019  自制PPT   1、解决问题 使用强化学习训练模型，可能会使模型与奖励函数过拟合，造成奖励黑客行为（reward hacking），也就是说虽然奖励函数的得分提高了但是模型的实际性能是降低的，这是因为奖励函数不能非常正确的表达出生成描述的质量，一些错误的表示可能反而有很高的奖励，尤其是对描述的命题内容">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/4239a5f1ec054493e7248e25fbaa3af6.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/7bb3609c2319e9060918195a10f7ee2f.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/84bdb09ac71a14114b858561becd4667.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/7b8dcd52ee0b03f1d1c188600448bf2c.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/027e288975a7eac038c7c126cee80fa8.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/bccc0d9791447cc36e352a4c322f39cd.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/e199b8ab6b6964bcdeb00ca8d7d0c794.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/41e60e39e031bda4c487eac81890dc6a.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/4db8bef15ce78550215024dbf3c371ab.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/758c69140f00bf0f47d07c8cc6048383.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/a2042b3bdcd6b4451e6a62a81940d577.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/275462a93fee5bf7a11559e38a5a031c.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/e6d8600d3d409439739d1f1e64489994.png">
+<meta property="og:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/522d98650d4b7610251902f744eb5a35.png">
+<meta property="og:updated_time" content="2021-01-27T14:41:48.839Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="元学习应用论文">
+<meta name="twitter:description" content="一、Meta Learning for Image Captioning, AAAI2019  自制PPT   1、解决问题 使用强化学习训练模型，可能会使模型与奖励函数过拟合，造成奖励黑客行为（reward hacking），也就是说虽然奖励函数的得分提高了但是模型的实际性能是降低的，这是因为奖励函数不能非常正确的表达出生成描述的质量，一些错误的表示可能反而有很高的奖励，尤其是对描述的命题内容">
+<meta name="twitter:image" content="https://ezeli.github.io/2021/01/27/元学习应用论文/4239a5f1ec054493e7248e25fbaa3af6.png">
+  <link rel="alternate" href="/atom.xml" title="Ezeli's Blog" type="application/atom+xml">
+  <link rel="canonical" href="https://ezeli.github.io/2021/01/27/元学习应用论文/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>元学习应用论文 | Ezeli's Blog</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ezeli's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生在勤，不索何获？</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-wrapper">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ezeli.github.io/2021/01/27/元学习应用论文/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ezeli">
+      <meta itemprop="description" content="个人笔记：用于总结和回顾！">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ezeli's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">元学习应用论文
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-27 22:36:15 / 修改时间：22:41:48" itemprop="dateCreated datePublished" datetime="2021-01-27T22:36:15+08:00">2021-01-27</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/元学习/" itemprop="url" rel="index"><span itemprop="name">元学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一-meta-learning-for-image-captioning-aaai2019"><a class="markdownIt-Anchor" href="#一-meta-learning-for-image-captioning-aaai2019"></a> 一、Meta Learning for Image Captioning, AAAI2019</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2019%20Meta%20Learning%20for%20Image%20Captioning.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
+<h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
+<p>使用强化学习训练模型，可能会使模型与奖励函数过拟合，造成奖励黑客行为（reward hacking），也就是说虽然奖励函数的得分提高了但是模型的实际性能是降低的，这是因为奖励函数不能非常正确的表达出生成描述的质量，一些错误的表示可能反而有很高的奖励，尤其是对描述的命题内容和独特性的奖励。比如，使用CIDEr优化倾向于让句子以“介词+a”结尾，因为CIDEr评价指标会惩罚太短的句子并给常见的短语小的权重，因此，当模型生成短描述时RL会添加一些小权重但是常见的短语来避免惩罚。SPICE指标认为不正常结尾是不匹配的对象-关系对，会惩罚这种现象，但是，SPICE有自己的奖励黑客问题，因为它不惩罚场景图中的重复元组。从技术上讲，很难设计一个完美的评价指标，能够考虑到预期目标的每一个方面。</p>
+<a id="more"></a>
+<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
+<p>这篇论文使用元学习（meta learning）的方法，利用来自ground truth的监督信息，在优化评价指标的同时确保生成描述的命题正确性和独特性。具体来说，作者将MLE优化和RL优化看做两个任务，建立一个元模型同时适应这两个任务，找到这两个任务的最优解。如下图所示，如果直接将这两个任务的损失加起来（棕色箭头，表示为MLE+RL），梯度方向在它俩之间，这并不能保证是任何一个任务的最优解，但是使用元学习（绿色箭头）能够使学到的模型参数同时适应两个任务。</p>
+<p><img src="/2021/01/27/元学习应用论文/4239a5f1ec054493e7248e25fbaa3af6.png" alt></p>
+<p>在实验时，模型先进行MLE预训练，然后在使用元学习对MLE和RL两个任务进行微调。注意作者对MLE进行了改进，即最大化正对（配对的ground truth）的概率同时最小化负对（不配对的ground truth）的概率，对于RL作者采用了CIDEr+SPICE作为奖励函数。</p>
+<h2 id="二-learning-meta-face-recognition-in-unseen-domains-cvpr2020-oral"><a class="markdownIt-Anchor" href="#二-learning-meta-face-recognition-in-unseen-domains-cvpr2020-oral"></a> 二、Learning Meta Face Recognition in Unseen Domains, CVPR2020 oral</h2>
+<blockquote>
+<p><a href="https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2020%20Learning%20Meta%20Face%20Recognition%20in%20Unseen%20Domains.pptx" target="_blank" rel="noopener">自制PPT</a></p>
+</blockquote>
+<h3 id="1-解决问题-2"><a class="markdownIt-Anchor" href="#1-解决问题-2"></a> 1、解决问题</h3>
+<p>在人脸识别的实际应用中，在源域上训练好的模型常常被部署到具有不同分布的另一个目标域上，此时有两种场景：1）目标域是已知的并且数据可以访问，则称为人脸识别的域适应任务，常见的设置是源域包含带有标注的人脸数据，目标域带或者不带标注，此时主要将从源域中学到的知识迁移到目标域以提高模型在目标域的泛化性；2）目标域是不可见的，被视为人脸识别的域泛化任务，作者称为Generalized Face Recognition（GFR），这种情况更常见，因为训练好的模型常常被部署到一个未知的场景中，会遇到很多没有见过的数据。很明显，GFR要更困难，并且已有的域泛化任务往往假设源域和目标域共享标签空间，但是GFR源域和目标域的标签空间是不相交的。作者提出了Meta Face Recognition (MFR)方法用于解决GFR任务，首先采用域级采样策略将源域分为meta-train域和met-test域来模拟域偏移，之后通过三种损失来计算梯度，并且将来自meta-train域的梯度和来自meta-test域的元梯度（meta-gradients）通过meta-optimization整合，并用于更新模型以提高模型的泛化性。并且和传统的元学习方法相比，MFR不需要在目标域上进行模型更新，可以直接处理不可见的域数据。</p>
+<h3 id="2-方法-2"><a class="markdownIt-Anchor" href="#2-方法-2"></a> 2、方法</h3>
+<p>MFR包括三个部分：域级采样策略；优化多域分布的三个损失，以学习域不变性和可区分的人脸表示；元优化过程来提高模型泛化性。模型结构图如下：</p>
+<p><img src="/2021/01/27/元学习应用论文/7bb3609c2319e9060918195a10f7ee2f.png" alt></p>
+<p>在训练阶段，可以访问多个源域数据，每个源域数据都包含自己的标签集合；在测试阶段，模型在一个或几个之前不可见的目标域上进行评估，并且不进行模型更新。</p>
+<h4 id="1域级采样"><a class="markdownIt-Anchor" href="#1域级采样"></a> 1）域级采样</h4>
+<p>在每次训练迭代中，作者将N个源域划分为N-1个meta-train域和1个meta-test目标域来模拟域偏移，通过这种方式，鼓励模型能够很好的泛化到不可见的目标域上。构建一个meta-batch的具体流程为：在N个源域上进行迭代，每次迭代的源域选做meta-test域，剩下的源域都作为meta-train域，之后分别在meta-train域和meta-test域上选取B个实体，并为每个实体选择两个人脸图片，一个作为gallery，另一个作为probe。然后，模型由每个meta-batch的累积梯度进行更新。</p>
+<h4 id="2优化多域分布"><a class="markdownIt-Anchor" href="#2优化多域分布"></a> 2）优化多域分布</h4>
+<p>优化多域分布是为了让相同的实体映射到相近的表示，而不同的实体被映射的表示之间可以区分。作者通过三个损失来优化和学习域不变性和可区分的表示：</p>
+<p><strong>Hard-pair Attention Loss</strong>：用于优化hard正对和负对的局部分布。首先将采样得到的B对实体转化为嵌入表示：</p>
+<p><img src="/2021/01/27/元学习应用论文/84bdb09ac71a14114b858561becd4667.png" alt></p>
+<p>之后对嵌入表示进行l2归一化后计算一个相似性矩阵：</p>
+<p><img src="/2021/01/27/元学习应用论文/7b8dcd52ee0b03f1d1c188600448bf2c.png" alt></p>
+<p>然后使用一个正阈值和一个负阈值来过滤得到hard正对和负对：</p>
+<p><img src="/2021/01/27/元学习应用论文/027e288975a7eac038c7c126cee80fa8.png" alt></p>
+<p>最后的损失为：</p>
+<p><img src="/2021/01/27/元学习应用论文/bccc0d9791447cc36e352a4c322f39cd.png" alt></p>
+<p><strong>Soft-classification Loss</strong>：通过分类考虑了批次内的全局分布：</p>
+<p><img src="/2021/01/27/元学习应用论文/e199b8ab6b6964bcdeb00ca8d7d0c794.png" alt></p>
+<p>其中W初始化为：</p>
+<p><img src="/2021/01/27/元学习应用论文/41e60e39e031bda4c487eac81890dc6a.png" alt></p>
+<p>并且W中的每一行执行l2归一化。</p>
+<p><strong>Domain Alignment Loss</strong>：用于对齐域中心。作者发现跨meta-train域的负对比域内的负对更容易区分，所以通过添加域对齐正则来使嵌入具有域不变性，以减小不同meta-train域的domain gap。为了执行域对齐，作者使多个meta-train域的平均嵌入表示彼此靠近。损失计算过程如下：</p>
+<p><img src="/2021/01/27/元学习应用论文/4db8bef15ce78550215024dbf3c371ab.png" alt></p>
+<h4 id="3元优化"><a class="markdownIt-Anchor" href="#3元优化"></a> 3）元优化</h4>
+<p><img src="/2021/01/27/元学习应用论文/758c69140f00bf0f47d07c8cc6048383.png" alt></p>
+<p>整个元优化流程如上图所示。</p>
+<p>首先在meta-train域上训练模型：</p>
+<p><img src="/2021/01/27/元学习应用论文/a2042b3bdcd6b4451e6a62a81940d577.png" alt></p>
+<p>然后在meta-test域上测试模型：</p>
+<p><img src="/2021/01/27/元学习应用论文/275462a93fee5bf7a11559e38a5a031c.png" alt></p>
+<p>最后，同时优化上述两个损失：</p>
+<p><img src="/2021/01/27/元学习应用论文/e6d8600d3d409439739d1f1e64489994.png" alt></p>
+<p>最后整个算法流程可以表示为：</p>
+<p><img src="/2021/01/27/元学习应用论文/522d98650d4b7610251902f744eb5a35.png" alt></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Image-Caption/" rel="tag"><i class="fa fa-tag"></i> Image Caption</a>
+            
+              <a href="/tags/Meta-learning/" rel="tag"><i class="fa fa-tag"></i> Meta learning</a>
+            
+              <a href="/tags/Face-Recognition/" rel="tag"><i class="fa fa-tag"></i> Face Recognition</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2021/01/04/Active-Learning-for-Image-Captioning/" rel="next" title="Active Learning for Image Captioning">
+                  <i class="fa fa-chevron-left"></i> Active Learning for Image Captioning
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc">
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-meta-learning-for-image-captioning-aaai2019"><span class="nav-text"> 一、Meta Learning for Image Captioning, AAAI2019</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text"> 2、方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-learning-meta-face-recognition-in-unseen-domains-cvpr2020-oral"><span class="nav-text"> 二、Learning Meta Face Recognition in Unseen Domains, CVPR2020 oral</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解决问题-2"><span class="nav-text"> 1、解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-2"><span class="nav-text"> 2、方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1域级采样"><span class="nav-text"> 1）域级采样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2优化多域分布"><span class="nav-text"> 2）优化多域分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3元优化"><span class="nav-text"> 3）元优化</span></a></li></ol></li></ol></li></ol></div>
+          </div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/avatar.jpg"
+      alt="Ezeli">
+  <p class="site-author-name" itemprop="name">Ezeli</p>
+  <div class="site-description motion-element" itemprop="description">个人笔记：用于总结和回顾！</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/ezeli" title="GitHub &rarr; https://github.com/ezeli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:327578505@qq.com" title="E-Mail &rarr; mailto:327578505@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      我的项目
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/ezeli/Transformer_model" title="https://github.com/ezeli/Transformer_model" rel="noopener" target="_blank">Transformer 模型</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/ezeli/BUTD_model" title="https://github.com/ezeli/BUTD_model" rel="noopener" target="_blank">Attention 模型</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/ezeli/NIC_model" title="https://github.com/ezeli/NIC_model" rel="noopener" target="_blank">NIC 模型</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ezeli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a class="book-mark-link book-mark-link-fixed" href="#"></a>
+
+  <a href="https://github.com/ezeli" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script><script src="/js/bookmark.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+    
+  
+
+  <script>
+    ;((d, w) => {
+      loadThree = () => {
+        let s = d.createElement('script');
+        s.src = '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js';
+        d.body.appendChild(s);
+      }
+      let styles = ['', '//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/canvas_lines.min.js', ''];
+      loadStyle = () => {
+        styles.forEach(x => {
+          if (x !== '') {
+            let s = d.createElement('script');
+            s.src = x;
+            d.body.appendChild(s);
+          }
+        })
+      }
+      w.addEventListener('DOMContentLoaded', loadThree);
+      w.addEventListener('load', loadStyle);
+    })(document, window);
+  </script>
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
