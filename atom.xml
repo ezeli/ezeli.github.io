@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2021-02-01T12:44:04.843Z</updated>
+  <updated>2021-02-08T11:09:53.928Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Transformer-Related Image Captioning (2)</title>
+    <link href="https://ezeli.github.io/2021/02/08/Transformer-Related-Image-Captioning-2/"/>
+    <id>https://ezeli.github.io/2021/02/08/Transformer-Related-Image-Captioning-2/</id>
+    <published>2021-02-08T10:50:43.000Z</published>
+    <updated>2021-02-08T11:09:53.928Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-normalized-and-geometry-aware-self-attention-network-for-image-captioning-cvpr2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-normalized-and-geometry-aware-self-attention-network-for-image-captioning-cvpr2020&quot;&gt;&lt;/a&gt; 一、Normalized and Geometry-Aware Self-Attention Network for Image Captioning, CVPR2020&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/CVPR2020%20Normalized%20and%20Geometry-Aware%20Self-Attention%20Network%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;随着Transformer在NLP领域的流行，它的self-attention（SA）的思想也逐渐被引入到image captioning领域。但是原始的SA有两个问题：&lt;/p&gt;
+&lt;p&gt;1）Internal Covariate Shift（ICS）问题：在训练过程中，由于网络参数的变化，当query的分布发生变化时，该层的输出的分布会发生变化，也就是说，随后的层必须不断适应新的输入分布，因此，SA可能无法有效地学习。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
+    
+      <category term="Transformer" scheme="https://ezeli.github.io/tags/Transformer/"/>
+    
+  </entry>
   
   <entry>
     <title>Attention-Related Image Captioning (4)</title>
@@ -507,36 +537,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
       <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
     
       <category term="Seq2Seq" scheme="https://ezeli.github.io/tags/Seq2Seq/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(CVPR2019) Unsupervised Image Captioning</title>
-    <link href="https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/"/>
-    <id>https://ezeli.github.io/2019/09/20/CVPR2019-Unsupervised-Image-Captioning/</id>
-    <published>2019-09-20T13:28:31.000Z</published>
-    <updated>2020-04-21T04:07:53.428Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1811.10787&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;论文链接&lt;/a&gt; | &lt;a href=&quot;https://github.com/fengyang0317/unsupervised_captioning&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;代码链接&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;一-主要思想&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-主要思想&quot;&gt;&lt;/a&gt; 一、主要思想&lt;/h2&gt;
-&lt;p&gt;作者首先总结了以往的Image Caption的方法，将这些方法分成以下几类：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-      <category term="DL" scheme="https://ezeli.github.io/tags/DL/"/>
-    
-      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
-    
-      <category term="RL" scheme="https://ezeli.github.io/tags/RL/"/>
-    
-      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
     
   </entry>
   
