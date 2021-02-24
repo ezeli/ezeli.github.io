@@ -33,7 +33,7 @@
   </li>
 <ul>
 </td>
-<td width=15% style="border:none">
+<td width=15% style="border:none" align=right>
   <img src="assets/photo2.jpg">
 </td>
 </tr>
@@ -43,8 +43,36 @@
 
 ## <img src="assets/graduation-cap-solid.svg" width="30px"> 教育经历
 
- - 2019.09 – 至今　　　　北京理工大学　　　计算机学院计算机科学与技术专业　　　硕 士
- - 2015.09 – 2019.06　　 吉林大学　　　　　软件学院软件工程专业　　　　　　　　学 士
+<table>
+<tr>
+  <td width=30% style="border:none">
+    <li>2019.09 – 至今</li>
+  </td>
+  <td width=20% style="border:none">
+    北京理工大学
+  </td>
+  <td width=40% style="border:none">
+    计算机学院计算机科学与技术专业
+  </td>
+  <td width=10% style="border:none">
+    硕 士
+  </td>
+</tr>
+<tr>
+  <td width=30% style="border:none">
+    <li>2015.09 – 2019.06</li>
+  </td>
+  <td width=20% style="border:none">
+    吉林大学
+  </td>
+  <td width=40% style="border:none">
+    软件学院软件工程专业
+  </td>
+  <td width=10% style="border:none">
+    学 士
+  </td>
+</tr>
+</table>
 
 ---
 
