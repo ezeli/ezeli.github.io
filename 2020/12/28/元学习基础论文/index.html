@@ -72,7 +72,7 @@
 <meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/9b2e8f529a4a630a758e3a441adf416b.png">
 <meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/f77e402816c8a88933a9457424e34664.png">
 <meta property="og:image" content="https://ezeli.github.io/2020/12/28/元学习基础论文/82f7187c55203912e582398f93c9dc80.png">
-<meta property="og:updated_time" content="2020-12-28T08:03:47.294Z">
+<meta property="og:updated_time" content="2021-02-24T02:11:13.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="元学习基础论文">
 <meta name="twitter:description" content="一、Learning to learn by gradient descent by gradient descent, NIPS2016  1、解决问题 在机器学习中，学习得到的特征取代了手工设计的特征，并取得了巨大的成功。但是，优化算法依然是手工设计的，针对不同的任务需要设计不同的更新规则，比如深度学习中常用的momentum、RMSprop、ADAM等。这篇论文中，作者将优化算法参数化，使">
@@ -294,11 +294,19 @@
                 
               
 
-              <time title="创建时间：2020-12-28 15:46:05 / 修改时间：16:03:47" itemprop="dateCreated datePublished" datetime="2020-12-28T15:46:05+08:00">2020-12-28</time>
+              <time title="创建时间：2020-12-28 15:46:05" itemprop="dateCreated datePublished" datetime="2020-12-28T15:46:05+08:00">2020-12-28</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-24 10:11:13" itemprop="dateModified" datetime="2021-02-24T10:11:13+08:00">2021-02-24</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -340,9 +348,7 @@
 <p>可以看出当wt=1，t=T时这个式子和上面的式子是相等的。此时可以采样不同的f，也就是通过不同的任务来训练这个优化器。整个流程也可以表示为下图：</p>
 <p><img src="/2020/12/28/元学习基础论文/f06878c713abc06f12c5001c5fa5eb09.png" alt></p>
 <p>在这个过程中，首先固定optimizer参数，然后不断更新optimizee参数，最后使用所有时间步的损失f求和来更新optimizer。注意在更新optimizer时，梯度只沿着实线方向传递，虚线方向的梯度被删除，也就是假设optimizee的梯度不依赖于optimizer的参数，这样避免了计算f的二阶导数。</p>
-<p>上述方法的一个问题就是LSTM优化器的输入（也就是optimizee参数的梯度）有至少上万的参数，这需要很大的隐藏状态维度，使得LSTM有大量的参数，不能够很好的训练。所以作者提出coordinatewise<br>
-network<br>
-architecture，每次只输入单个参数梯度，并输出对应的更新值，然后所有的参数共享LSTM参数，但是使用独立的隐藏状态，如下图所示：</p>
+<p>上述方法的一个问题就是LSTM优化器的输入（也就是optimizee参数的梯度）有至少上万的参数，这需要很大的隐藏状态维度，使得LSTM有大量的参数，不能够很好的训练。所以作者提出coordinatewise network architecture，每次只输入单个参数梯度，并输出对应的更新值，然后所有的参数共享LSTM参数，但是使用独立的隐藏状态，如下图所示：</p>
 <p><img src="/2020/12/28/元学习基础论文/9b2e8f529a4a630a758e3a441adf416b.png" alt></p>
 <p>这和Adam等优化器的思路一致，也就是对所有参数的更新规则是一样的，使得LSTM优化器可以是一个很小的网络结构，并且对输入的模型参数的顺序具有不变性。</p>
 <p>并且LSTM优化器的结构使得它学到的动态的学习规则可以向momentum一样集成梯度历史中的信息。</p>
