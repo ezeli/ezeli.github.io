@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2021-02-28T14:41:53.276Z</updated>
+  <updated>2021-02-28T14:51:59.135Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Video Grounding</title>
+    <link href="https://ezeli.github.io/2021/02/28/Video-Grounding/"/>
+    <id>https://ezeli.github.io/2021/02/28/Video-Grounding/</id>
+    <published>2021-02-28T14:49:34.000Z</published>
+    <updated>2021-02-28T14:51:59.135Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-dense-regression-network-for-video-grounding-cvpr2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-dense-regression-network-for-video-grounding-cvpr2020&quot;&gt;&lt;/a&gt; 一、Dense Regression Network for Video Grounding, CVPR2020&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;如下图所示，Video Grounding任务的目的是在视频中定位对应于给定查询（一句描述）的目标视频段的起始和结束时间，该任务一个关键问题是视频通常可以包含数千帧，但它可能只有很少的帧被标注为起始和结束帧（即正训练示例），而之前的方法都忽略了来自被标注的起始结束位置之间的帧的丰富信息，往往直接使用这些不平衡的数据训练一个二分类模型。因此，作者训练了一个模型来预测每个帧到目标视频段边界的距离，并将目标视频段范围内的所有帧都作为正训练样本，这样训练样本大大增加，有利于训练。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/02/28/Video-Grounding/78da75a489c3fc4ea89236cc822d8ce7.png&quot; alt&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Video Grounding" scheme="https://ezeli.github.io/tags/Video-Grounding/"/>
+    
+  </entry>
   
   <entry>
     <title>News Image Captioning</title>
@@ -219,9 +242,9 @@
     
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
-      <category term="Stylized Image Captioning" scheme="https://ezeli.github.io/tags/Stylized-Image-Captioning/"/>
-    
       <category term="Scene Graph" scheme="https://ezeli.github.io/tags/Scene-Graph/"/>
+    
+      <category term="Stylized Image Captioning" scheme="https://ezeli.github.io/tags/Stylized-Image-Captioning/"/>
     
   </entry>
   
@@ -498,30 +521,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
 &lt;/blockquote&gt;
 &lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
 &lt;p&gt;这篇论文认为当图片的内容比较复杂时传统的LSTM很难处理长期依赖问题，往往更关注于相对比较近的单词而忽略比较远的问题，如下图所示，“bridge”对“river”有很大的提示作用，但是它们之间相差6个单词，对于传统的LSTM来说很容易忽略这个。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
-    
-      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Attention-Related Image Captioning</title>
-    <link href="https://ezeli.github.io/2020/03/29/Attention-Related-Image-Captioning/"/>
-    <id>https://ezeli.github.io/2020/03/29/Attention-Related-Image-Captioning/</id>
-    <published>2020-03-29T12:42:45.000Z</published>
-    <updated>2020-04-21T04:30:32.397Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;一-show-attend-and-tell-neural-image-caption-generation-with-visual-attention-icml2015&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-show-attend-and-tell-neural-image-caption-generation-with-visual-attention-icml2015&quot;&gt;&lt;/a&gt; 一、Show, Attend and Tell: Neural Image Caption Generation with Visual Attention, ICML2015&lt;/h2&gt;
-&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
-&lt;p&gt;我们人类观察图片时，不是将整个图片压缩成一个静态表示，而是通过注意力机制根据需要动态调节所观察的区域，当图像中存在大量杂乱时，这一点尤其重要。因此，作者参考人类的视觉系统，在编解码框架的基础上引入了注意力机制，使得模型在生成描述时可以动态关注图片的不同区域。&lt;/p&gt;
     
     </summary>
     

@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Video Grounding</title>
+      <link href="/2021/02/28/Video-Grounding/"/>
+      <url>/2021/02/28/Video-Grounding/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一-dense-regression-network-for-video-grounding-cvpr2020"><a class="markdownIt-Anchor" href="#一-dense-regression-network-for-video-grounding-cvpr2020"></a> 一、Dense Regression Network for Video Grounding, CVPR2020</h2><h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3><p>如下图所示，Video Grounding任务的目的是在视频中定位对应于给定查询（一句描述）的目标视频段的起始和结束时间，该任务一个关键问题是视频通常可以包含数千帧，但它可能只有很少的帧被标注为起始和结束帧（即正训练示例），而之前的方法都忽略了来自被标注的起始结束位置之间的帧的丰富信息，往往直接使用这些不平衡的数据训练一个二分类模型。因此，作者训练了一个模型来预测每个帧到目标视频段边界的距离，并将目标视频段范围内的所有帧都作为正训练样本，这样训练样本大大增加，有利于训练。</p><p><img src="/2021/02/28/Video-Grounding/78da75a489c3fc4ea89236cc822d8ce7.png" alt></p><a id="more"></a><h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3><p><img src="/2021/02/28/Video-Grounding/d8a7c16993ce5e22cf33ab360cda1718.png" alt></p><p>如上图所示，作者提出dense regression network (DRN)模型，首先使用视频-查询交互模块G提取多尺度的特征图，之后每个特征图都被定位模块（包括位置回归头、语义匹配头和IoU回归头）处理。其中，位置回归头预测每个帧到起始和结束位置的距离，然后得到对应的时间范围：</p><p><img src="/2021/02/28/Video-Grounding/b30cc6443d698b61b7c540baf13038c5.png" alt></p><p>之后要在所有时间范围中选择和查询最匹配的。为此，作者使用语义匹配头从语义上预测每个时间范围内的内容和查询的匹配分数，以及使用IoU回归头预测一个分数来直接评估每个时间范围和真实标注的IoU，最后使用这两个分数的乘积表示每一帧预测出的时间范围的质量。</p><h4 id="1多层次视频-查询交互模块"><a class="markdownIt-Anchor" href="#1多层次视频-查询交互模块"></a> 1）多层次视频-查询交互模块</h4><p>首先使用特征提取器（如C3D模型）提取视频帧的特征集合，然后通过多层次融合和时间位置嵌入产生视觉-语言表示。对于<strong>多层次融合</strong>：由于数据集中目标视频段往往有很大的尺度变化，比如Charades-STA数据集中最短的视频段是2.4s而最长的为180.8s，因此作者从多个层次获得一组层次特征图来解决这个问题，其中每个层次关注输入查询的不同部分。首先通过一个双向LSTM对查询中每个单词进行编码，并得到一个全局表示：</p><p><img src="/2021/02/28/Video-Grounding/4f63076c4db58e23bdd86c369c318f00.png" alt></p><p>对于第i个层次，为每个单词计算一个注意力权重，并得到对应的查询特征：</p><p><img src="/2021/02/28/Video-Grounding/66884908788040fb1e85a8a58732e742.png" alt></p><p>其中W1和W3在不同层之间共享参数，W2是分离的。</p><p>对于一个视频，提取出的特征是一个T*c的矩阵M，T表示帧数，c表示通道维度。因此，需要先将每个层次的查询特征q复制T次得到特征图D，然后使用元素乘法来融合M和D得到L个特征图C（论文中设置层次数L为3）。最后，使用FPN网络（用于目标检测的特征金字塔网络）得到特征图P。</p><p>对于<strong>时间位置嵌入</strong>：作者发现查询中通常包含一些关于时间顺序的单词，例如“after”和“before”，因此作者将视频的时间信息融合到视觉特征中。第t帧（或段）的时间位置为：</p><p><img src="/2021/02/28/Video-Grounding/7c92b07683bf05dbb1634f107d5c6d77.png" alt></p><p>，将这个位置嵌入表示连接到视觉-查询融合模块输出的通道维度上，得到特征图C1。</p><h4 id="2定位模块"><a class="markdownIt-Anchor" href="#2定位模块"></a> 2）定位模块</h4><p><strong>位置回归头</strong>：对于P中每个位置t，如果落到目标视频段中，那么这个位置被认为是一个训练样本，其回归目标为一个二维向量，表示t到对应目标视频段起始结束位置的距离：</p><p><img src="/2021/02/28/Video-Grounding/cde4835cac3fb77ac8043c03c389bce9.png" alt></p><p>并且多层次特征提取进一步增强了训练样本数量。模型包括两个1维卷积层并且后一层输出2个通道。</p><p><strong>语义匹配头</strong>：如果某帧落到目标视频段中，则它的语义匹配得分标注为1否则标注为0。模型包括两个1维卷积层并且后一层输出1个通道。</p><p><strong>IoU回归头</strong>：使用一个3层卷积层实现，输入是从语义匹配头和位置回归头的第一个卷积层获得的特征图的连接。训练目标就是预测的时间范围和真实标注的IoU值。</p><h4 id="3训练细节"><a class="markdownIt-Anchor" href="#3训练细节"></a> 3）训练细节</h4><p>位置回归头的损失函数为：</p><p><img src="/2021/02/28/Video-Grounding/cfc34c98f40d03499889fe0002c3eb4c.png" alt></p><p>其中当位置t落到目标范围时指示函数取1，N_pos表示正样本数（也就是目标范围视频帧的数目），L1使用IoU回归损失。</p><p>语义回归头的损失函数为：</p><p><img src="/2021/02/28/Video-Grounding/1da32526f3f78f510a02caee06517c15.png" alt></p><p>采用focal loss作为L2，因为它在处理类不平衡问题时是有效的。</p><p>IoU回归头的损失函数为：</p><p><img src="/2021/02/28/Video-Grounding/b662275894537c88c6026a5cd388e215.png" alt></p><p>使用Smooth-L1损失作为L3，因为它对异常值不那么敏感。</p><p>通过三步来训练模型：第一步去掉IoU回归头模块进行训练；第二步固定模型中其他参数，只训练IoU回归头；第三部优化整个模型。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文阅读 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Video Grounding </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>News Image Captioning</title>
       <link href="/2021/02/28/News-Image-Captioning/"/>
       <url>/2021/02/28/News-Image-Captioning/</url>
@@ -215,9 +240,9 @@
             
             <tag> Image Caption </tag>
             
-            <tag> Stylized Image Captioning </tag>
-            
             <tag> Scene Graph </tag>
+            
+            <tag> Stylized Image Captioning </tag>
             
         </tags>
       
