@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2021-02-28T14:51:59.135Z</updated>
+  <updated>2021-02-28T14:53:47.470Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -21,14 +21,13 @@
     <link href="https://ezeli.github.io/2021/02/28/Video-Grounding/"/>
     <id>https://ezeli.github.io/2021/02/28/Video-Grounding/</id>
     <published>2021-02-28T14:49:34.000Z</published>
-    <updated>2021-02-28T14:51:59.135Z</updated>
+    <updated>2021-02-28T14:53:47.470Z</updated>
     
     <summary type="html">
     
       &lt;h2 id=&quot;一-dense-regression-network-for-video-grounding-cvpr2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-dense-regression-network-for-video-grounding-cvpr2020&quot;&gt;&lt;/a&gt; 一、Dense Regression Network for Video Grounding, CVPR2020&lt;/h2&gt;
 &lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
 &lt;p&gt;如下图所示，Video Grounding任务的目的是在视频中定位对应于给定查询（一句描述）的目标视频段的起始和结束时间，该任务一个关键问题是视频通常可以包含数千帧，但它可能只有很少的帧被标注为起始和结束帧（即正训练示例），而之前的方法都忽略了来自被标注的起始结束位置之间的帧的丰富信息，往往直接使用这些不平衡的数据训练一个二分类模型。因此，作者训练了一个模型来预测每个帧到目标视频段边界的距离，并将目标视频段范围内的所有帧都作为正训练样本，这样训练样本大大增加，有利于训练。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2021/02/28/Video-Grounding/78da75a489c3fc4ea89236cc822d8ce7.png&quot; alt&gt;&lt;/p&gt;
     
     </summary>
     

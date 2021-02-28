@@ -75,7 +75,7 @@
 <meta property="og:image" content="https://ezeli.github.io/2021/02/28/Video-Grounding/cfc34c98f40d03499889fe0002c3eb4c.png">
 <meta property="og:image" content="https://ezeli.github.io/2021/02/28/Video-Grounding/1da32526f3f78f510a02caee06517c15.png">
 <meta property="og:image" content="https://ezeli.github.io/2021/02/28/Video-Grounding/b662275894537c88c6026a5cd388e215.png">
-<meta property="og:updated_time" content="2021-02-28T14:51:59.135Z">
+<meta property="og:updated_time" content="2021-02-28T14:53:47.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Video Grounding">
 <meta name="twitter:description" content="一、Dense Regression Network for Video Grounding, CVPR2020  1、解决问题 如下图所示，Video Grounding任务的目的是在视频中定位对应于给定查询（一句描述）的目标视频段的起始和结束时间，该任务一个关键问题是视频通常可以包含数千帧，但它可能只有很少的帧被标注为起始和结束帧（即正训练示例），而之前的方法都忽略了来自被标注的起始结束位置">
@@ -297,7 +297,7 @@
                 
               
 
-              <time title="创建时间：2021-02-28 22:49:34 / 修改时间：22:51:59" itemprop="dateCreated datePublished" datetime="2021-02-28T22:49:34+08:00">2021-02-28</time>
+              <time title="创建时间：2021-02-28 22:49:34 / 修改时间：22:53:47" itemprop="dateCreated datePublished" datetime="2021-02-28T22:49:34+08:00">2021-02-28</time>
             </span>
           
             
@@ -332,8 +332,8 @@
         <h2 id="一-dense-regression-network-for-video-grounding-cvpr2020"><a class="markdownIt-Anchor" href="#一-dense-regression-network-for-video-grounding-cvpr2020"></a> 一、Dense Regression Network for Video Grounding, CVPR2020</h2>
 <h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3>
 <p>如下图所示，Video Grounding任务的目的是在视频中定位对应于给定查询（一句描述）的目标视频段的起始和结束时间，该任务一个关键问题是视频通常可以包含数千帧，但它可能只有很少的帧被标注为起始和结束帧（即正训练示例），而之前的方法都忽略了来自被标注的起始结束位置之间的帧的丰富信息，往往直接使用这些不平衡的数据训练一个二分类模型。因此，作者训练了一个模型来预测每个帧到目标视频段边界的距离，并将目标视频段范围内的所有帧都作为正训练样本，这样训练样本大大增加，有利于训练。</p>
-<p><img src="/2021/02/28/Video-Grounding/78da75a489c3fc4ea89236cc822d8ce7.png" alt></p>
 <a id="more"></a>
+<p><img src="/2021/02/28/Video-Grounding/78da75a489c3fc4ea89236cc822d8ce7.png" alt></p>
 <h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3>
 <p><img src="/2021/02/28/Video-Grounding/d8a7c16993ce5e22cf33ab360cda1718.png" alt></p>
 <p>如上图所示，作者提出dense regression network (DRN)模型，首先使用视频-查询交互模块G提取多尺度的特征图，之后每个特征图都被定位模块（包括位置回归头、语义匹配头和IoU回归头）处理。其中，位置回归头预测每个帧到起始和结束位置的距离，然后得到对应的时间范围：</p>
