@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>News Image Captioning</title>
+      <link href="/2021/02/28/News-Image-Captioning/"/>
+      <url>/2021/02/28/News-Image-Captioning/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一-transform-and-tell-entity-aware-news-image-captioning-cvpr2020"><a class="markdownIt-Anchor" href="#一-transform-and-tell-entity-aware-news-image-captioning-cvpr2020"></a> 一、Transform and Tell: Entity-Aware News Image Captioning, CVPR2020</h2><h3 id="1-解决问题"><a class="markdownIt-Anchor" href="#1-解决问题"></a> 1、解决问题</h3><p>新闻中图片描述生成任务主要有两个挑战：一是依赖于现实世界的知识，特别是关于命名实体的知识；二是新闻中有丰富的语言描述，它们包括一些不常见的单词。作者通过一种多模态、多头注意机制将新闻中的单词与图像中的人脸和对象关联起来来解决第一个挑战，并且用Transformer语言模型来解决第二个挑战，该模型使用byte-pair-encoding（BPE）来编码单词：首先将单词表示为字母序列，之后使用贪婪算法合并公共字母序列，这样几乎所有的单词都可以用字母序列的组合来表示，这样就可以处理一些新的不常见的单词，而不需要使用一个特殊的未知标签代替。并且作者提出一个新的大型新闻图片描述数据集：NYTimes800k，包含445K文章和793K图片。</p><a id="more"></a><h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2、方法</h3><p><img src="/2021/02/28/News-Image-Captioning/773706893efbdc64fbc8708a54069fc4.png" alt></p><p>如上图所示，首先使用四个经过预训练的编码器分别提取新闻文章特征、图片特征、图片中的人脸特征和物体特征，之后输入到解码器中生成描述。</p><p>对于解码器，每个Transformer块的输入输出表示为：</p><p><img src="/2021/02/28/News-Image-Captioning/0ce7582f46490a34938442b132c6adec.png" alt></p><p>最后的概率输出为：</p><p><img src="/2021/02/28/News-Image-Captioning/01a1abd907f52a870091a7b5cdd467eb.png" alt></p><p>将词汇按照频率分为三个级别，并通过adaptive softmax代替传统的softmax操作，大大提高了计算效率。</p><p>每个Transformer块包含动态卷积和多头注意力两个模块：</p><p><strong>动态卷积</strong>：用于代替self-attention，能够更加有效地关注过去已经生成的单词。给定核大小K和H个注意力头，该模块的公式表示为：</p><p><img src="/2021/02/28/News-Image-Captioning/5f059aea56bc2d7b09b62f94319e2621.png" alt></p><p>其中GLU是gated linear unit activation function。</p><p><strong>多头注意力</strong>：以图片特征注意力模块为例，公式为：</p><p><img src="/2021/02/28/News-Image-Captioning/5d793fe895843e91be9de0efd1bafb3c.png" alt></p><p>对于新闻文章特征、图片中的人脸和物体特征执行相同的多头注意力操作，并将它们的结果进行连接并输入到一个前馈网络中得到最后的输出：</p><p><img src="/2021/02/28/News-Image-Captioning/f8e50de19b9869c0c88882d4c36bd5ae.png" alt></p><h3 id="3-新闻图片描述数据集"><a class="markdownIt-Anchor" href="#3-新闻图片描述数据集"></a> 3、新闻图片描述数据集</h3><p>GoodNews：包含466K张图片，数据中每个样本都包括文章、图片和描述信息。但是这个数据集中很多文章都不全，会缺少重要信息最多的前几段内容。此外，数据集中包含一些非英语文章和来自网页中推荐侧栏的图像，与主要文章内容无关。</p><p>NYTimes800k：作者构建的一个更大更完整的数据集，从纽约时报中获取文章、图片和描述信息。文章平均包括963个字，而在GoodNews中的文章平均包括451个字。并且只包含英文新闻以及文章中的图片。最后还收集了图片在文章中的位置信息。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 论文阅读 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Image Caption </tag>
+            
+            <tag> Transformer </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Transformer-Related Image Captioning (2)</title>
       <link href="/2021/02/08/Transformer-Related-Image-Captioning-2/"/>
       <url>/2021/02/08/Transformer-Related-Image-Captioning-2/</url>
@@ -188,9 +215,9 @@
             
             <tag> Image Caption </tag>
             
-            <tag> Scene Graph </tag>
-            
             <tag> Stylized Image Captioning </tag>
+            
+            <tag> Scene Graph </tag>
             
         </tags>
       
@@ -1069,9 +1096,9 @@
             
             <tag> Linux </tag>
             
-            <tag> IPC </tag>
-            
             <tag> pipe </tag>
+            
+            <tag> IPC </tag>
             
             <tag> mmap </tag>
             
@@ -1139,11 +1166,11 @@
             
             <tag> Linux </tag>
             
-            <tag> pipe </tag>
-            
             <tag> 进程 </tag>
             
             <tag> 系统调用 </tag>
+            
+            <tag> pipe </tag>
             
         </tags>
       

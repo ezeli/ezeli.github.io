@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2021-02-08T11:09:53.928Z</updated>
+  <updated>2021-02-28T14:41:53.276Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>News Image Captioning</title>
+    <link href="https://ezeli.github.io/2021/02/28/News-Image-Captioning/"/>
+    <id>https://ezeli.github.io/2021/02/28/News-Image-Captioning/</id>
+    <published>2021-02-28T14:38:32.000Z</published>
+    <updated>2021-02-28T14:41:53.276Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-transform-and-tell-entity-aware-news-image-captioning-cvpr2020&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-transform-and-tell-entity-aware-news-image-captioning-cvpr2020&quot;&gt;&lt;/a&gt; 一、Transform and Tell: Entity-Aware News Image Captioning, CVPR2020&lt;/h2&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;新闻中图片描述生成任务主要有两个挑战：一是依赖于现实世界的知识，特别是关于命名实体的知识；二是新闻中有丰富的语言描述，它们包括一些不常见的单词。作者通过一种多模态、多头注意机制将新闻中的单词与图像中的人脸和对象关联起来来解决第一个挑战，并且用Transformer语言模型来解决第二个挑战，该模型使用byte-pair-encoding（BPE）来编码单词：首先将单词表示为字母序列，之后使用贪婪算法合并公共字母序列，这样几乎所有的单词都可以用字母序列的组合来表示，这样就可以处理一些新的不常见的单词，而不需要使用一个特殊的未知标签代替。并且作者提出一个新的大型新闻图片描述数据集：NYTimes800k，包含445K文章和793K图片。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
+    
+      <category term="Transformer" scheme="https://ezeli.github.io/tags/Transformer/"/>
+    
+  </entry>
   
   <entry>
     <title>Transformer-Related Image Captioning (2)</title>
@@ -195,9 +219,9 @@
     
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
-      <category term="Scene Graph" scheme="https://ezeli.github.io/tags/Scene-Graph/"/>
-    
       <category term="Stylized Image Captioning" scheme="https://ezeli.github.io/tags/Stylized-Image-Captioning/"/>
+    
+      <category term="Scene Graph" scheme="https://ezeli.github.io/tags/Scene-Graph/"/>
     
   </entry>
   
@@ -507,36 +531,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
       <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(ICCV2019) Towards Unsupervised Image Captioning with Shared Multimodal Embeddings</title>
-    <link href="https://ezeli.github.io/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/"/>
-    <id>https://ezeli.github.io/2019/10/01/ICCV2019-Towards-Unsupervised-Image-Captioning-with-Shared-Multimodal-Embeddings/</id>
-    <published>2019-10-01T14:45:04.000Z</published>
-    <updated>2020-04-20T08:26:29.474Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1908.09317&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;论文链接&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;一-主要思想&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-主要思想&quot;&gt;&lt;/a&gt; 一、主要思想&lt;/h2&gt;
-&lt;p&gt;文章首先提出了传统方法的问题：给图片标注描述信息很繁琐、昂贵，并且这些人工描述也都很短而且是重复的；当前的方法生成的描述受限于图片类别数和并不完美的验证指标，因此很难扩展到数据集以外的图片中。本文使用无监督的方式对独立的图像和文本进行建模，避免了带有人为偏见的而且昂贵的人工标注，当然，语料和图片并不是完全无关的，比如试图用经济学文本语料来描述图片是不合理的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-      <category term="DL" scheme="https://ezeli.github.io/tags/DL/"/>
-    
-      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
-    
-      <category term="GAN" scheme="https://ezeli.github.io/tags/GAN/"/>
-    
-      <category term="Seq2Seq" scheme="https://ezeli.github.io/tags/Seq2Seq/"/>
     
   </entry>
   
