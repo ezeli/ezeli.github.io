@@ -597,9 +597,9 @@
             
             <tag> Image Caption </tag>
             
-            <tag> GAN </tag>
-            
             <tag> Seq2Seq </tag>
+            
+            <tag> GAN </tag>
             
         </tags>
       
@@ -628,9 +628,9 @@
             
             <tag> Image Caption </tag>
             
-            <tag> RL </tag>
-            
             <tag> GAN </tag>
+            
+            <tag> RL </tag>
             
         </tags>
       
