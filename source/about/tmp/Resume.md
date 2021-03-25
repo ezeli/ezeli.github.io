@@ -20,16 +20,19 @@
 <td width=80% style="border:none" align=left>
 <ul style="margin:10px; padding:10px;">
   <li>
-   出生日期：1996年12月
+   研究方向：Image Captioning
+  </li>
+  <li>
+   求职意愿：CV / NLP 算法工程师
+  </li>
+  <li>
+   城市意愿：北京
   </li>
   <li>
    个人博客：<a href="https://ezeli.github.io/">https://ezeli.github.io/</a>
   </li>
   <li>
-   研究方向：Image Captioning
-  </li>
-  <li>
-   求职意向：CV / NLP 算法工程师
+   个人简历：<a href="https://ezeli.github.io/about/李彤 - 个人简历.pdf">PDF 下载</a>
   </li>
 <ul>
 </td>
