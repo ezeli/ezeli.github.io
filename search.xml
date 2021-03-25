@@ -1121,9 +1121,9 @@
             
             <tag> Linux </tag>
             
-            <tag> pipe </tag>
-            
             <tag> IPC </tag>
+            
+            <tag> pipe </tag>
             
             <tag> mmap </tag>
             
@@ -1191,11 +1191,11 @@
             
             <tag> Linux </tag>
             
+            <tag> pipe </tag>
+            
             <tag> 进程 </tag>
             
             <tag> 系统调用 </tag>
-            
-            <tag> pipe </tag>
             
         </tags>
       
@@ -1253,9 +1253,9 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> Socket </tag>
+            
+            <tag> Linux </tag>
             
             <tag> IPC </tag>
             
@@ -1284,11 +1284,11 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> Socket </tag>
             
             <tag> UDP </tag>
+            
+            <tag> Linux </tag>
             
             <tag> 广播 </tag>
             
@@ -1319,11 +1319,11 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> Socket </tag>
             
             <tag> TCP </tag>
+            
+            <tag> Linux </tag>
             
         </tags>
       
