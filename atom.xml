@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ezeli.github.io/"/>
-  <updated>2021-02-28T14:53:47.470Z</updated>
+  <updated>2021-04-14T14:14:57.826Z</updated>
   <id>https://ezeli.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Video Captioning</title>
+    <link href="https://ezeli.github.io/2021/04/14/Video-Captioning/"/>
+    <id>https://ezeli.github.io/2021/04/14/Video-Captioning/</id>
+    <published>2021-04-14T14:08:32.000Z</published>
+    <updated>2021-04-14T14:14:57.826Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一-semantic-grouping-network-for-video-captioning-aaai2021&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-semantic-grouping-network-for-video-captioning-aaai2021&quot;&gt;&lt;/a&gt; 一、Semantic Grouping Network for Video Captioning, AAAI2021&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/AAAI2021%20Semantic%20Grouping%20Network%20for%20Video%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/2021/04/14/Video-Captioning/411e844f7eb58a98830fcd62950446ae.png&quot; alt&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="Video Caption" scheme="https://ezeli.github.io/tags/Video-Caption/"/>
+    
+  </entry>
   
   <entry>
     <title>Video Grounding</title>
@@ -502,33 +527,6 @@ Hierarchical Attention Network (HAN)，能够同时考虑多层特征，如下�
       <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
     
       <category term="Transfer Learning" scheme="https://ezeli.github.io/tags/Transfer-Learning/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Attention-Related Image Captioning (2)</title>
-    <link href="https://ezeli.github.io/2020/04/06/Attention-Related-Image-Captioning-2/"/>
-    <id>https://ezeli.github.io/2020/04/06/Attention-Related-Image-Captioning-2/</id>
-    <published>2020-04-06T10:58:57.000Z</published>
-    <updated>2020-04-20T08:26:29.495Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;一-reflective-decoding-network-for-image-captioning-iccv2019&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#一-reflective-decoding-network-for-image-captioning-iccv2019&quot;&gt;&lt;/a&gt; 一、Reflective Decoding Network for Image Captioning, ICCV2019&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/ezeli/notes_in_BIT/raw/master/PPT/ICCV2019%20Reflective%20Decoding%20Network%20for%20Image%20Captioning.pptx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;自制PPT&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;1-解决问题&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-解决问题&quot;&gt;&lt;/a&gt; 1、解决问题&lt;/h3&gt;
-&lt;p&gt;这篇论文认为当图片的内容比较复杂时传统的LSTM很难处理长期依赖问题，往往更关注于相对比较近的单词而忽略比较远的问题，如下图所示，“bridge”对“river”有很大的提示作用，但是它们之间相差6个单词，对于传统的LSTM来说很容易忽略这个。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="论文阅读" scheme="https://ezeli.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-      <category term="Image Caption" scheme="https://ezeli.github.io/tags/Image-Caption/"/>
-    
-      <category term="Attention Mechanism" scheme="https://ezeli.github.io/tags/Attention-Mechanism/"/>
     
   </entry>
   
