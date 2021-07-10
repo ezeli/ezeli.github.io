@@ -618,11 +618,11 @@
       
         <tags>
             
-            <tag> DL </tag>
-            
             <tag> Image Caption </tag>
             
             <tag> GAN </tag>
+            
+            <tag> DL </tag>
             
             <tag> Seq2Seq </tag>
             
@@ -649,13 +649,13 @@
       
         <tags>
             
-            <tag> DL </tag>
-            
             <tag> Image Caption </tag>
             
-            <tag> RL </tag>
-            
             <tag> GAN </tag>
+            
+            <tag> DL </tag>
+            
+            <tag> RL </tag>
             
         </tags>
       
@@ -1146,9 +1146,9 @@
             
             <tag> Linux </tag>
             
-            <tag> pipe </tag>
-            
             <tag> IPC </tag>
+            
+            <tag> pipe </tag>
             
             <tag> mmap </tag>
             
@@ -1210,17 +1210,17 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
-            <tag> 进程 </tag>
-            
             <tag> 线程 </tag>
             
             <tag> 同步 </tag>
             
-            <tag> 系统调用 </tag>
+            <tag> Linux </tag>
             
             <tag> pipe </tag>
+            
+            <tag> 进程 </tag>
+            
+            <tag> 系统调用 </tag>
             
         </tags>
       
@@ -1278,9 +1278,9 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> Socket </tag>
+            
+            <tag> Linux </tag>
             
             <tag> IPC </tag>
             
@@ -1309,11 +1309,11 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> Socket </tag>
             
             <tag> UDP </tag>
+            
+            <tag> Linux </tag>
             
             <tag> 广播 </tag>
             
@@ -1344,11 +1344,11 @@
       
         <tags>
             
-            <tag> Linux </tag>
-            
             <tag> Socket </tag>
             
             <tag> TCP </tag>
+            
+            <tag> Linux </tag>
             
         </tags>
       

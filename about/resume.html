@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0077)file:///C:/Users/Ezeli/AppData/Local/Temp/mume2021225-19452-6wt0dp.cdw8l.html -->
+<!-- saved from url=(0076)file:///C:/Users/Ezeli/AppData/Local/Temp/mume2021610-8120-1t79lfn.tq4z.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>resume</title>
       
@@ -348,15 +348,15 @@ pre[data-line] .line-highlight[data-end]:after {
 　　由于没有配对的图片-情感描述数据集，并且收集该数据集的代价较大，我们提出了一个两阶段训练策略，在预训练阶段，使用配对的图片-事实描述训练模型，并通过情感句子重构任务提供一个正则项，让模型学会如何在生成的句子中加入情感元素；在微调阶段，加入了强化学习，并通过训练好的句子情感分类器提供一种新的情感奖励，从而使模型生成更具情感的描述。<br>
 　　我们以图片情感检测器检测出的标签作为指定风格，从而和最新的stylized image captioning方法进行了比较，并且在内容（CIDEr提升了8.5个点）和情感（ppl提升了5.1个点）指标上都取得了较大提升。并且通过消融实验验证了新的正则项和情感奖励的有效性。<br>
 <br></li>
+<li><strong>Sentimental Visual Captioning using Multimodal Senti-Transformer （计划投IJCV）</strong><br>
+　　本工作是上一个工作的扩展工作，主要是修改主体模型结构并对实验部分进行扩充。<br>
+　　首先使用Transformer代替原本的LSTM，解决了LSTM自身的长期依赖问题，并利用了Transformer模型强大的拟合能力。为了能够利用情感信息，本工作加入多个情感头来捕捉图像或视频中的情感特征，并对Transformer解码器中间的注意力层进行了分解，使它能够同时处理、融合来自多种模态的内容和情感特征。本工作还在视频数据集上进行实验，加入音频模态的特征。<br>
+　　目前在图片集上的实验已经全面超过之前的结果。<br>
+<br></li>
 <li><strong>Image Captioning with Attribute Features （本科毕设）</strong><br>
 　　Image Captioning任务的目的是根据图片内容自动生成自然语言描述，是连接了视觉和语言两个领域的多模态研究任务。目前的方法往往是通过从图片本身挖掘信息来指导描述的生成，但是随着网络的快速发展以及社交平台的普及，网上的资源和信息日益丰富，完全可以从网络上得到图片更多的信息，用来辅助描述文本的生成，以达到更好的效果。<br>
 　　在本毕设中，首先通过以图搜图来从网上爬取和图片相关的信息，比如用户为图片提供的标签、标题等信息，这些信息往往描述了图像的场景、颜色等重要特征，然后进行筛选提取出其中的属性词；之后采用ResNet101网络作为编码器来提取图片的全局特征，并通过LSTM作为解码器生成描述，在解码过程中通过注意力机制自动判断爬取的哪些信息重要，哪些信息不重要，从而生成更丰富的图片描述。并且本文给单词编码时采用word2vec模型训练出的词嵌入向量代替one-hot编码方式，这样不仅能够减小模型参数大小，加快模型训练，而且单词编码之间并不孤立，存在一定的语义联系，有助于图像描述的生成。<br>
 　　模型最终能够根据网络上的信息生成更丰富的描述，生成标注数据集中并不存在的一些单词，并且通过对注意力得分进行可视化可以看出模型能够准确捕捉到正确的信息。<br>
-<br></li>
-<li><strong>元学习研究</strong><br>
-　　主要进行了元学习在stylized image captioning任务中进行风格迁移的研究。<br>
-　　首先对元学习的相关知识进行了学习：<a href="https://ezeli.github.io/categories/%E5%85%83%E5%AD%A6%E4%B9%A0">https://ezeli.github.io/categories/元学习</a> ，它的目的是学会去学习，也就是从之前学习的任务中学会如何去学习一个新任务。在元学习经典的MAML方法中，作者通过元学习来从多个训练任务中学习初始化参数，也就是用训练任务训练模型，得到模型参数，之后用于初始化新任务的模型。MAML并不十分在意模型在训练任务上的表现如何，它关注的是模型的潜力。<br>
-　　对于stylized image captioning任务，由于风格化语料很难收集，因此能够利用少量风格化语料而使模型快速迁移到该风格就十分重要。我们将stylized image captioning任务分为内容和风格两个部分，对于内容部分，可以使用传统的方式进行训练，而对于风格部分，则可以通过元学习在已有的多个风格上进行训练，从而使模型能够快速迁移到新的风格上。<br>
 <br></li>
 <li><strong>开源项目</strong><br>
 　　<a href="https://github.com/ezeli/NIC_model">https://github.com/ezeli/NIC_model</a><br>
@@ -377,17 +377,21 @@ pre[data-line] .line-highlight[data-end]:after {
 <h2 class="mume-header" id="img-srcassetsbriefcase-solidsvg-width30px-%E5%AE%9E%E4%B9%A0%E7%BB%8F%E5%8E%86"><img src="./resume_files/briefcase-solid.svg" width="30px"> 实习经历</h2>
 
 <ol>
-<li><strong>2018.01 – 2018.03　　字节跳动　　后台开发工程师</strong><br>
-1）实习期间主要使用python语言进行web开发。<br>
-2）学习并使用了Django框架、docker容器、rpc调用等知识。<br>
+<li><strong>2021.4 – 至今　　阿里巴巴　　算法工程师</strong><br>
+1）主要负责智能搜索算法，对NLP领域的一些基础算法和前沿发展情况进行了学习和研究。<br>
+2）对KBQA知识进行了了解，并学习了Rasa框架，对组内智能搜索方法进行重构。主要解决了之前模块混乱、规则复杂、难以扩展的问题。<br>
+<br></li>
+<li><strong>2018.10 – 2019.03　　字节跳动　　后台开发工程师</strong><br>
+1）主要采用Go语言进行开发，辅助小视频审核过程。<br>
+2）对MVC设计模式、项目上线流程有了更明确的认识。<br>
 <br></li>
 <li><strong>2018.07 – 2018.08　　阿里巴巴　　测试开发工程师</strong><br>
 1）主要是进行自动化测试平台的开发。<br>
 2）学习了Spring Boot和React框架，进行全栈式开发。<br>
 <br></li>
-<li><strong>2018.10 – 2019.03　　字节跳动　　后台开发工程师</strong><br>
-1）主要采用Go语言进行开发，辅助小视频审核过程。<br>
-2）对MVC设计模式、项目上线流程有了更明确的认识。</li>
+<li><strong>2018.01 – 2018.03　　字节跳动　　后台开发工程师</strong><br>
+1）实习期间主要使用python语言进行web开发。<br>
+2）学习并使用了Django框架、docker容器、rpc调用等知识。</li>
 </ol>
 
       </div>
